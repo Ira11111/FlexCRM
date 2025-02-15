@@ -1,2 +1,2 @@
 # FlexCRM
-Super mega happy flex CRM sysnem
+Super mega happy flex CRM system
