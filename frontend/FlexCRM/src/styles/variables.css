@@ -1,0 +1,28 @@
+:root {
+    --main-font: 'Roboto-Variable', sans-serif;
+    --main-color: #EC95A8;
+    --accent-color: #75BFB9;
+    --page-color: #FCEFF2;
+    --bg-color: #FFFFFF;
+    --font-color: #494949;
+    --placeholder-color: rgba(73, 73, 73, 0.7);
+}
+
+:root.dark {
+    --page-color: #545151;
+    --bg-color: #6D6D6D;
+    --font-color: #FFFFFF;
+    --placeholder-color: rgba(255, 255, 255, 0.7);
+
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --main-color: #75BFB9;
+        --page-color: #545151;
+        --bg-color: #6D6D6D;
+        --font-color: #FFFFFF;
+        --placeholder-color: rgba(255, 255, 255, 0.7);
+
+    }
+}
