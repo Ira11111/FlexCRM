@@ -3,13 +3,12 @@ import {Link, useNavigate} from "react-router-dom";
 import Loader from "../../components/Loader/Loader.tsx";
 import Svglogo from "../../assets/crmLogo.svg";
 import './auth.css'
+import api from '../../api.ts'
 
 
 function Register() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [firstname, setFirstname] = useState('');
     const [password, setPassword] = useState('');
     const [cpassword, setcPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -24,7 +23,9 @@ function Register() {
         else {
             setLoading(true);
             try {
-
+                const res = await api.post('/auth/register/', {username, password, email})
+                console.log({username, password, email})
+                console.log(res.status)
                 navigate('/statistic')
             } catch (e) {
                 console.log(e)
@@ -39,13 +40,6 @@ function Register() {
             <div className='auth-form__wrapper'>
                 <form className='auth-form' onSubmit={handleSubmit} method="post">
                     <h1 className='auth-form__title'>Регистрация</h1>
-                    {/*<label hidden={true} htmlFor='firstName'>Имя</label>*/}
-                    {/*<input className='auth-form__input' id='firstName' type='text' name='first_name' placeholder='Введите имя'*/}
-                    {/*       onChange={(e)=> setFirstname(e.target.value)}/>*/}
-
-                    {/*<label hidden={true} htmlFor='lastName'>Фамилия</label>*/}
-                    {/*<input className='auth-form__input' id='lastName' type='text' name='last_name' placeholder='Введите фамилию'*/}
-                    {/*       onChange={(e)=> setLastname(e.target.value)}/>*/}
 
                     <label hidden={true} htmlFor='username'>Имя пользователя</label>
                     <input className='auth-form__input' required={true} id='username' type='text'  placeholder='Введите имя пользователя'
