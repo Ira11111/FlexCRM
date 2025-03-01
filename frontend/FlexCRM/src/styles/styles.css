@@ -1,0 +1,44 @@
+html, body {
+    min-inline-size: 100%;
+    min-block-size: 100dvb;
+    background-color: var(--page-color);
+}
+
+#root {
+    font-family: var(--main-font), sans-serif;
+    color: var(--font-color);
+    position: relative;
+}
+
+
+.button {
+    font-size: 20px;
+    font-weight: bold;
+    border: 1px solid var(--main-color);
+    border-radius: 10px;
+    color: var(--main-color);
+    padding: 7px 25px;
+    transition: color 1s, background-color 1s, border-color 1s;
+}
+
+.button:hover {
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+    color: var(--page-color);
+}
+
+.button:active{
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--page-color);
+}
+
+.button:focus-visible{
+    outline: 1px solid var(--accent-color);
+    outline-offset: 1px;
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--page-color);
+}
+
+
