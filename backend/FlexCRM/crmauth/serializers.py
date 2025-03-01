@@ -16,7 +16,7 @@ class UserSerializer(ModelSerializer):
 
         if created:
             for p in ("add_user", "change_user", "delete_user", "view_user"):
-                permission = Permission.objects.get(code_name=p)
+                permission = Permission.objects.get(codename=p)
                 admin_group.permissions.add(permission)
 
         user.groups.add(admin_group)
