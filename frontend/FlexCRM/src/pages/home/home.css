@@ -1,0 +1,78 @@
+.home {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2rem 1rem;;
+}
+
+.description-wrapper {
+    position: relative;
+    max-inline-size: 800px;
+}
+
+.description-wrapper::after {
+    content: "";
+    position: absolute;
+    left: 100%; top: 0;
+    block-size: 100%;
+    aspect-ratio: 1;
+    background: url('../../assets/crmLogo.svg') no-repeat;
+    background-size: contain;
+
+}
+
+.home__buttons-wrapper {
+    display: flex;
+    gap: 20px;
+}
+
+.home__title {
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+    text-shadow: var(--accent-color) 1px -1px 0,
+    var(--main-color) -1px 1px 0;
+}
+
+.home__descr {
+    margin-block-start: 10px;
+}
+
+.home__list-title {
+    font-size: var(--font-size-big);
+    margin-block-start: 1rem;
+    text-shadow: var(--accent-color) 1px -1px 0,
+var(--main-color) -1px 1px 0;
+}
+
+
+
+.home__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(100px, 350px));
+    gap: 15px;
+}
+
+.home__list-item h3 {
+    font-size: var(--font-size-medium);
+    margin-block-end: 10px;
+}
+
+
+@media (max-width: 800px) {
+    .home__list {
+        grid-template-columns: 1fr;
+    }
+    .description-wrapper::after {
+        display: none;
+    }
+}
+
+@media (max-width: 400px) {
+    .home__buttons-wrapper {
+        flex-direction: column;
+    }
+}
+
+
+

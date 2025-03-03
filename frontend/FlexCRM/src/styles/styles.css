@@ -1,15 +1,13 @@
 html, body {
-    min-inline-size: 100%;
-    min-block-size: 100dvb;
     background-color: var(--page-color);
 }
 
 #root {
-    block-size: 100dvb;
-    inline-size: 100%;
+    margin: auto;
     font-family: var(--main-font), sans-serif;
     color: var(--font-color);
     position: relative;
+    line-height: 1.5;
 }
 
 
