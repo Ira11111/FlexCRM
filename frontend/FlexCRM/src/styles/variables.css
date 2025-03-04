@@ -6,6 +6,15 @@
     --bg-color: #FFFFFF;
     --font-color: #494949;
     --placeholder-color: rgba(73, 73, 73, 0.7);
+    --box-shadow: var(--main-color) 4px 4px 8px 0,
+    var(--main-color) -4px -4px 8px 0,
+    var(--main-color) 4px -4px 8px 0,
+    var(--main-color) -4px 4px 8px 0;
+    --font-size-large: 40px;
+    --font-size-big: 24px;
+    --font-size-medium: 20px;
+    --font-size-main: 16px;
+    --font-weight-bold: 700;
 }
 
 :root.dark {
@@ -18,7 +27,6 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --main-color: #75BFB9;
         --page-color: #545151;
         --bg-color: #6D6D6D;
         --font-color: #FFFFFF;

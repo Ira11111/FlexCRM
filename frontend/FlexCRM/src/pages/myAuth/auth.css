@@ -20,10 +20,7 @@
     padding: 20px;
     inline-size: clamp(18.75rem, 16.9643rem + 8.9286vw, 25rem);
     background-color: var(--bg-color);
-    box-shadow: var(--main-color) 4px 4px 8px 0,
-    var(--main-color) -4px -4px 8px 0,
-    var(--main-color) 4px -4px 8px 0,
-    var(--main-color) -4px 4px 8px 0;
+    box-shadow: var(--box-shadow);
     text-align: center;
 
 }
@@ -40,27 +37,7 @@
     margin-block-end: 15px;
 }
 
-.auth-form__input {
-    border: 1px solid var(--main-color);
-    padding: 7px;
-    border-radius: 10px;
-    outline-color: transparent;
-    transition: border-color 1s, outline-color 1s;
-}
 
-.auth-form__input::placeholder {
-    color: var(--placeholder-color);
-}
-
-.auth-form__input:focus-visible {
-    outline: 1px solid var(--accent-color);
-    outline-offset: 1px;
-    border-color: var(--accent-color);
-}
-
-.auth-form__input:hover {
-    border-color: var(--accent-color);
-}
 
 .auth-form__button {
     align-self: center;
@@ -71,23 +48,4 @@
 
 .auth-form__descr {}
 
-.auth-form__link {
-    color: var(--accent-color);
-}
 
-.auth-form__link:visited {
-    color: var(--main-color);
-}
-
-.auth-form__link:focus{
-    outline: none;
-}
-
-.auth-form__link:focus{
-    color: var(--accent-color);
-    text-decoration: underline;
-}
-
-.auth-form__link:hover{
-    text-decoration: underline;
-}

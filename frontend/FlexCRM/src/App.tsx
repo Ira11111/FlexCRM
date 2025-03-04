@@ -15,6 +15,7 @@ import ProductsList from "./components/crm/ProductsLIst.tsx";
 import NotFound from "./pages/NotFound/NotFound.tsx";
 import Register from "./pages/myAuth/Register.tsx"
 import Login from "./pages/myAuth/Login.tsx";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
 function Logout() {
   localStorage.clear();
@@ -38,7 +39,11 @@ function App() {
           <Route path="/logout" element={<Logout />}/>
 
 
-          <Route path="crm" element={<Crm/>}>
+          <Route path="crm" element={
+            <ProtectedRoute>
+              <Crm/>
+            </ProtectedRoute>
+            }>
             <Route index element={<Statistic/>}/>
 
             <Route path="customers" element={<CustomersList/>}>
