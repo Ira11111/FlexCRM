@@ -32,7 +32,7 @@ class Add(models.Model):
 
 
 def cont_file_path(instance: "Contract", filename: str):
-    return f"contracts/{instance.pk}/{filename}"
+    return f"contracts/{filename}"
 
 
 class Contract(models.Model):

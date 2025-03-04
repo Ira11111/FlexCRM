@@ -1,3 +1,8 @@
+import os
+
+from django.core.files.storage import default_storage
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from rest_framework.viewsets import ModelViewSet
 from .models import Lead, Contract, Add, Product, Customer
 from .serializers import (
@@ -7,6 +12,21 @@ from .serializers import (
     AddSerializer,
     ProductSerializer,
 )
+
+
+@receiver(post_save, sender=Contract)
+def make_new_file_path(sender, instance, created, **kwargs):
+    if created and instance.contr_file:
+        old_path = instance.contr_file.name
+        new_path = "contracts/contract_{pk}/{filename}".format(
+            pk=instance.pk,
+            filename=os.path.basename(old_path),
+        )
+        default_storage.save(new_path, default_storage.open(old_path))
+        default_storage.delete(old_path)
+
+        instance.contr_file.name = new_path
+        instance.save(update_fields=['contr_file'])
 
 
 class LeadViewSet(ModelViewSet):
