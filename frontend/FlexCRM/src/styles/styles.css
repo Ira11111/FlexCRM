@@ -5,6 +5,8 @@ html, body {
 }
 
 #root {
+    block-size: 100dvb;
+    inline-size: 100%;
     font-family: var(--main-font), sans-serif;
     color: var(--font-color);
     position: relative;
@@ -40,5 +42,51 @@ html, body {
     border-color: var(--accent-color);
     color: var(--page-color);
 }
+
+.input {
+    border: 1px solid var(--main-color);
+    padding: 7px;
+    border-radius: 10px;
+    outline-color: transparent;
+    transition: border-color 1s, outline-color 1s;
+}
+
+.input::placeholder {
+    color: var(--placeholder-color);
+}
+
+.input:focus-visible {
+    outline: 1px solid var(--accent-color);
+    outline-offset: 1px;
+    border-color: var(--accent-color);
+}
+
+.input:hover {
+    border-color: var(--accent-color);
+}
+
+.link {
+    color: var(--main-color);
+    cursor: pointer;
+    transition: color 1s;
+}
+
+.link:visited {
+    color: var(--main-color);
+}
+
+
+.link:focus{
+    color: var(--accent-color);
+    text-decoration: underline;
+    outline: none;
+}
+
+.link:hover{
+    text-decoration: underline;
+}
+
+
+
 
 
