@@ -1,5 +1,15 @@
-from django.contrib.auth.models import User, Group, Permission
-from rest_framework.serializers import ModelSerializer
+from django.contrib.auth.models import User
+from rest_framework.serializers import ModelSerializer, ValidationError
+
+
+def check_group_name(group: str):
+    if group not in ("Operators", "Managers", "Marketers"):
+        raise ValidationError("There is no such group")
+
+
+def check_email_in_system(email: str):
+    if User.objects.filter(email=email).exists():
+        raise ValidationError("User with this email already exists")
 
 
 class UserSerializer(ModelSerializer):
@@ -7,17 +17,13 @@ class UserSerializer(ModelSerializer):
         model = User
         fields = ["pk", "username", "password", "email"]
         extra_kwargs = {
-            "password": {"write_only": True}
+            "email": {
+                "required": True,
+                "validators": [check_email_in_system]
+            },
+            "password": {"write_only": True},
+            "user_group": {
+                "required": False,
+                "validators": [check_group_name]
+            }
         }
-
-    def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
-        admin_group, created = Group.objects.get_or_create(name="Admins")
-
-        if created:
-            for p in ("add_user", "change_user", "delete_user", "view_user"):
-                permission = Permission.objects.get(codename=p)
-                admin_group.permissions.add(permission)
-
-        user.groups.add(admin_group)
-        return user
