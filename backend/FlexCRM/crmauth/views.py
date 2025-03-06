@@ -12,5 +12,5 @@ class CreateUserView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         data = request.data.get("email")
         if User.objects.filter(email=data).exists():
-            return Response({"massage": "User with this email already exists"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": "User with this email already exists"}, status=status.HTTP_400_BAD_REQUEST)
         return super().post(request, *args, **kwargs)
