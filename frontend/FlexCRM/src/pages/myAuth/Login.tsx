@@ -11,18 +11,21 @@ function Login() {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const [correctData, setCorrectData] = useState(true);
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
         try {
             setLoading(true);
-            const res = await api.post('/auth/login/', {username, password})
-            // localStorage.setItem(ACCESS_TOKEN, res.data.access)
-            // localStorage.setItem(REFRESH_TOKEN, res.data.refresh)
-            navigate('crm/statistic')
+            const resTokens = await api.post('/auth/token/obtain/', {username, password})
+            localStorage.setItem(ACCESS_TOKEN, resTokens.data.access)
+            localStorage.setItem(REFRESH_TOKEN, resTokens.data.refresh)
+            navigate('/crm')
         }
-        catch (e) {
-            alert(e);
+        catch (e : any) {
+            if (e.response.data.detail.startsWith('No active account found')) {
+                setCorrectData(false)
+            }
         }finally {
             setLoading(false);
         }
@@ -40,6 +43,7 @@ function Login() {
                            onChange={(e)=> setUsername(e.target.value)}/>
                     <label hidden={true} htmlFor="password">Пароль</label>
                     <input className='input' required id={"password"} placeholder='Введите пароль' type='password' value={password} onChange={(e)=> setPassword(e.target.value)}/>
+                    {!correctData && <p className='error-message'>Неверное имя пользователя или пароль😈</p>}
                     <button className='auth-form__button button' type={"submit"} >Войти</button>
                     <p className='auth-form__descr'>Нет аккаунта? <Link className='link' to='/register'>Зарегистрироваться</Link></p>
                 </form>

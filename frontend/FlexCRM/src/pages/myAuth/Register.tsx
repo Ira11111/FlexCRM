@@ -14,24 +14,31 @@ function Register() {
     const [cpassword, setcPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const [dataIsCorrect, setDataIsCorrect] = useState('')
 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (password !== cpassword) {
-            alert('Пароли не совпадают!')
+            setDataIsCorrect('Пароли не совпадают')
         }
         else {
             setLoading(true);
             try {
-                const res = await api.post('/auth/register/', {username, password, email})
+                await api.post('/auth/register/', {username, password, email})
                 const resTokens = await api.post('/auth/token/obtain/', {username, password})
                 localStorage.setItem(ACCESS_TOKEN, JSON.stringify(resTokens.data.access))
                 localStorage.setItem(REFRESH_TOKEN, JSON.stringify(resTokens.data.refresh))
-                console.log(resTokens.data)
                 navigate('/crm')
-            } catch (e) {
-                console.log(e)
+            } catch (e : any) {
+                console.log(e.response.data.detail === 'User with this email already exists')
+                if ( e.response.data.username && e.response.data.username.indexOf('A user with that username already exists.' )!==-1) {
+                    setDataIsCorrect('Пользователь с таким именем уже существует😈')
+
+                }
+                if (e.response.data.detail && e.response.data.detail === 'User with this email already exists') {
+                    setDataIsCorrect('Пользователь с такой электронной почтой уже существует😈')
+                }
             } finally {
                 setLoading(false);
             }
@@ -59,7 +66,7 @@ function Register() {
                     <label hidden={true} htmlFor="cpassword">Повторите пароль</label>
                     <input className='input' required minLength={8} id={"cpassword"} placeholder='Введите пароль еще раз' type='password' value={cpassword}
                            onChange={(e)=> setcPassword(e.target.value)}/>
-                    {cpassword!==''  && cpassword !== password && <p>Пароли не совпадают</p>}
+                    <p className='error-message'>{dataIsCorrect}</p>
                     <button className='auth-form__button button' type="submit">Зарегистрироваться</button>
                 </form>
                 <p className='auth-form__descr'>Уже есть аккаунт? <Link className='link' to='/login'>Войти</Link></p>

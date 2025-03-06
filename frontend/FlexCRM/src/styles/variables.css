@@ -14,7 +14,9 @@
     --font-size-big: 24px;
     --font-size-medium: 20px;
     --font-size-main: 16px;
+    --font-size-small: 12px;
     --font-weight-bold: 700;
+    --error-color: #BC66BD;
 }
 
 :root.dark {
