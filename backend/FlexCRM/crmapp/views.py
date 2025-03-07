@@ -4,7 +4,6 @@ from django.core.files.storage import default_storage
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import DjangoModelPermissions
 from .models import Lead, Contract, Add, Product, Customer
 from .serializers import (
     LeadSerializer,
@@ -33,19 +32,16 @@ def make_new_file_path(sender, instance, created, **kwargs):
 class LeadViewSet(ModelViewSet):
     queryset = Lead.objects.all()
     serializer_class = LeadSerializer
-    permission_classes = [DjangoModelPermissions]
 
 
 class ContractViewSet(ModelViewSet):
     queryset = Contract.objects.all()
     serializer_class = ContractSerializer
-    permission_classes = [DjangoModelPermissions]
 
 
 class CustomerViewSet(ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
-    permission_classes = [DjangoModelPermissions]
 
     def get_queryset(self):
         if self.action == 'list':
@@ -60,7 +56,6 @@ class CustomerViewSet(ModelViewSet):
 class ProductSetView(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [DjangoModelPermissions]
 
     def get_queryset(self):
         if self.action == 'list':
@@ -75,4 +70,3 @@ class ProductSetView(ModelViewSet):
 class AddSetView(ModelViewSet):
     queryset = Add.objects.all()
     serializer_class = AddSerializer
-    permission_classes = [DjangoModelPermissions]
