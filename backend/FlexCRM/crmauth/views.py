@@ -22,12 +22,11 @@ class CreateUserView(generics.CreateAPIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         new_user = serializer.save()
+        user_group_name = request.data.get("user_group")
+
         if self.request.user.is_authenticated:
             if not request.user.groups.filter(name="Admins").exists():
                 return Response({"detail": "Only admins can add new users"}, status=status.HTTP_403_FORBIDDEN)
-            user_group_name = request.data.get("user_group")
-        else:
-            user_group_name = "Admins"
 
         user_group, created = Group.objects.get_or_create(name=user_group_name)
         if created:

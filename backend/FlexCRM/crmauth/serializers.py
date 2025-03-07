@@ -3,7 +3,7 @@ from rest_framework.serializers import ModelSerializer, ValidationError
 
 
 def check_group_name(group: str):
-    if group not in ("Operators", "Managers", "Marketers"):
+    if group not in ("Operators", "Managers", "Marketers", "Admins"):
         raise ValidationError("There is no such group")
 
 
@@ -23,7 +23,7 @@ class UserSerializer(ModelSerializer):
             },
             "password": {"write_only": True},
             "user_group": {
-                "required": False,
+                "required": True,
                 "validators": [check_group_name]
             }
         }
