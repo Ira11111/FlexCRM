@@ -15,16 +15,16 @@ import ProductsList from "./components/crm/ProductsLIst.tsx";
 import NotFound from "./pages/NotFound/NotFound.tsx";
 import Register from "./pages/myAuth/Register.tsx"
 import Login from "./pages/myAuth/Login.tsx";
-import ProtectedRoute from "./components/ProtectedRoute.tsx";
+// import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
 function Logout() {
   localStorage.clear();
   return <Navigate to="/"/>
 }
 
-function RegisterAndLogout(){
+function RegisterAndLogout(props ) {
   localStorage.clear();
-  return <Register />
+  return <Register mode = {props.mode}/>
 }
 
 function App() {
@@ -35,16 +35,20 @@ function App() {
           <Route index element={<Home/>}/>
 
           <Route path="/login" element={<Login />}/>
-          <Route path="/register" element={<RegisterAndLogout />}/>
+          <Route path="/register"  element={<RegisterAndLogout mode ='register' />}/>
           <Route path="/logout" element={<Logout />}/>
 
 
+
           <Route path="crm" element={
-            <ProtectedRoute>
-              <Crm/>
-            </ProtectedRoute>
+            // <ProtectedRoute>
+            //   <Crm/>
+            // </ProtectedRoute>
+            <Crm/>
             }>
             <Route index element={<Statistic/>}/>
+
+            <Route path="create" element={<Register mode ='create'/>}/>
 
             <Route path="customers" element={<CustomersList/>}>
               <Route path=":customerId" element={<Customer/>}/>
