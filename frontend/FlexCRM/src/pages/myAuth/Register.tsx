@@ -22,20 +22,25 @@ function Register(props: any) {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log(username, password, email, role)
         if (password !== cpassword) {
             setDataIsCorrect('Пароли не совпадают')
         }
         else {
             setLoading(true);
             try {
-                await api.post('/auth/register/', {username, password, email, user_group: role})
+                if (props.mode === 'register'){
+                    await api.post('/auth/register/', {username, password, email, user_group: role});
+                    }
+                else {
+                    await api.post('/auth/users/', {username, password, email, user_group: role})};
+
+
                 if (props.mode==='register'){
-                    const resTokens = await api.post('/auth/token/obtain/', {username, password})
-                    localStorage.setItem(ACCESS_TOKEN, JSON.stringify(resTokens.data.access))
-                    localStorage.setItem(REFRESH_TOKEN, JSON.stringify(resTokens.data.refresh))
+                    const resTokens = await api.post('/auth/token/obtain/', {username, password});
+                    localStorage.setItem(ACCESS_TOKEN, JSON.stringify(resTokens.data.access));
+                    localStorage.setItem(REFRESH_TOKEN, JSON.stringify(resTokens.data.refresh));
                 }
-                navigate('/crm')
+                navigate('/crm');
             } catch (e : any) {
                 console.log(e.response)
                 if ( e.response.data.username && e.response.data.username.indexOf('A user with that username already exists.' )!==-1) {
