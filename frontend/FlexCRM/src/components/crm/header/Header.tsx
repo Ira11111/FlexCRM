@@ -15,7 +15,7 @@ function Header(){
                         <Link to='customers' className='header__list-item-link'>Клиенты</Link>
                     </li>
                     <li className='header__list-item'>
-                        <Link to='ads' className='header__list-item-link'>Рекламные компании</Link>
+                        <Link to='ads' className='header__list-item-link'>Рекламные кампании</Link>
                     </li>
                     <li className='header__list-item'>
                         <Link to='products' className='header__list-item-link'>Услуги</Link>
