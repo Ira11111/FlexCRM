@@ -17,14 +17,14 @@ class CustomerSerializer(ModelSerializer):
 class AddSerializer(ModelSerializer):
     class Meta:
         model = Add
-        fields = ("name", "budget", "leads_count",
-                  "customers_count", "profit", "product")
+        fields = ("name", "budget", "customers_count",
+                  "profit", "product")
 
 
 class ContractSerializer(ModelSerializer):
     class Meta:
         model = Contract
-        fields = "name", "start_date", "end_date", "cost", "contr_file",
+        fields = "name", "start_date", "end_date", "cost", "contr_file", "company"
 
 
 class ProductSerializer(ModelSerializer):
