@@ -5,7 +5,10 @@ from .models import Lead, Customer, Add, Contract, Product
 class LeadSerializer(ModelSerializer):
     class Meta:
         model = Lead
-        fields = "first_name", "last_name", "phone", "email",
+        fields = "id", "first_name", "last_name", "phone", "email"
+        extra_kwargs = {
+            "id": {"read_only": True}
+        }
 
 
 class CustomerSerializer(ModelSerializer):
