@@ -22,7 +22,6 @@ function CustomerForm() {
             setLoading(true);
             const res = await api.post('api/leads/', {first_name, last_name, phone, email})
             const lead = res.data.id;
-            console.log(lead, name, isActive);
             await api.post('/api/customers/', {name, lead, isActive})
         }catch (e){
             console.log(e);
@@ -53,7 +52,7 @@ function CustomerForm() {
                        placeholder={'Введите фамилию представителя'}
                        onChange={(e)=>setLast_name(e.target.value)}/>
                 <label hidden={true} htmlFor={'phone'}>Телефон представителя компании</label>
-                <input value={phone} type={'tel'}  required id={'phone'}
+                <input className='input' value={phone} type={'tel'}  required id={'phone'}
                        placeholder={'Введите номер телефона представителя'}
                        onChange={(e)=>setPhone(e.target.value)}/>
                 <label hidden={true} htmlFor={'email'}>Электронная почта представителя компании</label>

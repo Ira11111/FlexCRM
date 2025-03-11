@@ -12,7 +12,7 @@ function ProductForm() {
     const [name, setName] = useState(data?data.product.name:'');
     const [description, setDescription] = useState(data?data.product.description:'');
     const [cost, setCost] = useState(data?data.product.cost:'');
-    const [notActive, setNotActive] = useState(data?!data.product.is_active:false);
+    const [isActive, setIsActive] = useState(data?!data.product.is_active:true);
     const [loading, setLoading] = useState(false);
 
 
@@ -21,9 +21,9 @@ function ProductForm() {
         try{
             setLoading(true);
             if (editMode) {
-                await api.put(`/api/products/${params.productId}/`, {name, description, cost, notActive})
+                await api.put(`/api/products/${params.productId}/`, {name, description, cost, isActive})
             } else {
-                await api.post(`/api/products/`, {name, description, cost, notActive})
+                await api.post(`/api/products/`, {name, description, cost, isActive})
             }
         }catch (e) {
             console.log(e)
@@ -57,7 +57,7 @@ function ProductForm() {
                 <label className='pseudo-checkbox__label' htmlFor="active">
                     <input className='checkbox input visually-hidden'  id={"active"}
                            type='checkbox'
-                           onChange={()=> setNotActive(true)}/>
+                           onChange={()=> setIsActive(false)}/>
                     <span className='pseudo-checkbox'></span>
                     <span className='checkbox__text'>Архивировать</span>
                 </label>
