@@ -1,4 +1,4 @@
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import api from "../../../api.ts";
 import Loader from "../../Loader/Loader.tsx";
@@ -7,14 +7,14 @@ import {getAllProducts} from "../../../fetchData.ts";
 function AdForm() {
     const navigate = useNavigate();
     const params = useParams();
-    const editMode : boolean = params.productId != undefined
+    const editMode : boolean = params.adId != undefined
     const data = useLocation().state || null
-    const [name, setName] = useState(data?data.product.name:'');
-    const [budget, setBudget] = useState(data?data.product.budget:'');
-    const [leads_count, setLeads_count] = useState(data?data.product.leads_count:'');
-    const [customers_count, setCustomers_count] = useState(data?data.product.customers_count:'');
-    const [profit, setProfit] = useState(data?data.product.Profit:'');
-    const [product, setProduct] = useState(data?data.product.Profduct:'');
+    const [name, setName] = useState(data?data.ad.name:'');
+    const [budget, setBudget] = useState(data?data.ad.budget:'');
+    const [leads_count, setLeads_count] = useState(data?data.ad.leads_count:'');
+    const [customers_count, setCustomers_count] = useState(data?data.ad.customers_count:'');
+    const [profit, setProfit] = useState(data?data.ad.profit:'');
+    const [product, setProduct] = useState(data?data.ad.product:'');
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);
 
@@ -30,12 +30,13 @@ function AdForm() {
         fetchProducts();
     }, []);
 
-    async function handleSubmit() {
-        console.log(product)
+    async function handleSubmitAd(e) {
+        e.preventDefault();
+        console.log(name, budget, leads_count, customers_count, profit, product, editMode)
         try{
             setLoading(true);
             if (editMode) {
-                await api.put(`/api/adds/${params.productId}/`, {name, budget, leads_count, customers_count, profit, product})
+                await api.put(`/api/adds/${params.adId}/`, {name, budget, leads_count, customers_count, profit, product})
             } else {
                 await api.post(`/api/adds/`, {name, budget, leads_count, customers_count, profit, product})
             }
@@ -49,13 +50,12 @@ function AdForm() {
 
     }
 
-
-
     return (
         <div className='wrapper'>
             {loading && <Loader/>}
             <h1 className='title'>{editMode?'Редактировать':'Создать'} рекламную кампанию</h1>
-            <form className='crm-form' onSubmit={handleSubmit} method="post">
+            {products.length===0 && <p>Нет актуальных услуг для рекламной кампании <Link className='link' to={'/crm/products/create'}>Создать</Link></p>}
+            <form className='crm-form' onSubmit={handleSubmitAd} method="post">
                 <label hidden={true} htmlFor="name">Название</label>
                 <input className='input' required id={"name"} placeholder='Введите название'
                        type='text' value={name}
@@ -81,15 +81,15 @@ function AdForm() {
                        type='number' value={profit}
                        onChange={(e)=> setProfit(e.target.value)}/>
 
-                <select value={product} onChange={(e)=>{setProduct(e.target.value)}}>
-                    {products.map(({cur, index}:{cur:{name:string}, index: number})=>{
+                <select required value={product} onChange={(e)=>{setProduct(e.target.value)}}>
+                    {products.map((cur, index)=>{
                         return <option key={index} value={index+1}>
                             {cur.name}
                         </option>
                     })}
                 </select>
 
-                <button className='auth-form__button button' type={"submit"} >{editMode?'Редактировать':'Создать'}</button>
+                <button disabled={products.length===0} className='auth-form__button button' type={"submit"} >{editMode?'Редактировать':'Создать'}</button>
             </form>
         </div>
     );

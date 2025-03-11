@@ -9,7 +9,7 @@ function AdsList () {
     const [error, setError] = useState('');
     const [ads, setAds] = useState([]);
     const navigate = useNavigate();
-    async function getAllProducts() {
+    async function getAllAds() {
         try {
             setLoading(true)
             const res = await api.get('/api/adds/')
@@ -23,7 +23,7 @@ function AdsList () {
     }
 
     useEffect(() => {
-        getAllProducts()
+        getAllAds()
     }, []);
 
     return <div className='wrapper'>
