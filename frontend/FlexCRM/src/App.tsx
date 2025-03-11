@@ -26,9 +26,9 @@ function Logout() {
   return <Navigate to="/"/>
 }
 
-function RegisterAndLogout(){
+function RegisterAndLogout(props ) {
   localStorage.clear();
-  return <Register />
+  return <Register mode = {props.mode}/>
 }
 
 function App() {
@@ -39,19 +39,23 @@ function App() {
           <Route index element={<Home/>}/>
 
           <Route path="/login" element={<Login />}/>
-          <Route path="/register" element={<RegisterAndLogout />}/>
+          <Route path="/register"  element={<RegisterAndLogout mode ='register' />}/>
           <Route path="/logout" element={<Logout />}/>
 
 
+
           <Route path="crm" element={
-            <ProtectedRoute>
-              <Crm/>
-            </ProtectedRoute>
+            // <ProtectedRoute>
+            //   <Crm/>
+            // </ProtectedRoute>
+            <Crm/>
             }>
             <Route index element={<Statistic/>}/>
 
+
             <Route path="customers" >
               <Route index element={<CustomersList/>}/>
+
               <Route path=":customerId" element={<Customer/>}/>
               <Route path=":customerId/edit" element={<CustomerForm/>}/>
               <Route path="create" element={<CustomerForm/>}/>
