@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User, Group, Permission
 from rest_framework.serializers import ModelSerializer, ValidationError, CharField
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 GROUP_PERMS = {
     "Admins": ("add_user", "change_user", "delete_user", "view_user",
@@ -49,3 +50,14 @@ class UserSerializer(ModelSerializer):
         user.groups.add(group)
         user.save()
         return user
+
+
+class CRMTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)  # Получаем стандартный токен
+
+        group = Group.objects.filter(user=user).first()
+        token['user_group'] = group.name
+
+        return token
