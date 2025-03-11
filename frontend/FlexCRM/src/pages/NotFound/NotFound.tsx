@@ -12,7 +12,7 @@ function NotFound() {
             </Link>
             <h1 className='notFound__title'>404</h1>
             <p className='notFound__descr'>Запрашиваемая вами страница не найдена</p>
-            <button className='button' onClick={()=>navigate('/')}>На главную</button>
+            <button className='button' onClick={()=>navigate('/crm')}>На главную</button>
 
         </div>
     );

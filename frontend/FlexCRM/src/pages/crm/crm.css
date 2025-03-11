@@ -1,0 +1,127 @@
+.wrapper {
+    padding: 50px 50px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cards-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,  minmax(300px, 1fr));
+    grid-auto-rows: 300px;
+    gap: 30px;
+}
+
+.title__wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding-block-end: 30px;
+}
+
+.add-button {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    border-color: var(--accent-color);
+}
+
+.add-button:hover {
+    background-color: var(--page-color);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: space-between;
+    background-color: var(--bg-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+
+.card__title {
+    margin-block-end: 15px;
+    font-size: var(--font-size-big);
+
+}
+
+.card__descr {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+}
+
+.title {
+    font-size: var(--font-size-large);
+}
+
+
+
+.subtitle {
+    font-size: var(--font-size-medium);
+    margin-block-end: 10px;
+}
+
+.pagination__buttons {
+    margin: auto;
+    display: flex;
+    gap: 15px;
+}
+
+
+
+.crm-form {
+    min-inline-size: 300px;
+    max-inline-size: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.pseudo-checkbox__label {
+    margin:auto;
+    display: flex;
+    gap:10px;
+}
+
+.pseudo-checkbox {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    aspect-ratio: 1;
+    border: 2px solid var(--main-color);
+    transition: border-color .3s;
+}
+.pseudo-checkbox::after {
+    content: "";
+    display: block;
+    width: 14px;
+    height: 14px;
+    align-self: center;
+    transition: background-color .5s;
+}
+
+.checkbox:checked + .pseudo-checkbox::after {
+    background-color: var(--accent-color);
+}
+
+.checkbox:checked + .pseudo-checkbox {
+    border-color: var(--accent-color);
+}
+
+.checkbox__text {
+    font-size: var(--font-size-main);
+}
+
+
+@media (max-width: 500px) {
+    .wrapper {
+        padding: 10px;
+    }
+}
