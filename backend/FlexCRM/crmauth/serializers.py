@@ -57,7 +57,7 @@ class CRMTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super().get_token(user)  # Получаем стандартный токен
 
-        group = Group.objects.filter(user=user).first()
+        group = Group.objects.get(user=user)
         token['user_group'] = group.name
 
         return token
