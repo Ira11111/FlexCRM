@@ -1,10 +1,11 @@
 import {FormEvent, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import {ACCESS_TOKEN, REFRESH_TOKEN} from "../../constants.ts";
+import {ACCESS_TOKEN, REFRESH_TOKEN, ROLE} from "../../constants.ts";
 import api from '../../api.ts'
 import Loader from "../../components/Loader/Loader.tsx";
 import './auth.css'
 import Svglogo from "../../assets/crmLogo.svg";
+import {jwtDecode} from "jwt-decode";
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -20,6 +21,7 @@ function Login() {
             const resTokens = await api.post('/auth/token/obtain/', {username, password})
             localStorage.setItem(ACCESS_TOKEN, resTokens.data.access)
             localStorage.setItem(REFRESH_TOKEN, resTokens.data.refresh)
+            localStorage.setItem(ROLE, jwtDecode(resTokens.data.access).user_group)
             navigate('/crm')
         }
         catch (e : any) {
