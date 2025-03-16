@@ -1,19 +1,19 @@
 import api from './api'
 
-export async function getAllProducts(){
+export default async function getAll(endpoint:string){
     try {
-        const res = await api.get('/api/products/')
+        const res = await api.get(endpoint);
         return res.data
     } catch (e: any) {
         console.log(e);
     }
 }
 
-export async function getProductById(id: number){
-    try {
-        const res = await api.get(`/api/products/${id}/`);
-        return res.data
-    }catch (e) {
-        console.log(e);
-    }
-}
+// export async function getById(id: number, endpoint : string){
+//     try {
+//         const res = await api.get(`${endpoint}${id}/`);
+//         return res.data
+//     }catch (e) {
+//         console.log(e);
+//     }
+// }
