@@ -23,6 +23,7 @@
     background-color: var(--accent-color);
     color: var(--bg-color);
     border-color: var(--accent-color);
+    align-self: center;
 }
 
 .add-button:hover {
@@ -120,11 +121,6 @@
 }
 
 
-@media (max-width: 500px) {
-    .wrapper {
-        padding: 10px;
-    }
-}
 
 .lead__title {
     font-size: var(--font-size-medium);
@@ -169,7 +165,7 @@
 
 .products {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 10px;
 }
 
@@ -177,14 +173,17 @@
     position: relative;
 }
 
+.input__products {
+    inline-size: 100%;
+}
 
 
 .input__products.true {
     -webkit-border-bottom-left-radius: 0;
     -webkit-border-bottom-right-radius: 0;
+    outline:none;
+
 }
-
-
 
 
 .products__list {
@@ -207,13 +206,21 @@
     cursor: pointer;
 }
 
+.products__list-item:focus {
+    outline: none;
+}
+
+.products__list-item:focus-visible {
+    border: 2px  var(--accent-color) solid;
+}
+
 .products__list-checked {
     display: flex;
     flex-direction: row;
     gap: 10px;
     align-items: center;
     cursor: pointer;
-    overflow-x:auto;
+    flex-wrap: wrap;
 
 }
 
@@ -240,5 +247,15 @@
     aspect-ratio: 1;
     background: url("../../assets/krest.png") no-repeat;
     background-size: contain;
+
+}
+
+
+
+
+@media (max-width: 500px) {
+    .wrapper {
+        padding: 10px;
+    }
 
 }

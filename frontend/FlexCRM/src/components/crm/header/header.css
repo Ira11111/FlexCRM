@@ -24,11 +24,11 @@
     gap: 1rem;
     block-size: 100%;
     position: relative;
+    padding-inline-end: 40px;
 }
 
 .header__nav-title {
     padding-inline-start: .5rem;
-
     display: none;
     color: var(--bg-color);
     font-size: var(--font-size-big);
@@ -48,19 +48,18 @@
 
 
 .header__list {
-    block-size: 100%;
     display: flex;
     flex-direction: row;
     justify-content: start;
     gap: 1rem;
     background-color: var(--main-color);
+    z-index: 1;
 }
 
 .header__list-item {
     display: flex;
     align-items: center;
     justify-content: start;
-    padding: 0 0.5rem;
 }
 
 @media (max-width: 900px) {
@@ -68,23 +67,31 @@
         display: block;
     }
     .header__list {
-        padding-top: 5px;;
-        block-size: fit-content;
+        display: block;
+        padding-top: 5px;
         position: absolute;
-        top: calc(100%);
-        left: 50px;
+        top: 100%;
+        left: -15px;
         flex-direction: column;
-        transform: scaleY(0);
-
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+        border-bottom-right-radius: 10px;
+        box-shadow: 5px 5px 2px  var(--accent-color);
     }
+
     .header__nav:hover .header__list {
-        transform: scaleY(1);
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
     }
 
     .header__nav:hover .header__nav-title::after {
         animation: menuIconRotate .5s forwards;
     }
 }
+
 
 @keyframes menuIconRotate {
     from {
@@ -100,6 +107,10 @@
 .header__list-item-link {
     color: var(--bg-color);
     font-size: var(--font-size-medium);
+    display: block;
+    padding: 15px 70px 15px 35px;
+    inline-size: 100%;
+    block-size: 100%;
 }
 
 .header__list-item-link:focus {
