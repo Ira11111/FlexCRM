@@ -1,16 +1,18 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import api from '../../../api'
 import {useEffect, useState} from "react";
 import Loader from "../../Loader/Loader.tsx";
+import {ROLE} from "../../../constants.ts";
 
 
 
 
 function Ad() {
     const id = useParams().adId || '';
+    const role_permissions = useLocation().state.role_permissions || localStorage.getItem(ROLE);
     const navigate = useNavigate();
     const [ad, setAd] = useState({name:'', budget:'',leads_count:'', customers_count:'',profit:'', product:0});
-    const [product, setProduct] = useState({name:''});
+    const [product, setProduct] = useState([]);
     const [loading, setLoading] = useState(false);
 
 
@@ -19,12 +21,16 @@ function Ad() {
             setLoading(true);
             const res = await api.get(`/api/adds/${id}/`)
             setAd(res.data);
-            const resProduct = await api.get(`/api/products/${res.data.product}/`)
-            setProduct(resProduct.data);
+            const productsResponse = await Promise.all(res.data.product.map((item:number)=>
+               api.get(`/api/products/${item}/`)))
+            const productsData = productsResponse.map((response) => response.data)
+            console.log(productsData);
+            setProduct(productsData);
         }catch (e) {
             console.error(e);
         }
         finally {
+
             setLoading(false);
         }
     }
@@ -54,10 +60,15 @@ function Ad() {
         </span>
 
         <span>
-            <h2 className='subtitle'>Рекламируемая услуга</h2>
-            <p><Link className='link' to={`/crm/products/${ad.product}`}>{product.name}</Link></p>
+            <h2 className='subtitle'>Рекламируемые услуги</h2>
+            {
+                product.map((cur, ind)=>{
+                    return  <p key={ind}><Link className='link' to={`/crm/products/${cur.id}`}>{cur.name}</Link></p>
+
+                })
+            }
         </span>
-        <button  className='button edit__button' onClick={()=>navigate('edit', {state : {ad}})}>Редактировать</button>
+        <button disabled={!role_permissions} className='button edit__button' onClick={()=>navigate('edit', {state : {ad, product}})}>Редактировать</button>
 
 
     </div>
