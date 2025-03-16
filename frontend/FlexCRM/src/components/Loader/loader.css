@@ -5,6 +5,8 @@
     background-color: rgb(0 0 0 / 0.5);
     inset: 0;
     z-index: 1;
+    animation: bounce_z .1s 1 linear 1s;
+    opacity: 0;
 }
 
 .loader__svg {
@@ -65,4 +67,13 @@
 
 .circle:nth-child(4) {
     animation-delay: 5s;
+}
+
+@keyframes bounce_z {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
