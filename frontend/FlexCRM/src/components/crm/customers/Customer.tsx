@@ -38,9 +38,9 @@ function Customer() {
         <h1 className='title'>Компания {customer.name}</h1>
         <div className='lead__wrapper'>
             {isEditing?<LeadForm index={customer.lead} setEditing={setEditing} lead={lead}/>:<Lead l={lead}/>}
-            {!isEditing && <button className={'button lead__edit-button'} type='button' onClick={()=>setEditing(true)}>Редактировать информацию о представителе</button>}
+            {role_permissions && !isEditing && <button className={'button lead__edit-button'} type='button' onClick={()=>setEditing(true)}>Редактировать информацию о представителе</button>}
         </div>
-        <button disabled={!role_permissions}  className='button edit__button' onClick={()=>navigate('edit', {state : {name:customer.name, lead}})}>Редактировать</button>
+        <button disabled={!role_permissions}  className='button edit__button' onClick={()=>navigate('edit', {state : {customer, lead}})}>Редактировать</button>
 
     </div>
 }

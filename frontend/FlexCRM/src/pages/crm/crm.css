@@ -132,6 +132,7 @@
 }
 
 .lead__wrapper {
+    min-inline-size: 300px;
     padding: 10px;
     border-radius: 10px;
     inline-size: fit-content;
