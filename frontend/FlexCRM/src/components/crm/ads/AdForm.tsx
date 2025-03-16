@@ -4,6 +4,14 @@ import api from "../../../api.ts";
 import Loader from "../../Loader/Loader.tsx";
 import getAll from '../../../fetchData.ts';
 
+interface productInterface {
+    id: number;
+    name: string;
+    description: string;
+    cost: number;
+    is_active: boolean;
+}
+
 function AdForm() {
     const navigate = useNavigate();
     const params = useParams();
@@ -33,7 +41,7 @@ function AdForm() {
             }
         }
         clearTimeout(tId)
-        setTId(setTimeout(()=>fetchProductsByQuery(search), 1000));
+        setTId(setTimeout(()=>fetchProductsByQuery(), 1000));
     }, [search]);
 
 
@@ -68,12 +76,12 @@ function AdForm() {
         }
      }
 
-    const uncheckedProduct = (curProduct)=>{
-        setCheckedProducts(checkedProducts.filter(product => product.id !== curProduct.id))
-        setProduct(product.filter(id => id !== curProduct.id))
+    const uncheckedProduct = (curProduct:productInterface)=>{
+        setCheckedProducts(checkedProducts.filter((product:productInterface) => product.id !== curProduct.id))
+        setProduct(product.filter((id:number) => id !== curProduct.id))
     }
 
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event:any) => {
         if (containerRef.current && !containerRef.current.contains(event.target)) {
             setFocus(false);
         }
@@ -115,17 +123,8 @@ function AdForm() {
 
 
                 <div className={'products'}>
-                    <div className={'input-cont'}>
-                        <input className={`input input__products ${focus}`} ref={containerRef} onFocus={()=> setFocus(true)} value={search} onChange={(e)=>{setSearch(e.target.value)}}/>
-                        {focus && <ul className={'products__list'}>
-                            {result.map((cur)=>{
-                                return (<li tabIndex={0} className={'products__list-item'} onClick={()=>addProduct(cur)} key={cur.id}>{cur.name}</li>)
-                            })}
-                        </ul>}
-                    </div>
-
                     <ul className={'products__list-checked'}>
-                        {checkedProducts.map((cur, index)=>{
+                        {checkedProducts.map((cur:productInterface, index:number)=>{
                             return (<li tabIndex={0} className={'products__list-checked-item'} onClick={()=>{uncheckedProduct(cur)}}  key={index}>
                                 <span className={'smert'}>
                                     {cur.name}
@@ -133,6 +132,16 @@ function AdForm() {
                             </li>)
                         })}
                     </ul>
+                    <div className={'input-cont'}>
+                        <input className={`input input__products ${focus}`} ref={containerRef} onFocus={()=> setFocus(true)} value={search} onChange={(e)=>{setSearch(e.target.value)}}/>
+                        {focus && <ul className={'products__list'}>
+                            {result.map((cur:productInterface)=>{
+                                return (<li onKeyDown={(e)=>{if(e.key=='Enter')addProduct(cur)}} tabIndex={0} className={'products__list-item'} onClick={()=>addProduct(cur)} key={cur.id}>{cur.name}</li>)
+                            })}
+                        </ul>}
+                    </div>
+
+
                 </div>
 
 

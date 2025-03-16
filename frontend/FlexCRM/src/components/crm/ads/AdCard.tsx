@@ -4,7 +4,6 @@ import {useNavigate} from "react-router-dom";
 interface AdProps {
     name:string,
     budget:string,
-    leads_count:string,
     customers_count:string,
     profit:string,
     product:number
