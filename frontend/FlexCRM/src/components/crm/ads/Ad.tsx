@@ -24,7 +24,6 @@ function Ad() {
             const productsResponse = await Promise.all(res.data.product.map((item:number)=>
                api.get(`/api/products/${item}/`)))
             const productsData = productsResponse.map((response) => response.data)
-            console.log(productsData);
             setProduct(productsData);
         }catch (e) {
             console.error(e);

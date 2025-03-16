@@ -90,6 +90,10 @@
     .header__nav:hover .header__nav-title::after {
         animation: menuIconRotate .5s forwards;
     }
+
+    .header__list-item-link {
+        padding: 15px 70px 15px 35px;
+        }
 }
 
 
@@ -108,7 +112,6 @@
     color: var(--bg-color);
     font-size: var(--font-size-medium);
     display: block;
-    padding: 15px 70px 15px 35px;
     inline-size: 100%;
     block-size: 100%;
 }

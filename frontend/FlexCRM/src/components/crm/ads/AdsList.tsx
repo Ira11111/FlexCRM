@@ -40,8 +40,8 @@ function AdsList () {
             <button disabled={!role_permissions} className='button add-button' onClick={()=>navigate('create')}>Добавить</button>
         </div>
         <div className='cards-container'>
-            {ads.map((cur :{name:'', budget:'', customers_count:'', profit: '', product:number}, index : number) =>
-                <AdCard role_permissions={role_permissions} key={index} ad={cur} index={index+1} />)}
+            {ads.map((cur :{id:number, name:'', budget:'', customers_count:'', profit: '', product:number}, index : number) =>
+                <AdCard role_permissions={role_permissions} key={index} ad={cur} index={cur.id} />)}
         </div>
         <Pagination previous={previous} next={next} setEndpoint={setEndpoint}/>
     </div>
