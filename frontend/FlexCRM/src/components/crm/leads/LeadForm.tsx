@@ -1,5 +1,6 @@
 import api from "../../../api.ts";
 import {useState} from "react";
+import Loader from "../../Loader/Loader.tsx";
 
 interface LeadProps {
     first_name:string;
@@ -8,24 +9,29 @@ interface LeadProps {
     email:string;
 }
 
-function LeadForm({index, lead}:{index:number, lead:  LeadProps}) {
+function LeadForm({index, lead, setEditing}:{index:number, lead:  LeadProps, setEditing:()=>void}) {
     const [first_name, setFirst_name] = useState(lead.first_name);
     const [last_name, setLast_name] = useState(lead.last_name);
     const [email, setEmail] = useState(lead.email);
     const [phone, setPhone] = useState(lead.phone);
+    const [loading, setLoading] = useState(false);
 
 
     async function handleSubmitLead(e){
         e.preventDefault();
         try {
-            await api.put(`/api/leads/${index}/`, {})
+            setLoading(true);
+            await api.put(`/api/leads/${index}/`, {first_name, last_name, phone, email})
         } catch (error) {
             console.log(error)
-        }
+        }finally {
+            setLoading(false);
+        }setEditing(false);
     }
 
     return (
         <form className='crm-form' onSubmit={handleSubmitLead}>
+            {loading && <Loader/>}
             <h2 className={'lead__title'}>{'Редактировать информацию о представителе компании'}</h2>
             <label hidden={true} htmlFor={'first_name'}>Имя представителя компании</label>
             <input className='input' type={'text'} value={first_name} required id={'first_name'}
