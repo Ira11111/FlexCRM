@@ -1,6 +1,7 @@
 .auth {
     margin: auto;
-    block-size: 100dvb;
+    block-size: 90vh;
+    min-block-size: 400px;
     min-inline-size: 320px;
     display: flex;
     align-items: center;
