@@ -6,12 +6,12 @@ interface CustomerProps {
     is_active: boolean;
 }
 
-function CustomerCard({customer, index}:{customer:CustomerProps, index:number}) {
+function CustomerCard({role_permissions, customer, index}:{role_permissions:boolean,customer:CustomerProps, index:number}) {
     const navigate = useNavigate();
     return (
         <div className='card'>
             <h1>{customer.name}</h1>
-            <button onClick={()=>navigate(`${index+1}`)} className='button'>Подробнее</button>
+            <button onClick={()=>navigate(`${index+1}`, {state:{role_permissions}})} className='button'>Подробнее</button>
         </div>
     );
 }

@@ -1,15 +1,18 @@
-import {useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import api from "../../../api.ts";
 import {useEffect, useState} from "react";
 import Lead from "../leads/Lead.tsx";
 import LeadForm from "../leads/LeadForm.tsx";
 import Loader from "../../Loader/Loader.tsx";
+import {ROLE} from "../../../constants.ts";
 
 function Customer() {
+    const role_permissions = useLocation().state?useLocation().state.role_permissions:localStorage.getItem(ROLE)=="Operators";
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [customer, setCustomer] = useState({name:'', lead: 0, is_active: false});
     const [isEditing, setEditing] = useState(false);
-    const [lead, setLead]=useState({first_name:'', last_name:'', phone:'', email:''});
+    const [lead, setLead]=useState({id:'', first_name:'', last_name:'', phone:'', email:''});
     const id = useParams().customerId ||'';
     async function getCustomerById(){
         try{
@@ -28,15 +31,17 @@ function Customer() {
 
     useEffect(() => {
         getCustomerById()
-    }, []);
+    }, [isEditing]);
 
     return <div className={'wrapper'}>
         {loading && <Loader/>}
         <h1 className='title'>Компания {customer.name}</h1>
-        <div>
-            {isEditing?<LeadForm index={customer.lead} lead={lead}/>:<Lead l={lead}/>}
-            <button className={'button'} type='button' onClick={()=>setEditing(true)}>Редактировать</button>
+        <div className='lead__wrapper'>
+            {isEditing?<LeadForm index={customer.lead} setEditing={setEditing} lead={lead}/>:<Lead l={lead}/>}
+            {!isEditing && <button className={'button lead__edit-button'} type='button' onClick={()=>setEditing(true)}>Редактировать информацию о представителе</button>}
         </div>
+        <button disabled={!role_permissions}  className='button edit__button' onClick={()=>navigate('edit', {state : {name:customer.name, lead}})}>Редактировать</button>
+
     </div>
 }
 

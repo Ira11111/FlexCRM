@@ -1,18 +1,18 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useLocation, useParams} from "react-router-dom";
 import Loader from "../../Loader/Loader.tsx";
 import {FormEvent, useState} from "react";
 import api from "../../../api.ts";
 
 function CustomerForm() {
+    const cId = useParams().customerId;
     const [loading, setLoading] = useState(false);
     const [isActive, setIsActive] = useState<boolean>(true);
-    const [name, setName] = useState("");
-    const params  = useParams();
-    const editMode = params.customerId;
-    const [first_name, setFirst_name] = useState('');
-    const [last_name, setLast_name] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
+    const data = useLocation().state;
+    const [name, setName] = useState(data?data.name:'');
+    const [first_name, setFirst_name] = useState(data?data.lead.first_name:'');
+    const [last_name, setLast_name] = useState(data?data.lead.last_name:'');
+    const [email, setEmail] = useState(data?data.lead.email:'');
+    const [phone, setPhone] = useState(data?data.lead.phone:'');
     const navigate = useNavigate();
 
 
@@ -20,9 +20,15 @@ function CustomerForm() {
         e.preventDefault();
         try{
             setLoading(true);
-            const res = await api.post('api/leads/', {first_name, last_name, phone, email})
-            const lead = res.data.id;
-            await api.post('/api/customers/', {name, lead, isActive})
+            if (!data){
+                const res = await api.post(`api/leads/`, {first_name, last_name, phone, email})
+                const lead = res.data.id;
+                await api.post(`/api/customers/`, {name, lead, isActive, adds:[]})
+            }else {
+                await api.put(`api/leads/${data.lead.id}/`, {first_name, last_name, phone, email})
+                await api.put(`/api/customers/${cId}/`, {name, lead: data.lead.id, isActive, adds:[]})
+            }
+
         }catch (e){
             console.log(e);
         }
@@ -35,9 +41,8 @@ function CustomerForm() {
 
     return (
         <div className="wrapper">
-
             {loading && <Loader/>}
-            <h1 className='title'>{editMode?'Редактировать':'Создать'} клиента</h1>
+            <h1 className='title'>{data?'Редактировать':'Создать'} клиента</h1>
             <form className='crm-form' onSubmit={handleSubmitCustomer} method="post">
                 <label hidden={true} htmlFor="name">Название</label>
                 <input className='input' required id={"name"} placeholder='Введите название компании'
@@ -68,7 +73,7 @@ function CustomerForm() {
                 </label>
 
 
-                <button className='auth-form__button button' type={"submit"} >{editMode?'Редактировать':'Создать'}</button>
+                <button className='auth-form__button button' type={"submit"} >{data?'Редактировать':'Создать'}</button>
             </form>
 
         </div>
