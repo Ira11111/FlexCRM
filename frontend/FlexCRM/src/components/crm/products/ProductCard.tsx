@@ -7,7 +7,7 @@ interface ProductProps {
     is_active: boolean
 }
 
-function ProductCard({product , index}: { product: ProductProps, index :number}) {
+function ProductCard({product , index, role_permissions}: { product: ProductProps, index :number, role_permissions:boolean}) {
     const navigate = useNavigate();
     let {name, description} = product;
     return <div className='card'>
@@ -15,7 +15,7 @@ function ProductCard({product , index}: { product: ProductProps, index :number})
             <h2 className='card__title'>{name}</h2>
             <p className='card__descr'>{description}</p>
         </div>
-        <button onClick={()=>navigate(`${index}`)} className='button'>Подробнее</button>
+        <button onClick={()=>navigate(`${index}`, {state:{role_permissions}})} className='button' >Подробнее</button>
 
     </div>
 }
