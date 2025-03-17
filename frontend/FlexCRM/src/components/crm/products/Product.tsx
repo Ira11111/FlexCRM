@@ -1,9 +1,11 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import api from '../../../api'
 import {useEffect, useState} from "react";
+import {ROLE} from "../../../constants.ts";
 
 
 function Product() {
+    const role_permissions = useLocation().state?useLocation().state.role_permissions:localStorage.getItem(ROLE)=='Marketers';
     const navigate = useNavigate();
     const params = useParams();
     const id : string= params.productId || '';
@@ -22,6 +24,7 @@ function Product() {
     useEffect(() => {
         getProduct(id);
     }, [id])
+
     return <div className='wrapper'>
         <h1 className='title'>Услуга {product.name}</h1>
         <span>
@@ -34,7 +37,7 @@ function Product() {
             <p>{product.cost}</p>
         </span>
 
-        <button  className='button edit__button' onClick={()=>navigate('edit', {state : {product}})}>Редактировать</button>
+        <button disabled={!role_permissions} className='button edit__button' onClick={()=>navigate('edit', {state : {product}})}>Редактировать</button>
     </div>
 }
 

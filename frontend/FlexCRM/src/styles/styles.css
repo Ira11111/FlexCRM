@@ -21,6 +21,7 @@ html, body {
     color: var(--font-color);
     position: relative;
     line-height: 1.5;
+    block-size: 100vh;
     min-inline-size: 320px;
 }
 

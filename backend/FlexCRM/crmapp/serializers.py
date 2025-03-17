@@ -34,7 +34,7 @@ class CustomerSerializer(ModelSerializer):
 class AddSerializer(ModelSerializer):
     class Meta:
         model = Add
-        fields = ("name", "budget", "customers_count",
+        fields = ("id", "name", "budget", "customers_count",
                   "profit", "product")
 
 
@@ -49,4 +49,4 @@ class ProductSerializer(ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ["name", "description", "cost", "is_active", "contracts"]
+        fields = ["id", "name", "description", "cost", "is_active", "contracts"]

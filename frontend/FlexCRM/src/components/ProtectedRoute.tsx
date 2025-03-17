@@ -11,7 +11,14 @@ function ProtectedRoute({children}: {children: ReactNode}) {
 
     useEffect(()=>{
         auth().catch(()=>setIsAuthorized(false))
-    })
+        const intervalId = setInterval(() => {
+            refresh().catch(() => setIsAuthorized(false));
+        }, 300000);
+        return () => clearInterval(intervalId);
+    }, [])
+
+
+
     const refresh = async () : Promise<void> => {
         const refreshToken : string | null = localStorage.getItem(REFRESH_TOKEN);
         if (!refreshToken) {

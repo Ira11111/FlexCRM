@@ -23,6 +23,7 @@
     background-color: var(--accent-color);
     color: var(--bg-color);
     border-color: var(--accent-color);
+    align-self: center;
 }
 
 .add-button:hover {
@@ -120,8 +121,142 @@
 }
 
 
+
+.lead__title {
+    font-size: var(--font-size-medium);
+    font-weight: bold;
+}
+
+.lead__name {
+    text-transform: capitalize;
+}
+
+.lead__wrapper {
+    min-inline-size: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    inline-size: fit-content;
+    border: 1px solid var(--accent-color);
+}
+
+.lead__edit-button {
+    background-color: transparent;
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.lead__edit-button:hover {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    border-color: var(--accent-color);
+}
+
+.lead {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-block-end: 15px;
+}
+
+.select {
+    border: 1px solid var(--main-color);
+    border-radius: 10px;
+    padding: 5px 3px;
+}
+
+.products {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-cont {
+    position: relative;
+}
+
+.input__products {
+    inline-size: 100%;
+}
+
+
+.input__products.true {
+    -webkit-border-bottom-left-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    outline:none;
+
+}
+
+
+.products__list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    overflow-Y: scroll;
+    max-block-size: 300%;
+    scroll-behavior: smooth;
+    scrollbar-color: var(--main-color) var(--bg-color);
+    background-color: var(--bg-color);
+    z-index: 1;
+}
+
+.products__list-item {
+    border: 1px solid var(--main-color);
+    border-top: none;
+    padding: 5px 8px;
+    cursor: pointer;
+}
+
+.products__list-item:focus {
+    outline: none;
+}
+
+.products__list-item:focus-visible {
+    border: 2px  var(--accent-color) solid;
+}
+
+.products__list-checked {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+    flex-wrap: wrap;
+
+}
+
+.products__list-checked-item {
+    border: 1px solid var(--accent-color);
+    border-radius: 10px;
+    padding: 3px 5px;
+    background-color: var(--bg-color);
+    inline-size: max-content;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+}
+
+.smert {
+    position: relative;
+    margin-inline-start: 20px;
+}
+
+.smert::before {
+    content: "";
+    position: absolute;
+    left: -22px;
+    block-size: 20px;
+    aspect-ratio: 1;
+    background: url("../../assets/krest.png") no-repeat;
+    background-size: contain;
+
+}
+
+
+
+
 @media (max-width: 500px) {
     .wrapper {
         padding: 10px;
     }
+
 }

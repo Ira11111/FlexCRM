@@ -4,10 +4,11 @@ import Loader from "../../components/Loader/Loader.tsx";
 import Svglogo from "../../assets/crmLogo.svg";
 import './auth.css'
 import api from '../../api.ts'
-import {ACCESS_TOKEN, REFRESH_TOKEN} from "../../constants.ts";
+import {ACCESS_TOKEN, REFRESH_TOKEN, ROLE} from "../../constants.ts";
+import {jwtDecode} from "jwt-decode";
 
 
-function Register(props: any) {
+function Register(props: {mode: string}) {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -29,16 +30,20 @@ function Register(props: any) {
             setLoading(true);
             try {
                 if (props.mode === 'register'){
+                    localStorage.clear()
                     await api.post('/auth/register/', {username, password, email, user_group: role});
                     }
                 else {
-                    await api.post('/auth/users/', {username, password, email, user_group: role})};
+                    console.log({username, password, email, user_group: role})
+                    await api.post('/auth/users/', {username, password, email, user_group: role})
+                }
 
 
                 if (props.mode==='register'){
-                    const resTokens = await api.post('/auth/token/obtain/', {username, password});
-                    localStorage.setItem(ACCESS_TOKEN, JSON.stringify(resTokens.data.access));
-                    localStorage.setItem(REFRESH_TOKEN, JSON.stringify(resTokens.data.refresh));
+                    const resTokens = await api.post('/auth/token/obtain/', {username, password})
+                    localStorage.setItem(ACCESS_TOKEN, resTokens.data.access);
+                    localStorage.setItem(REFRESH_TOKEN, resTokens.data.refresh);
+                    localStorage.setItem(ROLE, jwtDecode(resTokens.data.access).user_group)
                 }
                 navigate('/crm');
             } catch (e : any) {
@@ -73,12 +78,11 @@ function Register(props: any) {
                         props.mode==='create' &&
                         <>
                         <label hidden={true} htmlFor='role'>Роль работника</label>
-                        <select id='role' required onChange={(e)=>setRole(e.target.value)}>
+                        <select id='role' required onChange={(e)=>{setRole(e.target.value); console.log(e.target.value)} }>
+                            <option value={'Admins'}>Администратор</option>
                             <option value={'Managers'}>Менеджер</option>
                             <option value={'Marketers'}>Маркетолог</option>
                             <option value={'Operators'}>Оператор</option>
-                            <option value={'Admins'}>Администратор</option>
-
                         </select>
                         </>
                     }
