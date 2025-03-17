@@ -4,14 +4,17 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 GROUP_PERMS = {
     "Admins": ("add_user", "change_user", "delete_user", "view_user",
-               "view_customer", "view_lead", "view_product", "view_add"),
+               "view_customer", "view_lead", "view_product", "view_add",
+               "view_contract"),
 
-    "Operators": ("add_customer", "change_customer", "view_customer", "add_lead", "change_lead", "view_lead"),
+    "Operators": ("add_customer", "change_customer", "view_customer", "add_lead",
+                  "change_lead", "view_lead", "view_add", "view_product", "view_contract"),
 
-    "Managers": ("add_contract", "change_contract", "view_contract", "view_customer", "view_lead"),
+    "Managers": ("add_contract", "change_contract", "view_contract", "view_customer",
+                 "view_lead", "view_add", "view_product"),
 
     "Marketers": ("add_add", "change_add", "view_add", "change_product",
-                  "add_product", "view_product", "view_customer"),
+                  "add_product", "view_product", "view_customer", "view_contract", "view_lead"),
 }
 
 

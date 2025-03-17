@@ -49,7 +49,7 @@ class ContractViewSet(ModelViewSet):
         DjangoFilterBackend
     ]
     ordering_fields = "name", "start_date", "end_date", "cost"
-    search_fields = "name",
+    search_fields = "name", "company", "product"
 
 
 class CustomerViewSet(ModelViewSet):
