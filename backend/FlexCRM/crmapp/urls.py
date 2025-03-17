@@ -5,7 +5,9 @@ from .views import (
     ContractViewSet,
     CustomerViewSet,
     AddSetView,
-    ProductSetView)
+    ProductSetView,
+    StatisticsView,
+)
 
 app_name = "crmapp"
 
@@ -17,5 +19,6 @@ router.register("adds", AddSetView)
 router.register("products", ProductSetView)
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('statistics/', StatisticsView.as_view(), name="statistics"),
+    path('', include(router.urls)),
 ]

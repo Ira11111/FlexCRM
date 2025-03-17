@@ -1,5 +1,5 @@
 from rest_framework.relations import PrimaryKeyRelatedField
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, IntegerField
 from .models import Lead, Customer, Add, Contract, Product
 from django.db.models import F
 
@@ -14,11 +14,12 @@ class LeadSerializer(ModelSerializer):
 
 
 class CustomerSerializer(ModelSerializer):
+    contracts = IntegerField(read_only=True, source='contract_count')
     adds = PrimaryKeyRelatedField(queryset=Add.objects.only("pk", "customers_count").all(), many=True)
 
     class Meta:
         model = Customer
-        fields = "name", "lead", "is_active", "adds"
+        fields = ["name", "lead", "is_active", "adds", "contracts"]
 
     def create(self, validated_data):
         adds_data = validated_data.get("adds", [])
@@ -40,10 +41,12 @@ class AddSerializer(ModelSerializer):
 class ContractSerializer(ModelSerializer):
     class Meta:
         model = Contract
-        fields = "name", "start_date", "end_date", "cost", "contr_file", "company"
+        fields = "name", "start_date", "end_date", "cost", "contr_file", "company", "product"
 
 
 class ProductSerializer(ModelSerializer):
+    contracts = IntegerField(read_only=True, source='contract_count')
+
     class Meta:
         model = Product
-        fields = "id", "name", "description", "cost", "is_active",
+        fields = ["id", "name", "description", "cost", "is_active", "contracts"]
