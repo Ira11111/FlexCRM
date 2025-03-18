@@ -41,5 +41,5 @@ class Contract(models.Model):
     end_date = models.DateField()
     cost = models.DecimalField(max_digits=10, decimal_places=2)
     contr_file = models.FileField(upload_to=cont_file_path)
-    company = models.OneToOneField(Customer, on_delete=models.DO_NOTHING, related_name='contracts')
-    product = models.OneToOneField(Product, on_delete=models.DO_NOTHING, related_name='contracts')
+    company = models.ForeignKey(Customer, on_delete=models.DO_NOTHING, related_name='contracts')
+    product = models.ForeignKey(Product, on_delete=models.DO_NOTHING, related_name='contracts')
