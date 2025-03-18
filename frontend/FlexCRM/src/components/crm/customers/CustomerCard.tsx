@@ -1,17 +1,18 @@
 import {useNavigate} from "react-router-dom";
 
 interface CustomerProps {
+    id: string;
     name: string;
     lead: number;
     is_active: boolean;
 }
 
-function CustomerCard({role_permissions, customer, index}:{role_permissions:boolean,customer:CustomerProps, index:number}) {
+function CustomerCard({customer}:{customer:CustomerProps}) {
     const navigate = useNavigate();
     return (
         <div className='card'>
-            <h1>{customer.name}</h1>
-            <button onClick={()=>navigate(`${index+1}`, {state:{role_permissions}})} className='button'>Подробнее</button>
+            <h1 className={'card__title'}>{customer.name}</h1>
+            <button onClick={()=>navigate(`${customer.id}`,{state:{customer}})} className='button'>Подробнее</button>
         </div>
     );
 }

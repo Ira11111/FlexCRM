@@ -1,13 +1,14 @@
 import {useNavigate} from "react-router-dom";
 
 interface ProductProps {
+    id:number,
     name: string,
     description: string,
     cost: string,
     is_active: boolean
 }
 
-function ProductCard({product , index, role_permissions}: { product: ProductProps, index :number, role_permissions:boolean}) {
+function ProductCard({product}: { product: ProductProps,}) {
     const navigate = useNavigate();
     let {name, description} = product;
     return <div className='card'>
@@ -15,7 +16,7 @@ function ProductCard({product , index, role_permissions}: { product: ProductProp
             <h2 className='card__title'>{name}</h2>
             <p className='card__descr'>{description}</p>
         </div>
-        <button onClick={()=>navigate(`${index}`, {state:{role_permissions}})} className='button' >Подробнее</button>
+        <button onClick={()=>navigate(`${product.id}`)} className='button' >Подробнее</button>
 
     </div>
 }

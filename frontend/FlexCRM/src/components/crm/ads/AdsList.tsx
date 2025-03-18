@@ -1,11 +1,12 @@
 import {useEffect, useState} from "react";
-import {Outlet, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Loader from "../../Loader/Loader.tsx";
 import AdCard from './AdCard.tsx'
-import {ROLE} from "../../../constants.ts";
-import getAll from "../../../fetchData.ts";
+import {ROLE, ADS_ENDPOINT} from "../../../constants.ts";
+import {getAll} from "../../../fetchData.ts";
 import Pagination from "../Pagination/Pagination.tsx";
-import {usePagination} from "../../../context/PaginationContext.tsx";
+
+
 
 function AdsList () {
     const role_permissions:boolean = localStorage.getItem(ROLE)=='Marketers';
@@ -13,13 +14,15 @@ function AdsList () {
     const [error, setError] = useState('');
     const [ads, setAds] = useState([]);
     const navigate = useNavigate();
-    const {endpoint, setEndpoint, previous, next, updatePagination} = usePagination();
+    const [count, setCount] = useState(0);
+    const [endpoint, setEndpoint] = useState(ADS_ENDPOINT);
+
     async function getAllAds() {
         try {
             setLoading(true)
             const res = await getAll(endpoint);
             setAds(res.results)
-            updatePagination(res)
+            setCount(res.count);
         } catch (e: any) {
             console.log(e);
             setError(e)
@@ -40,10 +43,10 @@ function AdsList () {
             <button disabled={!role_permissions} className='button add-button' onClick={()=>navigate('create')}>Добавить</button>
         </div>
         <div className='cards-container'>
-            {ads.map((cur :{id:number, name:'', budget:'', customers_count:'', profit: '', product:number}, index : number) =>
-                <AdCard role_permissions={role_permissions} key={index} ad={cur} index={cur.id} />)}
+            {ads.map((cur :{id:number, name:'', budget:'', customers_count:'', profit: '', product:[]}, index : number) =>
+                <AdCard key={index} ad={cur} />)}
         </div>
-        <Pagination previous={previous} next={next} setEndpoint={setEndpoint}/>
+        <Pagination count={count} endpoint={ADS_ENDPOINT} setEndpoint={setEndpoint} />
     </div>
 }
 

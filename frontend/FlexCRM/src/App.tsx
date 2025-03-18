@@ -8,8 +8,8 @@ import CustomerForm from "./components/crm/customers/CustomerForm.tsx";
 import AdsList from "./components/crm/ads/AdsList.tsx";
 import Ad from "./components/crm/ads/Ad.tsx";
 import AdForm from "./components/crm/ads/AdForm.tsx";
-import Contract from "./components/crm/Contract.tsx";
-import ContractsList from "./components/crm/ContractsList.tsx";
+import Contract from "./components/crm/contracts/Contract.tsx";
+import ContractsList from "./components/crm/contracts/ContractsList.tsx";
 import Product from "./components/crm/products/Product.tsx";
 import ProductsList from "./components/crm/products/ProductsList.tsx";
 import ProductForm from "./components/crm/products/ProductForm.tsx";
@@ -17,7 +17,7 @@ import NotFound from "./pages/NotFound/NotFound.tsx";
 import Register from "./pages/myAuth/Register.tsx"
 import Login from "./pages/myAuth/Login.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
-import {PaginationProvider} from "./context/PaginationContext.tsx";
+import ContractForm from "./components/crm/contracts/ContractForm.tsx";
 
 
 function Logout() {
@@ -55,16 +55,15 @@ function App() {
             <Route path={'createUser'} element={<Register mode={'create'}/>}/>
 
 
-              <Route path="customers" element={<PaginationProvider initialEndpoint={'/api/customers/'}/>}>
-                <Route index element={<CustomersList/>}/>
+              <Route path="customers">
+                <Route index element={<CustomersList/>} />
                 <Route path=":customerId" element={<Customer/>}/>
                 <Route path=":customerId/edit" element={<CustomerForm/>}/>
                 <Route path="create" element={<CustomerForm/>}/>
               </Route>
 
 
-              <Route path="ads"
-                     element={<PaginationProvider initialEndpoint={'/api/adds/'}/>}>
+              <Route path="ads">
                 <Route index element={<AdsList/>} />
                 <Route path=":adId" element={<Ad/>}/>
                 <Route path=":adId/edit" element={<AdForm/>}/>
@@ -74,8 +73,7 @@ function App() {
 
 
 
-              <Route path="products"
-                     element={<PaginationProvider initialEndpoint={'/api/products/'}/>}>
+              <Route path="products">
                 <Route index element={<ProductsList/>}/>
                 <Route path=":productId" element={<Product/>}/>
                 <Route path=":productId/edit" element={<ProductForm/>}/>
@@ -86,25 +84,16 @@ function App() {
 
 
 
-              <Route  path="contracts"
-                      element={<PaginationProvider initialEndpoint={'/api/contracts/'}/>} >
-                <Route index element={<ContractsList/>}/>
+              <Route path="contracts">
+                <Route index element={<ContractsList/>} />
                 <Route path=":contractId" element={<Contract/>}/>
-                {/*<Route path=":contractId/edit" element={<ContractForm/>}/>*/}
-                {/*<Route path="create" element={<ContractForm/>}/>*/}
+                <Route path=":contractId/edit" element={<ContractForm/>}/>
+                <Route path="create" element={<ContractForm/>}/>
               </Route>
-
-
-
-
-
-
-
-
-
           </Route>
 
           <Route path="*" element={<NotFound/>} />
+
         </Routes>
       </BrowserRouter>
   )
