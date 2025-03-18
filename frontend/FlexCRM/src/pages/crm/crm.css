@@ -121,6 +121,11 @@
 }
 
 
+.label {
+    display: flex;
+    flex-direction: column;
+}
+
 
 .lead__title {
     font-size: var(--font-size-medium);

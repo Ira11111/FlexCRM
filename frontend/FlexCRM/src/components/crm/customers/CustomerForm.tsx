@@ -48,27 +48,30 @@ function CustomerForm() {
             {loading && <Loader/>}
             <h1 className='title'>{data?'Редактировать':'Создать'} клиента</h1>
             <form className='crm-form' onSubmit={handleSubmitCustomer} method="post">
-                <label hidden={true} htmlFor="name">Название</label>
+                <label className={'label'} htmlFor="name">Название
                 <input className='input' required id={"name"} placeholder='Введите название компании'
                        type='text' value={name}
-                       onChange={(e)=> setName(e.target.value)}/>
-                <label hidden={true} htmlFor={'first_name'}>Имя представителя компании</label>
+                       onChange={(e)=> setName(e.target.value)}/></label>
+                <label className={'label'} htmlFor={'first_name'}>Имя представителя компании
                 <input className='input' type={'text'} value={first_name} required id={'first_name'}
                        placeholder={'Введите имя представителя'}
-                       onChange={(e)=>setFirst_name(e.target.value)}/>
-                <label hidden={true} htmlFor={'last_name'}>Фамилия представителя компании</label>
+                       onChange={(e)=>setFirst_name(e.target.value)}/></label>
+                <label className={'label'} htmlFor={'last_name'}>Фамилия представителя компании
                 <input className='input' type={'text'} value={last_name} required id={'last_name'}
                        placeholder={'Введите фамилию представителя'}
-                       onChange={(e)=>setLast_name(e.target.value)}/>
-                <label hidden={true} htmlFor={'phone'}>Телефон представителя компании</label>
+                       onChange={(e)=>setLast_name(e.target.value)}/></label>
+                <label className={'label'} htmlFor={'phone'}>Телефон представителя компании
                 <input className='input' value={phone} type={'tel'}  required id={'phone'}
                        placeholder={'Введите номер телефона представителя'}
-                       onChange={(e)=>setPhone(e.target.value)}/>
-                <label hidden={true} htmlFor={'email'}>Электронная почта представителя компании</label>
+                       onChange={(e)=>setPhone(e.target.value)}/></label>
+                <label className={'label'} htmlFor={'email'}>Электронная почта представителя компании
                 <input className='input' type={'email'} value={email} required id={'email'}
                        placeholder={'Введите электронную почту представителя'}
-                       onChange={(e)=>setEmail(e.target.value)}/>
+                       onChange={(e)=>setEmail(e.target.value)}/></label>
+
+                <label className={'label'}>Рекламный канал
                 <LiveSeach endpoint={ADS_ENDPOINT} data={addsData} items={adds} setItems={setAdds} placeholder={"Выберите рекламный канал"}/>
+            </label>
                 <label className='pseudo-checkbox__label' htmlFor="active">
                     <input className='checkbox input visually-hidden'  id={"active"}
                            type='checkbox' checked={!active}

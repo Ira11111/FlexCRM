@@ -56,25 +56,28 @@ function ContractForm() {
             {error && <p className={'error-message'}>{error}</p>}
 
             <form className={'crm-form'} method={'post'} onSubmit={handleContractSubmit}>
-                <label hidden={true} htmlFor={'name'}>Название контракта</label>
+                <label className={'label'} htmlFor={'name'}>Название контракта
                 <input name={'name'} required type={"text"} className={'input'} id={'name'} value={name}
                        onChange={(e)=>setName(e.target.value)}
-                       placeholder={'Введите название контракта'}/>
+                       placeholder={'Введите название контракта'}/></label>
 
-                <label htmlFor={'start_date'}>Дата начала исполнения контракта</label>
-                <input name={'start_date'} required type={"date"} className={'input'} id={'start_date'} value={start_date}
-                       onChange={(e)=>setStartDate(e.target.value)}/>
-                <label  htmlFor={'end_date'}>Дата окончания исполнения контракта</label>
-                <input name={'end_date'} required type={"date"} className={'input'} id={'end_date'} value={end_date}
-                       onChange={(e)=>setEndDate(e.target.value)}/>
+                <label htmlFor={'start_date'}>
+                    Дата начала исполнения контракта:  <input name={'start_date'} required type={"date"} className={'input'} id={'start_date'} value={start_date}
+                       onChange={(e)=>setStartDate(e.target.value)}/></label>
+                <label  htmlFor={'end_date'}>
+                    Дата окончания исполнения контракта:  <input name={'end_date'} required type={"date"} className={'input'} id={'end_date'} value={end_date}
+                       onChange={(e)=>setEndDate(e.target.value)}/></label>
 
-                <label hidden={true} htmlFor={'cost'}>Цена контракта</label>
+                <label className={'label'} htmlFor={'cost'}>Цена контракта
                 <input name={'cost'} required type={"text"} className={'input'} id={'сost'} value={cost}
                        onChange={(e)=>{setCost(e.target.value); console.log(companyId, productId, product, customer)}}
-                       placeholder={'Введите цену контракта'}/>
-                <LiveSeach data={customer?[customer]:[]} endpoint={'/api/customers/'} maxItems={1} items={companyId} setItems={setCompanyId} placeholder={"Выберите компанию, с которой заключен контракт"}/>
-                <LiveSeach data={product?[product]:[]} endpoint={'/api/products/'} maxItems={1} items={productId} setItems={setProductId} placeholder={"Выберите услугу для контракта"}/>
-
+                       placeholder={'Введите цену контракта'}/></label>
+                 <label className={'label'}>Компания, заключившая контракт
+                    <LiveSeach data={customer?[customer]:[]} endpoint={'/api/customers/'} maxItems={1} items={companyId} setItems={setCompanyId} placeholder={"Выберите компанию, с которой заключен контракт"}/>
+                 </label>
+                <label className={'label'}>Услуга, предоставляемая по контракту
+                        <LiveSeach data={product?[product]:[]} endpoint={'/api/products/'} maxItems={1} items={productId} setItems={setProductId} placeholder={"Выберите услугу для контракта"}/>
+                </label>
                 <label htmlFor={'file_contr'}>Выберите {contract && <span>новый</span>} файл контракта {contract && <span>(необязательно)</span>}</label>
                 <input accept={'.pdf, .docx'} required={!contract} name={'contr_file'} id={'file_contr'} type={'file'} onChange={(e)=>{if(e.target.files)setContr_file(e.target.files[0])}}/>
 
