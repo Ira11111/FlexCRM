@@ -14,7 +14,7 @@
     --font-size-big: 24px;
     --font-size-medium: 20px;
     --font-size-main: 16px;
-    --font-size-small: 12px;
+    --font-size-small: 14px;
     --font-weight-bold: 700;
     --error-color: #BC66BD;
 }
@@ -34,5 +34,16 @@
         --font-color: #FFFFFF;
         --placeholder-color: rgba(255, 255, 255, 0.7);
 
+    }
+}
+
+@media (max-width: 500px) {
+    :root {
+        --font-size-large: 24px;
+        --font-size-big: 20px;
+        --font-size-medium: 20px;
+        --font-size-main: 14px;
+        --font-size-small: 12px;
+        --font-weight-bold: 700;
     }
 }
