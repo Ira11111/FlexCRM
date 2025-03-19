@@ -8,6 +8,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.request import HttpRequest
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Lead, Contract, Add, Product, Customer
@@ -94,6 +95,8 @@ class AddSetView(ModelViewSet):
 
 
 class StatisticsView(APIView):
+
+    permission_classes = [IsAuthenticated]
 
     def get(self, request: HttpRequest) -> Response:
         annotate_customers = Customer.objects.annotate(contract_count=Count('contracts'))
