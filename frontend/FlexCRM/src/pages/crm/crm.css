@@ -16,6 +16,7 @@
 .title__wrapper {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding-block-end: 30px;
 }
 
@@ -73,6 +74,11 @@
     gap: 15px;
 }
 
+.dots {
+    font-weight: var(--font-weight-bold);
+    color: var(--main-color);
+    align-self: end;
+}
 
 
 .crm-form {
