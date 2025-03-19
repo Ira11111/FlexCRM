@@ -14,11 +14,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='contract',
             name='company',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.DO_NOTHING, related_name='contracts', to='crmapp.customer'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='contracts', to='crmapp.customer'),
         ),
         migrations.AlterField(
             model_name='contract',
             name='product',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.DO_NOTHING, related_name='contracts', to='crmapp.product'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='contracts', to='crmapp.product'),
         ),
     ]
