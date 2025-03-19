@@ -28,7 +28,8 @@ class LeadViewSet(ModelViewSet):
 
 
 class CustomerViewSet(ModelViewSet):
-    queryset = Customer.objects.all()
+    serializer_class = CustomerListSerializer
+    queryset = Customer.objects.select_related('lead').prefetch_related('adds').all()
     filter_backends = [
         SearchFilter,
         OrderingFilter,
@@ -39,19 +40,23 @@ class CustomerViewSet(ModelViewSet):
     filterset_fields = "is_active",
 
     def get_queryset(self):
-        if self.action in ('list', 'destroy'):
+        if self.action == 'list':
             return Customer.objects.only("id", "name").all()
-
-        if self.action in ('update', 'partial_update', 'retrieve'):
-            return Customer.objects.select_related('lead').prefetch_related('adds').all()
+        return super().get_queryset()
 
     def get_serializer_class(self):
-        if self.action in ('list', 'destroy'):
+        if self.action == 'list':
             return CustomerListSerializer
-        elif self.action in ('update', 'partial_update', 'create'):
-            return CustomerCreateSerializer
         elif self.action == 'retrieve':
             return CustomerDetailSerializer
+        elif self.action in ('update', 'partial_update', 'create'):
+            return CustomerCreateSerializer
+
+        return super().get_serializer_class()
+
+    def perform_destroy(self, instance):
+        instance.lead.delete()
+        instance.delete()
 
 
 class ProductSetView(ModelViewSet):
