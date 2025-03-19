@@ -28,6 +28,7 @@ function ContractsList() {
             setLoading(false);
         }
     }
+    console.log(endpoint)
 
     useEffect(() => {
         getAllContracts();
@@ -43,7 +44,7 @@ function ContractsList() {
         <div className='cards-container'>
             {contracts.map((cur, index) => {return <ContractCard contract={cur} key={index}/>})}
         </div>
-        <Pagination endpoint={CONTRACT_ENDPOINT} count={count} setEndpoint={setEndpoint}/>
+        <Pagination endpoint={endpoint} count={count} setEndpoint={setEndpoint}/>
     </div>
 }
 

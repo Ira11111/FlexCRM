@@ -8,6 +8,7 @@ import Pagination from "../Pagination/Pagination.tsx";
 
 
 
+
 function AdsList () {
     const role_permissions:boolean = localStorage.getItem(ROLE)=='Marketers';
     const [loading, setLoading] = useState(false);
@@ -36,6 +37,8 @@ function AdsList () {
     }, [endpoint]);
 
     return <div className='wrapper'>
+        {/*<Search endpoint={endpoint} setEndpoint result={ads} setResult={setAds} */}
+        {/*        params={[{name:'По названию'}, {budget:''}, {customers_count:''}, {profit: ''}]}/>*/}
         {error && <p>{error}</p>}
         {loading && <Loader />}
         <div className='title__wrapper'>
@@ -46,7 +49,7 @@ function AdsList () {
             {ads.map((cur :{id:number, name:'', budget:'', customers_count:'', profit: '', product:[]}, index : number) =>
                 <AdCard key={index} ad={cur} />)}
         </div>
-        <Pagination count={count} endpoint={ADS_ENDPOINT} setEndpoint={setEndpoint} />
+        <Pagination count={count} endpoint={endpoint} setEndpoint={setEndpoint} />
     </div>
 }
 

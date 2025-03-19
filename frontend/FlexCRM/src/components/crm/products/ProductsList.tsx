@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {getAll} from "../../../fetchData.ts";
 import {PRODUCT_ENDPOINT, ROLE} from "../../../constants.ts";
 import Pagination from "../Pagination/Pagination.tsx";
+import Search from "../search/Search.tsx";
 
 function ProductsList () {
     const [loading, setLoading] = useState(false);
@@ -33,6 +34,7 @@ function ProductsList () {
     }, [endpoint]);
 
     return <div className='wrapper'>
+        <Search endpoint={endpoint} setEndpoint={setEndpoint}  params={[{key:'name', value:'имя'}, {key:'cost', value:'цена'}]}/>
         {loading && <Loader />}
         <div className='title__wrapper'>
             <h1 className='title'>Услуги</h1>
@@ -42,7 +44,7 @@ function ProductsList () {
             {products.map((cur :{id:number, name:'', description:'', cost: '', is_active:false}  , index : number) => {
                 return <ProductCard key={index} product={cur} />})}
         </div>
-        <Pagination count={count} endpoint={PRODUCT_ENDPOINT} setEndpoint={setEndpoint}/>
+        <Pagination count={count} endpoint={endpoint} setEndpoint={setEndpoint}/>
     </div>
 }
 export default ProductsList;
