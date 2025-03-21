@@ -27,6 +27,7 @@ class Lead(models.Model):
 class Customer(models.Model):
     is_active = models.BooleanField(default=True)
     name = models.CharField(null=False, blank=False, max_length=50)
+    description = models.TextField(null=True, blank=True, max_length=1000)
     lead = models.OneToOneField(Lead, on_delete=models.CASCADE)
     adds = models.ManyToManyField(Add)
 
