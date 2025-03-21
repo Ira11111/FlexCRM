@@ -1,45 +1,64 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
-function Search({endpoint, setEndpoint, params}:{endpoint: string, setEndpoint:(x:string)=>void, params:[{x:string, y:string}]}) {
+function Search({endpoint, setEndpoint, params, curPage, setCurPage}:{endpoint: string, curPage:number, setCurPage:()=>void, setEndpoint:(x:string)=>void, params:[{x:string, y:string}]}) {
     const [order, setOrder] = useState('');
     const [query, setQuery] = useState('');
+    const [tId, setTId] = useState(0);
 
-    const handleSearch = () =>{
+    useEffect(() => {
+        const handleSearch = () =>{
+            const url = new URL(window.location.href);
 
-        let newEndpoint = endpoint;
-        if (order) {
-            if (endpoint.includes('ordering=')) {
-                newEndpoint = newEndpoint.replace(/order=[a-z]+/, `ordering=${order}`);
-            } else if (endpoint.includes('?')) {
-                const index = endpoint.indexOf('?');
-                newEndpoint = endpoint.substring(0, index+1) + `ordering=${order}&` + endpoint.substring(index+1)
+            if(query){
+                url.searchParams.delete('page')
+                setCurPage(1)
+                url.searchParams.set('search', query)
             } else {
-                newEndpoint = endpoint + `?ordering=${order}`
+                url.searchParams.delete('search')
             }
-        }
-        if(query) {
-            setQuery(query.toLowerCase());
-            if (endpoint.includes('search=')) {
-                newEndpoint = newEndpoint.replace(/search=[a-z0-9]+/, `search=${query}`);
-            } else if (endpoint.includes('?')) {
-                const index = endpoint.indexOf('?');
-                newEndpoint = endpoint.substring(0, index+1) + `search=${query}&` + endpoint.substring(index+1)
-            } else {
-                newEndpoint = endpoint + `?search=${query}`
+
+            if (order){
+                url.searchParams.delete('page')
+                setCurPage(1)
+                url.searchParams.set('ordering', order)}
+            else {
+                url.searchParams.delete('ordering')
             }
+
+
+            setEndpoint(endpoint+url.search);
         }
-        setEndpoint(newEndpoint)
-    }
+        clearTimeout(tId)
+        setTId(setTimeout(()=>handleSearch(), 1000))
+    }, [query, order]);
+
+    useEffect(() => {
+        const handleSearch = () =>{
+            const url = new URL(window.location.href);
+
+            if(curPage!=1 && curPage){
+                url.searchParams.set('page', curPage.toString())}
+            else {
+                url.searchParams.delete('page')
+            }
+            if(query)url.searchParams.set('search', query)
+            if(order)url.searchParams.set('ordering', order)
+
+
+            setEndpoint(endpoint+url.search);
+        }
+        handleSearch()
+    }, [curPage]);
+
 
     return (
-        <div>
-            <select defaultChecked={false}
+        <div className={'search'}>
+            <select className={'search__select'} defaultChecked={false}
                     onChange={e=>setOrder(e.target.value)}>
-                <option key={0}value={''}>По умолчанию</option>
-                {params.map((cur, i)=> <option key={i+1} value={cur.key}>{cur.value}</option>)}
+                <option tabIndex={1} className={'search__select-option'} key={0}value={''}>По умолчанию</option>
+                {params.map((cur, i)=> <option tabIndex={1} className={'search__select-option'} key={i+1} value={cur.key}>{cur.value}</option>)}
             </select>
             <input className={'input'} value={query} onChange={e=>setQuery(e.target.value)} />
-            <button onClick={handleSearch} className={'button'}>Поиск</button>
         </div>
     );
 }

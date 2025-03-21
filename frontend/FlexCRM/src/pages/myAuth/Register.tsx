@@ -3,9 +3,10 @@ import {Link, useNavigate} from "react-router-dom";
 import Loader from "../../components/Loader/Loader.tsx";
 import Svglogo from "../../assets/crmLogo.svg";
 import './auth.css'
-import api from '../../api.ts'
+
 import {ACCESS_TOKEN, REFRESH_TOKEN, ROLE} from "../../constants.ts";
 import {jwtDecode} from "jwt-decode";
+import {post} from "../../fetchData.ts";
 
 
 function Register(props: {mode: string}) {
@@ -31,23 +32,18 @@ function Register(props: {mode: string}) {
             try {
                 if (props.mode === 'register'){
                     localStorage.clear()
-                    await api.post('/auth/register/', {username, password, email, user_group: role});
+                    await post('/auth/register/', {username, password, email, user_group: role});
                     }
                 else {
-                    console.log({username, password, email, user_group: role})
-                    await api.post('/auth/users/', {username, password, email, user_group: role})
+                    await post('/auth/users/', {username, password, email, user_group: role})
                 }
-
-
                 if (props.mode==='register'){
-                    const resTokens = await api.post('/auth/token/obtain/', {username, password})
+                    const resTokens = await post('/auth/token/obtain/', {username, password})
                     localStorage.setItem(ACCESS_TOKEN, resTokens.data.access);
                     localStorage.setItem(REFRESH_TOKEN, resTokens.data.refresh);
                     localStorage.setItem(ROLE, jwtDecode(resTokens.data.access).user_group)
                 }
-                navigate('/crm');
-            } catch (e : any) {
-                console.log(e.response)
+            } catch (e : any){
                 if ( e.response.data.username && e.response.data.username.indexOf('A user with that username already exists.' )!==-1) {
                     setDataIsCorrect('Пользователь с таким именем уже существует😈')
 
@@ -55,8 +51,12 @@ function Register(props: {mode: string}) {
                 if (e.response.data.detail && e.response.data.detail === 'User with this email already exists') {
                     setDataIsCorrect('Пользователь с такой электронной почтой уже существует😈')
                 }
+
+
             } finally {
                 setLoading(false);
+                navigate('/crm');
+
             }
         }
     }
@@ -77,12 +77,12 @@ function Register(props: {mode: string}) {
                     {
                         props.mode==='create' &&
                         <>
-                        <label hidden={true} htmlFor='role'>Роль работника</label>
-                        <select id='role' required onChange={(e)=>{setRole(e.target.value); console.log(e.target.value)} }>
-                            <option value={'Admins'}>Администратор</option>
-                            <option value={'Managers'}>Менеджер</option>
-                            <option value={'Marketers'}>Маркетолог</option>
-                            <option value={'Operators'}>Оператор</option>
+                        <label  hidden={true} htmlFor='role'>Роль работника</label>
+                        <select  className={'select'} id='role' required onChange={(e)=>{setRole(e.target.value)} }>
+                            <option className={'select__option'} value={'Admins'}>Администратор</option>
+                            <option className={'select__option'} value={'Managers'}>Менеджер</option>
+                            <option className={'select__option'} value={'Marketers'}>Маркетолог</option>
+                            <option className={'select__option'} value={'Operators'}>Оператор</option>
                         </select>
                         </>
                     }

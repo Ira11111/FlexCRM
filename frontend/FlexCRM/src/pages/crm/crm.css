@@ -17,7 +17,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-block-end: 30px;
 }
 
 .add-button {
@@ -270,4 +269,54 @@
         padding: 10px;
     }
 
+    .search {
+        flex-direction: column;
+    }
+    .pagination__buttons {
+        flex-wrap: wrap;
+    }
+
+    .pagination__buttons button {
+        font-size: var(--font-size-main);
+        padding: 5px 10px;
+    }
+    .button {
+        font-size: var(--font-size-main);
+    }
+
+    .cards-container {
+        gap: 15px
+    }
+
+
+
+}
+
+.search {
+    display: flex;
+    gap: 15px;
+}
+
+.search__select {
+    border: 1px solid var(--main-color);
+    color: var(--font-color);
+    border-radius: 10px;
+    padding: 5px;
+    outline-color: transparent;
+    transition: outline-color 1s, border-color 1s;
+}
+
+.search__select:focus {
+    outline: none;
+}
+
+.search__select:focus-visible {
+    outline: 1px var(--accent-color) solid;
+    outline-offset: 1px;
+    border-color: var(--accent-color);
+}
+
+.search__select-option {
+    background-color: var(--page-color);
+    border: 1px solid var(--main-color);
 }

@@ -14,6 +14,8 @@ function CustomersList (){
     const [loading, setLoading] = useState(false);
     const [count, setCount] = useState(0);
     const [endpoint, setEndpoint] = useState(CUSTOMER_ENDPOINT)
+    const [curPage, setCurPage] = useState(1);
+
     useEffect(()=>{
         setLoading(true)
         const getAllCustomers = async ()=>{
@@ -33,18 +35,21 @@ function CustomersList (){
         getAllCustomers()
     }, [endpoint])
 
+
     return <div className='wrapper'>
         {loading && <Loader />}
         <div className='title__wrapper'>
             <h1 className='title'>Компании-клиенты</h1>
             <button disabled={!role_permissions} className='button add-button' onClick={()=>navigate('create')}>Добавить</button>
         </div>
-        <Search endpoint={endpoint} setEndpoint={setEndpoint}  params={[{key:'name', value:'имя'}, {key:'cost', value:'цена'}]}/>
+        <Search curPage={curPage} setCurPage={setCurPage} endpoint={CUSTOMER_ENDPOINT} setEndpoint={setEndpoint}  params={[{key:'name', value:'По имени ▲'}, {key:'-name', value:'По имени ▼'}]}/>
 
         <div className='cards-container'>
             {customers.map((cur, index) => {return <CustomerCard customer={cur} key={index}/>})}
+            {customers.length == 0 && <p>Ничего не найдено</p>}
         </div>
-        <Pagination endpoint={endpoint} count={count} setEndpoint={setEndpoint}/>
+        <Pagination count={count} curPage={curPage} setCurPage={setCurPage}/>
+
     </div>
 
 }

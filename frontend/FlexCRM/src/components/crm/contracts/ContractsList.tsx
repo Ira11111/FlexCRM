@@ -5,6 +5,8 @@ import Pagination from "../Pagination/Pagination.tsx";
 import {CONTRACT_ENDPOINT, ROLE} from '../../../constants.ts';
 import {useNavigate} from "react-router-dom";
 import ContractCard from "./ContractCard.tsx";
+import Search from "../search/Search.tsx";
+
 
 
 function ContractsList() {
@@ -15,6 +17,7 @@ function ContractsList() {
     const navigate = useNavigate();
     const [count, setCount] = useState(0);
     const [endpoint, setEndpoint] = useState(CONTRACT_ENDPOINT);
+    const [curPage, setCurPage] = useState(1);
 
     const getAllContracts = async () => {
         try{
@@ -23,13 +26,11 @@ function ContractsList() {
             setContracts(res.results);
             setCount(res.count)
         }catch (e){
-            setLoading(false);
+            console.log(e)
         }finally {
             setLoading(false);
         }
     }
-    console.log(endpoint)
-
     useEffect(() => {
         getAllContracts();
     }, [endpoint]);
@@ -41,10 +42,15 @@ function ContractsList() {
             <h1 className='title'>Контракты</h1>
             <button disabled={!role_permissions} className='button add-button' onClick={()=>navigate('create')}>Добавить</button>
         </div>
+        <Search setCurPage={setCurPage} curPage={curPage} endpoint={CONTRACT_ENDPOINT}
+                setEndpoint={setEndpoint}
+                params={[{key:'name', value:'По имени ▲'}, {key:'-name', value:'По имени ▼'},
+                    {key:'start_date', value:'По дате начала ▲'}, {key:'-start_date', value:'По дате начала ▼'}]}/>
         <div className='cards-container'>
             {contracts.map((cur, index) => {return <ContractCard contract={cur} key={index}/>})}
+            {contracts.length == 0 && <p>Ничего не найдено</p>}
         </div>
-        <Pagination endpoint={endpoint} count={count} setEndpoint={setEndpoint}/>
+        <Pagination count={count} curPage={curPage} setCurPage={setCurPage}/>
     </div>
 }
 

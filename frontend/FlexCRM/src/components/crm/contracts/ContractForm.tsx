@@ -26,7 +26,6 @@ function ContractForm() {
             return;
         }
         try {
-
             const formData = new FormData();
             formData.append('name', name);
             formData.append('start_date', start_date);
@@ -70,7 +69,7 @@ function ContractForm() {
 
                 <label className={'label'} htmlFor={'cost'}>Цена контракта
                 <input name={'cost'} required type={"text"} className={'input'} id={'сost'} value={cost}
-                       onChange={(e)=>{setCost(e.target.value); console.log(companyId, productId, product, customer)}}
+                       onChange={(e)=>setCost(e.target.value)}
                        placeholder={'Введите цену контракта'}/></label>
                  <label className={'label'}>Компания, заключившая контракт
                     <LiveSeach data={customer?[customer]:[]} endpoint={'/api/customers/'} maxItems={1} items={companyId} setItems={setCompanyId} placeholder={"Выберите компанию, с которой заключен контракт"}/>
