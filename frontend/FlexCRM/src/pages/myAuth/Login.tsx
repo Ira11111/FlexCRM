@@ -19,9 +19,9 @@ function Login() {
         try {
             setLoading(true);
             const resTokens = await post('/auth/token/obtain/', {username, password})
-            localStorage.setItem(ACCESS_TOKEN, resTokens.data.access)
-            localStorage.setItem(REFRESH_TOKEN, resTokens.data.refresh)
-            localStorage.setItem(ROLE, jwtDecode(resTokens.data.access).user_group)
+            localStorage.setItem(ACCESS_TOKEN, resTokens.access)
+            localStorage.setItem(REFRESH_TOKEN, resTokens.refresh)
+            localStorage.setItem(ROLE, jwtDecode(resTokens.access).user_group)
             navigate('/crm')
         }
         catch (e : any) {

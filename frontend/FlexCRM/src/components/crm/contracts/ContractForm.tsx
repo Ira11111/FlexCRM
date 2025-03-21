@@ -68,7 +68,7 @@ function ContractForm() {
                        onChange={(e)=>setEndDate(e.target.value)}/></label>
 
                 <label className={'label'} htmlFor={'cost'}>Цена контракта
-                <input name={'cost'} required type={"text"} className={'input'} id={'сost'} value={cost}
+                <input name={'cost'} required type={"number"} className={'input'} id={'сost'} value={cost}
                        onChange={(e)=>setCost(e.target.value)}
                        placeholder={'Введите цену контракта'}/></label>
                  <label className={'label'}>Компания, заключившая контракт

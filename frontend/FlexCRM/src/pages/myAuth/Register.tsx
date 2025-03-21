@@ -39,23 +39,24 @@ function Register(props: {mode: string}) {
                 }
                 if (props.mode==='register'){
                     const resTokens = await post('/auth/token/obtain/', {username, password})
-                    localStorage.setItem(ACCESS_TOKEN, resTokens.data.access);
-                    localStorage.setItem(REFRESH_TOKEN, resTokens.data.refresh);
-                    localStorage.setItem(ROLE, jwtDecode(resTokens.data.access).user_group)
+                    localStorage.setItem(ACCESS_TOKEN, resTokens.access);
+                    localStorage.setItem(REFRESH_TOKEN, resTokens.refresh);
+                    localStorage.setItem(ROLE, jwtDecode(resTokens.access).user_group)
                 }
+                navigate('/crm');
             } catch (e : any){
+                console.log(e.response.data.email)
                 if ( e.response.data.username && e.response.data.username.indexOf('A user with that username already exists.' )!==-1) {
                     setDataIsCorrect('Пользователь с таким именем уже существует😈')
 
                 }
-                if (e.response.data.detail && e.response.data.detail === 'User with this email already exists') {
+                if (e.response.data.email && e.response.data.email.indexOf('User with this email already exists')!==-1) {
                     setDataIsCorrect('Пользователь с такой электронной почтой уже существует😈')
                 }
 
 
             } finally {
                 setLoading(false);
-                navigate('/crm');
 
             }
         }
