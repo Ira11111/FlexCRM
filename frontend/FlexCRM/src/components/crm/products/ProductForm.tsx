@@ -1,7 +1,7 @@
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {useState} from "react";
-import api from "../../../api.ts";
 import Loader from "../../Loader/Loader.tsx";
+import {post, put} from "../../../fetchData.ts";
 
 
 function ProductForm() {
@@ -12,18 +12,16 @@ function ProductForm() {
     const [name, setName] = useState(data?data.product.name:'');
     const [description, setDescription] = useState(data?data.product.description:'');
     const [cost, setCost] = useState(data?data.product.cost:'');
-    const [isActive, setIsActive] = useState(data?!data.product.is_active:true);
+    const [isActive, setIsActive] = useState(data?data.product.is_active:true);
     const [loading, setLoading] = useState(false);
-
-
 
     async function handleSubmit() {
         try{
             setLoading(true);
-            if (editMode) {
-                await api.put(`/api/products/${params.productId}/`, {name, description, cost, isActive})
+            if (editMode && params.productId) {
+                await put(`/api/products/`,params.productId, {name, description, cost, is_active: isActive})
             } else {
-                await api.post(`/api/products/`, {name, description, cost, isActive})
+                await post(`/api/products/`, {name, description, cost, is_active: isActive})
             }
         }catch (e) {
             console.log(e)
@@ -42,26 +40,25 @@ function ProductForm() {
             {loading && <Loader/>}
             <h1 className='title'>{editMode?'Редактировать':'Создать'} услугу</h1>
             <form className='crm-form' onSubmit={handleSubmit} method="post">
-                <label hidden={true} htmlFor="name">Название</label>
+                <label className={'label'} htmlFor="name">Название
                 <input maxLength={50} className='input' required id={"name"} placeholder='Введите название'
                        type='text' value={name}
-                       onChange={(e)=> setName(e.target.value)}/>
-                <label hidden={true} htmlFor="description">Описание</label>
+                       onChange={(e)=> setName(e.target.value)}/></label>
+                <label className={'label'} htmlFor="description">Описание
                 <textarea className='input textarea' id={"description"} placeholder='Введите описание'
                         value={description}
-                       onChange={(e)=> setDescription(e.target.value)}/>
-                <label hidden={true} htmlFor="cost">Стоимость</label>
+                       onChange={(e)=> setDescription(e.target.value)}/></label>
+                <label className={'label'} htmlFor="cost">Стоимость
                 <input className='input' required id={"cost"} placeholder='Введите стоимость'
                        type='number' value={cost}
-                       onChange={(e)=> setCost(e.target.value)}/>
+                       onChange={(e)=> setCost(e.target.value)}/></label>
                 <label className='pseudo-checkbox__label' htmlFor="active">
                     <input className='checkbox input visually-hidden'  id={"active"}
-                           type='checkbox'
-                           onChange={()=> setIsActive(false)}/>
+                           type='checkbox' checked={!isActive}
+                           onChange={()=> setIsActive(!isActive)}/>
                     <span className='pseudo-checkbox'></span>
                     <span className='checkbox__text'>Архивировать</span>
                 </label>
-
                 <button className='auth-form__button button' type={"submit"} >{editMode?'Редактировать':'Создать'}</button>
             </form>
         </div>

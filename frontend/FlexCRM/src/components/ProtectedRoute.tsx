@@ -13,7 +13,7 @@ function ProtectedRoute({children}: {children: ReactNode}) {
         auth().catch(()=>setIsAuthorized(false))
         const intervalId = setInterval(() => {
             refresh().catch(() => setIsAuthorized(false));
-        }, 300000);
+        }, 290000);
         return () => clearInterval(intervalId);
     }, [])
 

@@ -37,7 +37,8 @@ class CustomerCreateSerializer(ModelSerializer):
 
     class Meta:
         model = Customer
-        fields = ["id", "name", "description", "lead", "adds"]
+        fields = ["id", "name", "lead", "is_active", "adds", "contracts"]
+
 
     def create(self, validated_data):
         adds_data = validated_data.get("adds", [])
@@ -88,7 +89,7 @@ class CustomerDetailSerializer(ModelSerializer):
 class ContractSerializer(ModelSerializer):
     class Meta:
         model = Contract
-        fields = "name", "start_date", "end_date", "cost", "contr_file", "company", "product"
+        fields = "id", "name", "start_date", "end_date", "cost", "contr_file", "company", "product"
 
 
 class ProductSerializer(ModelSerializer):

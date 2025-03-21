@@ -8,6 +8,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.request import HttpRequest
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Lead, Contract, Add, Product, Customer
@@ -26,6 +27,19 @@ class LeadViewSet(ModelViewSet):
     queryset = Lead.objects.all()
     serializer_class = LeadSerializer
 
+
+
+class ContractViewSet(ModelViewSet):
+    queryset = Contract.objects.all()
+    serializer_class = ContractSerializer
+    filter_backends = [
+        SearchFilter,
+        OrderingFilter,
+        DjangoFilterBackend
+    ]
+    ordering_fields = "name", "start_date", "end_date", "cost"
+    search_fields = "name", "company", "product"
+    
 
 class CustomerViewSet(ModelViewSet):
     queryset = Customer.objects.all()
@@ -109,6 +123,8 @@ class ContractViewSet(ModelViewSet):
 
 
 class StatisticsView(APIView):
+
+    permission_classes = [IsAuthenticated]
 
     def get(self, request: HttpRequest) -> Response:
         annotate_customers = Customer.objects.annotate(contract_count=Count('contracts'))

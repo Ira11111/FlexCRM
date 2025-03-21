@@ -1,11 +1,12 @@
 import {useEffect, useState} from "react";
-import {Outlet, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Loader from "../../Loader/Loader.tsx";
 import AdCard from './AdCard.tsx'
-import {ROLE} from "../../../constants.ts";
-import getAll from "../../../fetchData.ts";
+import {ROLE, ADS_ENDPOINT} from "../../../constants.ts";
+import {getAll} from "../../../fetchData.ts";
 import Pagination from "../Pagination/Pagination.tsx";
-import {usePagination} from "../../../context/PaginationContext.tsx";
+import Search from "../search/Search.tsx";
+
 
 function AdsList () {
     const role_permissions:boolean = localStorage.getItem(ROLE)=='Marketers';
@@ -13,13 +14,17 @@ function AdsList () {
     const [error, setError] = useState('');
     const [ads, setAds] = useState([]);
     const navigate = useNavigate();
-    const {endpoint, setEndpoint, previous, next, updatePagination} = usePagination();
+    const [count, setCount] = useState(0);
+    const [endpoint, setEndpoint] = useState(ADS_ENDPOINT);
+    const [curPage, setCurPage] = useState(1);
+
+
     async function getAllAds() {
         try {
             setLoading(true)
             const res = await getAll(endpoint);
             setAds(res.results)
-            updatePagination(res)
+            setCount(res.count);
         } catch (e: any) {
             console.log(e);
             setError(e)
@@ -39,11 +44,16 @@ function AdsList () {
             <h1 className='title'>Рекламные кампании</h1>
             <button disabled={!role_permissions} className='button add-button' onClick={()=>navigate('create')}>Добавить</button>
         </div>
+        <Search setCurPage={setCurPage} curPage={curPage} endpoint={ADS_ENDPOINT}
+                setEndpoint={setEndpoint}
+                params={[{key:'name', value:'По имени ▲'}, {key:'-name', value:'По имени ▼'},
+                        {key:'profit', value:'По прибыли ▲'}, {key:'-profit', value:'По прибыли ▼'}]}/>
         <div className='cards-container'>
-            {ads.map((cur :{id:number, name:'', budget:'', customers_count:'', profit: '', product:number}, index : number) =>
-                <AdCard role_permissions={role_permissions} key={index} ad={cur} index={cur.id} />)}
+            {ads.map((cur :{id:number, name:'', budget:'', customers_count:'', profit: '', product:[]}, index : number) =>
+                <AdCard key={index} ad={cur} />)}
+            {ads.length == 0 && <p>Ничего не найдено</p>}
         </div>
-        <Pagination previous={previous} next={next} setEndpoint={setEndpoint}/>
+        <Pagination count={count} curPage={curPage} setCurPage={setCurPage}/>
     </div>
 }
 

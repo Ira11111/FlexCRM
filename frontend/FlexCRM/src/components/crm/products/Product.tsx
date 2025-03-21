@@ -1,11 +1,11 @@
-import {useLocation, useNavigate, useParams} from "react-router-dom";
-import api from '../../../api'
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {ROLE} from "../../../constants.ts";
+import {getById} from "../../../fetchData.ts";
 
 
 function Product() {
-    const role_permissions = useLocation().state?useLocation().state.role_permissions:localStorage.getItem(ROLE)=='Marketers';
+    const role_permissions = localStorage.getItem(ROLE)=='Marketers';
     const navigate = useNavigate();
     const params = useParams();
     const id : string= params.productId || '';
@@ -13,10 +13,12 @@ function Product() {
 
     async function getProduct(id : string) {
         try{
-            const res = await api.get(`/api/products/${id}/`)
-            setProduct(res.data)
-
+            const res = await getById(`/api/products/`, id)
+            setProduct(res)
         }catch (e){
+            if (e.status == 404){
+                navigate('*')
+            }
             console.log(e)
         }
     }

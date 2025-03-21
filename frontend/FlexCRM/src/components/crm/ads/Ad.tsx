@@ -1,31 +1,30 @@
-import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
-import api from '../../../api'
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Loader from "../../Loader/Loader.tsx";
-import {ROLE} from "../../../constants.ts";
-
-
+import {PRODUCT_ENDPOINT, ROLE} from "../../../constants.ts";
+import { getById } from "../../../fetchData.ts";
 
 
 function Ad() {
-    const id = useParams().adId || '';
-    const role_permissions = useLocation().state.role_permissions || localStorage.getItem(ROLE);
+    const id:string = useParams().adId || '';
+    const role_permissions = localStorage.getItem(ROLE) =="Marketers";
     const navigate = useNavigate();
     const [ad, setAd] = useState({name:'', budget:'',leads_count:'', customers_count:'',profit:'', product:0});
     const [product, setProduct] = useState([]);
     const [loading, setLoading] = useState(false);
 
-
     async function getAd(){
         try{
             setLoading(true);
-            const res = await api.get(`/api/adds/${id}/`)
-            setAd(res.data);
-            const productsResponse = await Promise.all(res.data.product.map((item:number)=>
-               api.get(`/api/products/${item}/`)))
-            const productsData = productsResponse.map((response) => response.data)
-            setProduct(productsData);
+            const res = await getById('/api/adds/', id)
+            setAd(res);
+            const productsRes = await Promise.all(res.product.map((item:number)=>
+               getById(PRODUCT_ENDPOINT, item)))
+            setProduct(productsRes);
         }catch (e) {
+            if (e.status == 404){
+                navigate('*')
+            }
             console.error(e);
         }
         finally {
@@ -33,8 +32,6 @@ function Ad() {
             setLoading(false);
         }
     }
-
-
 
     useEffect(() => {
         getAd();

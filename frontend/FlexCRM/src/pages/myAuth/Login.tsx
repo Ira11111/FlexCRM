@@ -1,11 +1,11 @@
 import {FormEvent, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {ACCESS_TOKEN, REFRESH_TOKEN, ROLE} from "../../constants.ts";
-import api from '../../api.ts'
 import Loader from "../../components/Loader/Loader.tsx";
 import './auth.css'
 import Svglogo from "../../assets/crmLogo.svg";
 import {jwtDecode} from "jwt-decode";
+import {post} from "../../fetchData.ts";
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -18,13 +18,14 @@ function Login() {
         e.preventDefault()
         try {
             setLoading(true);
-            const resTokens = await api.post('/auth/token/obtain/', {username, password})
-            localStorage.setItem(ACCESS_TOKEN, resTokens.data.access)
-            localStorage.setItem(REFRESH_TOKEN, resTokens.data.refresh)
-            localStorage.setItem(ROLE, jwtDecode(resTokens.data.access).user_group)
+            const resTokens = await post('/auth/token/obtain/', {username, password})
+            localStorage.setItem(ACCESS_TOKEN, resTokens.access)
+            localStorage.setItem(REFRESH_TOKEN, resTokens.refresh)
+            localStorage.setItem(ROLE, jwtDecode(resTokens.access).user_group)
             navigate('/crm')
         }
         catch (e : any) {
+            console.log(e)
             if (e.response.data.detail.startsWith('No active account found')) {
                 setCorrectData(false)
             }
