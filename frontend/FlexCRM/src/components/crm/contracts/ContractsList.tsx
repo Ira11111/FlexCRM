@@ -23,8 +23,11 @@ function ContractsList() {
         try{
             setLoading(true);
             const res = await getAll(endpoint);
-            setContracts(res.results);
-            setCount(res.count)
+            if (res){
+                setContracts(res.results);
+                setCount(res.count)
+            }
+
         }catch (e){
             console.log(e)
         }finally {

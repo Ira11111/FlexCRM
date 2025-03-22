@@ -1,29 +1,20 @@
 import {useEffect, useState} from "react";
-import {getById} from "../../../fetchData.ts";
+import {contractProps, customerProps, getById, productProps} from "../../../fetchData.ts";
 import {useNavigate} from "react-router-dom";
 
-interface ContractProps {
-    id: string;
-    name: string;
-    start_date: Date;
-    end_date: Date;
-    cost: number;
-    contr_file: string;
-    company: number;
-    product: number;
-}
 
-function ContractCard({contract}:{contract: ContractProps}   ) {
-    const [customer, setCustomer] = useState({});
-    const [product, setProduct] = useState({});
+
+function ContractCard({contract}:{contract: contractProps}   ) {
+    const [customer, setCustomer] = useState<{name:string}>({name:''});
+    const [product, setProduct] = useState<{name:string}>({name:''});
     const navigate = useNavigate();
 
     const getProductAndCustomer = async (): Promise<any> => {
         try{
-            const resProduct = await getById('/api/products/', contract.product)
-            setProduct(resProduct)
-            const resCustomer = await getById('/api/customers/', contract.company)
-            setCustomer(resCustomer)
+            const resProduct:productProps|undefined= await getById<productProps>('/api/products/', contract.product)
+            if (resProduct) setProduct(resProduct)
+            const resCustomer = await getById<customerProps>('/api/customers/', contract.company)
+            if (resCustomer)setCustomer(resCustomer)
         }catch (e){
             console.error(e);
         }

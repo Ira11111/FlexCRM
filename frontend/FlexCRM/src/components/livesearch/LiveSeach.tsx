@@ -1,15 +1,16 @@
-import {useEffect, useRef, useState} from "react";
+import {RefObject, useEffect, useRef, useState} from "react";
 import {getAll} from "../../fetchData.ts";
 
-function LiveSeach({data, endpoint, items, setItems, placeholder, maxItems}:{data?:{product:[]}, setQuery?:string, endpoint:string, items?:[], setItems?:([])=>void, placeholder:string, maxItems?:number}) {
+function LiveSeach({data, endpoint, items, setItems, placeholder, maxItems}:
+                   {data?:{id:number,name:string}[], setQuery?:string, endpoint:string, items:number[],
+                       setItems:(x:number[])=>void, placeholder:string, maxItems?:number}) {
 
     const [search, setSearch] = useState('');
-    const [checkedItems, setCheckedItems] = useState(data?data:[]);
+    const [checkedItems, setCheckedItems] = useState<{name:string, id:number}[]>(data||[]);
     const [result, setResult] = useState([]);
     const [tId, setTId] = useState(0);
     const [focus, setFocus] = useState(false);
-    const containerRef = useRef(null);
-
+    const containerRef :RefObject<any> = useRef(null);
 
     useEffect(() => {
         const fetchProductsByQuery = async () =>{
@@ -34,8 +35,8 @@ function LiveSeach({data, endpoint, items, setItems, placeholder, maxItems}:{dat
         }
     }
 
-    const uncheckedItem = (curItem)=>{
-        setCheckedItems(checkedItems.filter((item) => item.id !== curItem.id))
+    const uncheckedItem = (curItem:{id:number})=>{
+        setCheckedItems(checkedItems.filter((item:{id:number}) => item.id !== curItem.id))
         setItems(items.filter((id:number) => id !== curItem.id))
     }
 
@@ -57,7 +58,7 @@ function LiveSeach({data, endpoint, items, setItems, placeholder, maxItems}:{dat
 
         <div className={'products'}>
             <ul className={'products__list-checked'}>
-                {checkedItems.map((cur, index:number)=>{
+                {checkedItems.map((cur:{id:number, name:string}, index:number)=>{
                     return (<li tabIndex={0} className={'products__list-checked-item'} onClick={()=>{uncheckedItem(cur)}}  key={index}>
                                 <span className={'smert'}>
                                     {cur.name}
@@ -66,9 +67,9 @@ function LiveSeach({data, endpoint, items, setItems, placeholder, maxItems}:{dat
                 })}
             </ul>
             <div className={'input-cont'}>
-                <input disabled={maxItems && items.length>=maxItems} placeholder={placeholder} className={`input input__products ${focus}`} ref={containerRef} onFocus={()=> setFocus(true)} value={search} onChange={(e)=>{setSearch(e.target.value)}}/>
+                <input disabled={(maxItems && items.length>=maxItems)||false} placeholder={placeholder} className={`input input__products ${focus}`} ref={containerRef} onFocus={()=> setFocus(true)} value={search} onChange={(e)=>{setSearch(e.target.value)}}/>
                 {focus && <ul className={'products__list'}>
-                    {result.map((cur, index)=>{
+                    {result.map((cur:{name:string, id:number}, index)=>{
                         return (<li onKeyDown={(e)=>{if(e.key=='Enter')addItem(cur)}} tabIndex={0} className={'products__list-item'} onClick={()=>addItem(cur)} key={index}>{cur.name}</li>)
                     })}
                     {result.length==0 && <li className={'products__list-item'}>Ничего не найдено</li>}

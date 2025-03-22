@@ -21,8 +21,11 @@ function ProductsList () {
         const getAllProducts = async ()=>{
             try{
                 const res = await getAll(endpoint);
-                setProducts(res.results);
-                setCount(res.count)
+                if (res){
+                    setProducts(res.results);
+                    setCount(res.count)
+                }
+
             }catch (e){
                 console.error(e);
             }finally {

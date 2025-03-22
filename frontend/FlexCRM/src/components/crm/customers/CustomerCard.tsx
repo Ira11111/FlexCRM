@@ -1,13 +1,7 @@
 import {useNavigate} from "react-router-dom";
+import {customerProps} from "../../../fetchData.ts";
 
-interface CustomerProps {
-    id: string;
-    name: string;
-    lead: number;
-    is_active: boolean;
-}
-
-function CustomerCard({customer}:{customer:CustomerProps}) {
+function CustomerCard({customer}:{customer:customerProps}) {
     const navigate = useNavigate();
     return (
         <div className='card'>
