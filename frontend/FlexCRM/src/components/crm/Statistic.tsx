@@ -66,7 +66,7 @@ function Statistic() {
         <div className={'statistic'}>
             {getCompStatistic<adProps>(adds_profit, 'Самые прибыльные рекламные компании','/crm/ads/', 'profit', 'Прибыль')}
             {getCompStatistic<adProps>(adds_customers, `Самые успешные рекламные компании`, '/crm/ads/','customers_count', 'Новых клиентов')}
-            {getCompStatistic<customerProps>(customers, 'Самые <span className="text-effect">wow </span>клиенты', '/crm/customers/')}
+            {getCompStatistic<customerProps>(customers, 'Самые wow клиенты', '/crm/customers/')}
             {getCompStatistic<productProps>(products, "Самые продаваемые услуги", '/crm/products/')}
         </div>
     </div>

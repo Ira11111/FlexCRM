@@ -55,7 +55,7 @@ function Search({endpoint, setEndpoint, params, curPage, setCurPage}:{endpoint: 
         <div className={'search'}>
             <select className={'search__select'} defaultChecked={false}
                     onChange={e=>setOrder(e.target.value)}>
-                <option tabIndex={1} className={'search__select-option'} key={0}value={''}>По умолчанию</option>
+                <option tabIndex={1} className={'search__select-option'} key={0} value={''}>По умолчанию</option>
                 {params.map((cur:{key:string, value:string}, i)=> <option tabIndex={1} className={'search__select-option'} key={i+1} value={cur.key}>{cur.value}</option>)}
             </select>
             <input className={'input'} value={query} onChange={e=>setQuery(e.target.value)} />

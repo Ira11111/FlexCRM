@@ -19,6 +19,8 @@ services:
 
 
   frontend:
+    depends_on:
+      - backend
     container_name: frontend
     build:
       context: ./frontend
@@ -27,7 +29,6 @@ services:
       - ./frontend/FlexCRM/.env
     ports:
       - 3000:3000
-    command:
-      - "npm"
-      - "run"
-      - "dev"
+    volumes:
+      - ./frontend:app
+      - /app/node_modules
