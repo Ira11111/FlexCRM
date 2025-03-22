@@ -12,25 +12,29 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from os import getenv
+from dotenv import load_dotenv
 
-from django.urls import reverse_lazy
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+DB_DIR = BASE_DIR / "database"
+DB_DIR.mkdir(exist_ok=True)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-nalsy^tf1e2x55%&+%r@f8qt=ip$655k!dm6_-b%f5a!iiv=cb'
+SECRET_KEY = getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = getenv("DEBUG") == "1"
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost'
-]
+] + getenv("ALLOWED_HOSTS", "").split(",")
 
 
 # Application definition
@@ -90,7 +94,7 @@ WSGI_APPLICATION = 'flexcrm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': DB_DIR / 'db.sqlite3',
     }
 }
 
@@ -159,6 +163,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "http://localhost:5173",
 ]
+additional_origins = getenv("CORS_ALLOWED_ORIGINS", "").split(",")
+if additional_origins != [""]:
+    CORS_ALLOWED_ORIGINS.extend(additional_origins)
 
 
 SIMPLE_JWT = {
@@ -209,19 +216,20 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
 }
 
+LOG_LEVEL = getenv("LOG_LEVEL")
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
         'console': {
-            'level': 'DEBUG',
+            'level': LOG_LEVEL,
             'class': 'logging.StreamHandler',
         },
     },
     'loggers': {
         'django.db.backends': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': LOG_LEVEL,
             'propagate': False,
         },
     },

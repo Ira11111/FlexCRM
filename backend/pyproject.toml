@@ -20,7 +20,8 @@ dependencies = [
     "django-phonenumber-field (==8.0.0)",
     "pillow (==11.1.0)",
     "drf-spectacular (==0.28.0)",
-    "phonenumbers (>=9.0.1,<10.0.0)"
+    "phonenumbers (>=9.0.1,<10.0.0)",
+    "dotenv (>=0.9.9,<0.10.0)",
 ]
 
 

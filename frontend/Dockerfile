@@ -9,3 +9,5 @@ RUN npm install
 COPY FlexCRM ./
 
 EXPOSE 3000
+
+CMD ["npm", "run", "dev"]
