@@ -19,7 +19,8 @@ dependencies = [
     "django-cors-headers (==4.7.0)",
     "django-phonenumber-field (==8.0.0)",
     "pillow (==11.1.0)",
-    "drf-spectacular (==0.28.0)"
+    "drf-spectacular (==0.28.0)",
+    "phonenumbers (>=9.0.1,<10.0.0)"
 ]
 
 

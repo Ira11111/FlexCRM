@@ -13,6 +13,9 @@ RUN pip install --upgrade pip && \
 
 RUN poetry config virtualenvs.create false --local
 
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY uwsgi.ini /etc/uwsgi/uwsgi.ini
+COPY supervisord.ini /etc/supervisor/conf.d/supervisord.ini
 COPY poetry.lock pyproject.toml ./
 
 COPY flexcrm ./flexcrm
@@ -21,3 +24,5 @@ RUN poetry run pip install --no-binary :all: uwsgi==2.0.28
 RUN poetry install
 
 EXPOSE 8000
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.ini"]
