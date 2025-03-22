@@ -4,18 +4,20 @@ import {FormEvent, useState} from "react";
 import api from "../../../api.ts";
 import LiveSeach from "../../livesearch/LiveSeach.tsx";
 import {ADS_ENDPOINT} from "../../../constants.ts";
+import {patch, post, put} from "../../../fetchData.ts";
 
 function CustomerForm() {
     const cId = useParams().customerId;
     const [loading, setLoading] = useState(false);
     const data = useLocation().state;
     const [name, setName] = useState(data?data.customer.name:'');
+    const [description, setDescription] = useState(data?data.customer.description:'');
     const [first_name, setFirst_name] = useState(data?data.lead.first_name:'');
     const [last_name, setLast_name] = useState(data?data.lead.last_name:'');
     const [email, setEmail] = useState(data?data.lead.email:'');
     const [phone, setPhone] = useState(data?data.lead.phone:'');
-    const [adds, setAdds] = useState(data?data.customer.adds:[]);
-    const addsData = data?data.ads:[];
+    const [adds, setAdds] = useState(data?data.customer.adds_info.map(cur=>cur.id):[]);
+    const addsData = data?data.customer.adds_info:[];
     const [active, setActive] = useState<boolean>(data?data.customer.is_active:true);
     const navigate = useNavigate();
 
@@ -27,10 +29,10 @@ function CustomerForm() {
             if (!data){
                 const res = await api.post(`api/leads/`, {first_name, last_name, phone, email})
                 const lead = res.data.id;
-                await api.post(`/api/customers/`, {name, lead, is_active:active, adds})
+                await post(`/api/customers/`, {name, description, lead, is_active:active, adds, contracts:[]})
             }else {
-                await api.put(`api/leads/${data.lead.id}/`, {first_name, last_name, phone, email})
-                await api.put(`/api/customers/${cId}/`, {name, lead: data.lead.id, is_active:active, adds})
+                await put(`api/leads/`,data.lead.id ,{first_name, last_name, phone, email})
+                await patch(`/api/customers/`, cId, {name, description, lead: data.lead.id, is_active:active, adds})
             }
 
         }catch (e){
@@ -40,7 +42,6 @@ function CustomerForm() {
             setLoading(false);
             navigate(-1)
         }
-
     }
 
     return (
@@ -52,6 +53,10 @@ function CustomerForm() {
                 <input className='input' required id={"name"} placeholder='Введите название компании'
                        type='text' value={name}
                        onChange={(e)=> setName(e.target.value)}/></label>
+                <label className={'label'} htmlFor="description">Описание
+                    <input className='input' required id={"name"} placeholder='Введите описание компании'
+                           type='text' value={description}
+                           onChange={(e)=> setDescription(e.target.value)}/></label>
                 <label className={'label'} htmlFor={'first_name'}>Имя представителя компании
                 <input className='input' type={'text'} value={first_name} required id={'first_name'}
                        placeholder={'Введите имя представителя'}

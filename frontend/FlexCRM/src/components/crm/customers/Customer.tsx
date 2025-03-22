@@ -8,9 +8,9 @@ function Customer() {
     const role_permissions = localStorage.getItem(ROLE)=="Operators";
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-    const [customer, setCustomer] = useState({name:'', lead: 0});
+    const [customer, setCustomer] = useState({name:'', description:'', adds:[]});
     const id = useParams().customerId || 0;
-    const [lead, setLead] = useState(false);
+    const [lead, setLead] = useState({});
     const [ads, setAds] = useState([]);
 
     async function getCustomerById(){
@@ -18,12 +18,8 @@ function Customer() {
             setLoading(true);
             const res = await getById(CUSTOMER_ENDPOINT, id)
             setCustomer(res);
-            const resAds = await Promise.all(res.adds.map((id:number)=>
-                getById(ADS_ENDPOINT, id)
-            ))
-            setAds(resAds);
-            const resLead = await getById(LEADS_ENDPOINT, res.lead);
-            setLead(resLead)
+            setAds(res.adds_info);
+            setLead(res.lead_info)
              }catch (e) {
             if (e.status == 404){
                 navigate('*')
@@ -43,6 +39,7 @@ function Customer() {
     return <div className={'wrapper'}>
         {loading && <Loader/>}
         <h1 className='title'>Компания {customer.name}</h1>
+        <p className={'item__descr'}>{customer.description}</p>
         <div className='lead__wrapper'>
             <div className={'lead'}>
                 <h2 className='lead__title'>Представитель</h2>
