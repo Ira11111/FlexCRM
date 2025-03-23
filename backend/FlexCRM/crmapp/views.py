@@ -7,18 +7,23 @@ from django.dispatch import receiver
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.request import HttpRequest
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Lead, Contract, Add, Product, Customer
 from .serializers import (
     LeadSerializer,
-    ContractSerializer,
+    ContractCreateSerializer,
+    ContractListSerializer,
+    ContractDetailSerializer,
     CustomerListSerializer,
-    AddSerializer,
     ProductSerializer,
     CustomerDetailSerializer,
     CustomerCreateSerializer,
+    AddListSerializer,
+    AddDetailSerializer,
+    AddCreateSerializer,
 )
 
 
@@ -58,6 +63,53 @@ class CustomerViewSet(ModelViewSet):
         instance.lead.delete()
         instance.delete()
 
+    @action(detail=True, methods=["get"])
+    def contracts(self, request, pk=None):
+        customer = self.get_object()
+        contracts = Contract.objects.filter(company=customer).only("id", "name", "start_date", "end_date", "cost").all()
+
+        page = self.paginate_queryset(contracts)
+
+        if page is not None:
+            serializer = ContractListSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        return Response(ContractListSerializer(contracts, many=True).data)
+
+    @action(detail=True, methods=["get"])
+    def products(self, request, pk=None):
+        customer = self.get_object()
+        products = (Contract.objects.filter(company=customer).only("product").all())
+
+        page = self.paginate_queryset(products)
+
+        if page is not None:
+            serializer = ProductSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        return Response(ProductSerializer(products, many=True).data)
+
+    @action(detail=True, methods=["get"])
+    def adds(self, request, pk=None):
+        customer = self.get_object()
+        adds = customer.adds.all()
+
+        page = self.paginate_queryset(adds)
+
+        if page is not None:
+            serializer = AddListSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        return Response(AddListSerializer(adds, many=True).data)
+
+    @action(detail=True, methods=["get"])
+    def statistics(self, request, pk=None):
+        customer = self.get_object()
+        contract_count = Contract.objects.filter(company=customer).count()
+        adds_count = customer.adds.count()
+
+        return Response({"contract_count": contract_count, "adds_count": adds_count})
+
 
 class ProductSetView(ModelViewSet):
     queryset = Product.objects.all()
@@ -72,18 +124,45 @@ class ProductSetView(ModelViewSet):
     search_fields = "name", "description"
     filterset_fields = "is_active",
 
+    @action(detail=True, methods=["get"])
+    def adds(self, request, pk=None):
+        product = self.get_object()
+        adds = Add.objects.filter(product=product).all()
+
+        page = self.paginate_queryset(adds)
+
+        if page is not None:
+            serializer = AddListSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        return Response(AddListSerializer(adds, many=True).data)
+
 
 class AddSetView(ModelViewSet):
     queryset = Add.objects.all()
-    serializer_class = AddSerializer
+    serializer_class = AddCreateSerializer
 
     filter_backends = [
         SearchFilter,
         OrderingFilter,
         DjangoFilterBackend
     ]
-    ordering_fields = "name", "budget", "customers_count", "leads_count", "profit"
+    ordering_fields = "name", "budget", "profit"
     search_fields = "name",
+
+    def get_queryset(self):
+        if self.action == 'list':
+            return Add.objects.only("name", "budget", "profit").all()
+        elif self.action == 'retrieve':
+            return Add.objects.prefetch_related("product").all()
+        return super().get_queryset()
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return AddListSerializer
+        elif self.action == 'retrieve':
+            return AddDetailSerializer
+        return super().get_serializer_class()
 
 
 @receiver(post_save, sender=Contract)
@@ -103,7 +182,7 @@ def make_new_file_path(sender, instance, created, **kwargs):
 
 class ContractViewSet(ModelViewSet):
     queryset = Contract.objects.all()
-    serializer_class = ContractSerializer
+    serializer_class = ContractCreateSerializer
     filter_backends = [
         SearchFilter,
         OrderingFilter,
@@ -111,6 +190,21 @@ class ContractViewSet(ModelViewSet):
     ]
     ordering_fields = "name", "start_date", "end_date", "cost"
     search_fields = "name",
+
+    def get_queryset(self):
+        if self.action == 'list':
+            return Contract.objects.only("id", "name", "start_date", "end_date", "cost").all()
+        elif self.action == 'retrieve':
+            return Contract.objects.select_related("company").select_related("product").all()
+        return super().get_queryset()
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ContractListSerializer
+        elif self.action == 'retrieve':
+            return ContractDetailSerializer
+
+        return super().get_serializer_class()
 
 
 class StatisticsView(APIView):
@@ -125,8 +219,8 @@ class StatisticsView(APIView):
         adds_profit = list(Add.objects.order_by("-profit").all()[:10])
 
         statistics = {
-            "adds_customers": AddSerializer(adds_customers, many=True).data,
-            "adds_profit": AddSerializer(adds_profit, many=True).data,
+            "adds_customers": AddListSerializer(adds_customers, many=True).data,
+            "adds_profit": AddListSerializer(adds_profit, many=True).data,
             "customers": CustomerListSerializer(customers, many=True).data,
             "products": ProductSerializer(products, many=True).data,
         }
