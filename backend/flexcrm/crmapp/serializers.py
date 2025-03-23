@@ -7,14 +7,27 @@ from .models import Lead, Customer, Add, Contract, Product
 class AddListSerializer(ModelSerializer):
     class Meta:
         model = Add
-        fields = ["id", "name"]
+        fields = ["id", "name", "profit"]
 
 
-class AddSerializer(ModelSerializer):
+class AddCreateSerializer(ModelSerializer):
     class Meta:
         model = Add
         fields = ("id", "name", "budget", "customers_count",
                   "profit", "product")
+
+
+class AddDetailSerializer(ModelSerializer):
+    products_info = SerializerMethodField("serialize_product")
+
+    @extend_schema_field("ProductSerializer")
+    def serialize_product(self, customer):
+        return ProductSerializer(customer.product.all(), many=True).data
+
+    class Meta:
+        model = Add
+        fields = ("id", "name", "budget", "customers_count",
+                  "profit", "products_info")
 
 
 class LeadSerializer(ModelSerializer):
@@ -49,7 +62,6 @@ class CustomerCreateSerializer(ModelSerializer):
 
     def update(self, instance, validated_data):
         new_data = validated_data.get("adds", [])
-        print(new_data)
 
         cur_data = instance.adds.all()
         remove_adds = list(set(cur_data).difference(set(new_data)))
@@ -85,15 +97,38 @@ class CustomerDetailSerializer(ModelSerializer):
         fields = ["id", "name", "description", "lead_info", "is_active", "adds_info", "contracts_amount"]
 
 
-class ContractSerializer(ModelSerializer):
-    class Meta:
-        model = Contract
-        fields = "id", "name", "start_date", "end_date", "cost", "contr_file", "company", "product"
-
-
 class ProductSerializer(ModelSerializer):
     contracts_amount = IntegerField(read_only=True, source='contract_count')
 
     class Meta:
         model = Product
         fields = ["id", "name", "description", "cost", "is_active", "contracts_amount"]
+
+
+class ContractCreateSerializer(ModelSerializer):
+    class Meta:
+        model = Contract
+        fields = "name", "start_date", "end_date", "cost", "contr_file", "company", "product"
+
+
+class ContractListSerializer(ModelSerializer):
+    class Meta:
+        model = Contract
+        fields = "id", "name", "start_date", "end_date", "cost"
+
+
+class ContractDetailSerializer(ModelSerializer):
+    customer_info = SerializerMethodField("serialize_customer")
+    product_info = SerializerMethodField("serialize_product")
+
+    @extend_schema_field(CustomerListSerializer)
+    def serialize_customer(self, contract):
+        return CustomerListSerializer(contract.company).data
+
+    @extend_schema_field(ProductSerializer)
+    def serialize_product(self, customer):
+        return ProductSerializer(customer.product).data
+
+    class Meta:
+        model = Contract
+        fields = "id", "name", "start_date", "end_date", "cost", "contr_file", "customer_info", "product_info"
