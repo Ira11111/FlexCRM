@@ -1,0 +1,8 @@
+@font-face {
+    font-display: swap;
+    font-family: 'Roboto-Variable';
+    src: local('Roboto-Variable'),
+    url('../fonts/Roboto-VariableFont.ttf') format('truetype supports variations'),
+    url('../fonts/Roboto-VariableFont.ttf') format('truetype-variations');
+;
+}
