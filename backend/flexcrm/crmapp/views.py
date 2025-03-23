@@ -59,6 +59,8 @@ class CustomerViewSet(ModelViewSet):
         if self.action in ('update', 'partial_update', 'retrieve'):
             return Customer.objects.select_related('lead').prefetch_related('adds').all()
 
+        return super().get_queryset()
+
     def get_serializer_class(self):
         if self.action in ('list', 'destroy'):
             return CustomerListSerializer
