@@ -3,10 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 import Loader from "../../components/Loader/Loader.tsx";
 import Svglogo from "../../assets/crmLogo.svg";
 import './auth.css'
-
-import {ACCESS_TOKEN, REFRESH_TOKEN, ROLE} from "../../constants.ts";
-import {jwtDecode} from "jwt-decode";
-import {post} from "../../fetchData.ts";
+import {getTokens, post} from "../../fetchData.ts";
 
 
 function Register(props: {mode: string}) {
@@ -38,10 +35,8 @@ function Register(props: {mode: string}) {
                     await post('/auth/users/', {username, password, email, user_group: role})
                 }
                 if (props.mode==='register'){
-                    const resTokens = await post('/auth/token/obtain/', {username, password})
-                    localStorage.setItem(ACCESS_TOKEN, resTokens.access);
-                    localStorage.setItem(REFRESH_TOKEN, resTokens.refresh);
-                    localStorage.setItem(ROLE, jwtDecode(resTokens.access).user_group)
+                    await getTokens({username, password})
+
                 }
                 navigate('/crm');
             } catch (e : any){

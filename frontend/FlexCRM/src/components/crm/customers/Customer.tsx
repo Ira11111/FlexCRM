@@ -1,29 +1,31 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Loader from "../../Loader/Loader.tsx";
-import {ADS_ENDPOINT, CUSTOMER_ENDPOINT, LEADS_ENDPOINT, ROLE} from "../../../constants.ts";
-import {getById} from "../../../fetchData.ts";
+import {CUSTOMER_ENDPOINT, ROLE} from "../../../constants.ts";
+import {customerProps, getById, leadProps} from "../../../fetchData.ts";
+
 
 function Customer() {
     const role_permissions = localStorage.getItem(ROLE)=="Operators";
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-    const [customer, setCustomer] = useState({name:'', description:'', adds:[]});
+    const [customer, setCustomer] = useState({name:'', description:'', adds_info:[]});
     const id = useParams().customerId || 0;
-    const [lead, setLead] = useState({});
+    const [lead, setLead] = useState<leadProps>({id:0, first_name:'', last_name:'', email:'', phone:''});
     const [ads, setAds] = useState([]);
 
     async function getCustomerById(){
         try{
             setLoading(true);
-            const res = await getById(CUSTOMER_ENDPOINT, id)
-            setCustomer(res);
-            setAds(res.adds_info);
-            setLead(res.lead_info)
-             }catch (e) {
-            if (e.status == 404){
-                navigate('*')
+            const res:customerProps|undefined = await getById<customerProps>(CUSTOMER_ENDPOINT, id)
+            if(res){
+                setCustomer(res);
+                setAds(res.adds_info);
+                setLead(res.lead_info)
             }
+
+        }catch (e) {
+
             console.error(e);
         }finally {
             setLoading(false);

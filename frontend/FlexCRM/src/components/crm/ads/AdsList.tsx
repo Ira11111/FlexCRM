@@ -22,14 +22,16 @@ function AdsList () {
     async function getAllAds() {
         try {
             setLoading(true)
-            const res = await getAll(endpoint);
-            setAds(res.results)
-            setCount(res.count);
+            const res:{ results: []; count: number } | undefined = await getAll(endpoint);
+            if (res) {
+                setAds(res.results);
+                setCount(res.count);
+            }
         } catch (e: any) {
             console.log(e);
             setError(e)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
     }
 

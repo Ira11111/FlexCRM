@@ -21,9 +21,12 @@ function CustomersList (){
         const getAllCustomers = async ()=>{
             try {
                 setLoading(true);
-                const res = await getAll(endpoint);
-                setCustomers(res.results);
-                setCount(res.count)
+                const res:{results:[], count:number}|undefined = await getAll(endpoint);
+                if (res){
+                    setCustomers(res.results);
+                    setCount(res.count)
+                }
+
             }catch (e){
                 console.error(e);
             }

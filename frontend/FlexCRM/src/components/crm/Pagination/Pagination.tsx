@@ -4,7 +4,7 @@ function Pagination({count, curPage, setCurPage}:{count: number, curPage:number,
     const [page, setPage] = useState(1);
     const [start, setStart] = useState(1);
     const [end, setEnd] = useState(2);
-    const [pages, setPages] = useState([])
+    const [pages, setPages] = useState<number[]>([])
 
     useEffect(() => {
         setPage(Math.ceil(count/PAGE_SIZE))

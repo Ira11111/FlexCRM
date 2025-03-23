@@ -1,24 +1,49 @@
-import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {CONTRACT_ENDPOINT, CUSTOMER_ENDPOINT, PRODUCT_ENDPOINT, ROLE} from "../../../constants.ts";
-import {getById} from "../../../fetchData.ts";
+import {contractProps, customerProps, getById, productProps} from "../../../fetchData.ts";
 import {useEffect, useState} from "react";
 
 function Contract(){
     const role_permissions= localStorage.getItem(ROLE) == "Managers";
     const id:string = useParams().contractId || '';
-    const [customer, setCustomer] = useState({});
-    const [product, setProduct] = useState({});
-    const [contract, setContract] = useState({});
+    const [customer, setCustomer] = useState<customerProps>({
+        id:0,
+        adds_info: [],
+        contracts_info: [],
+        description: "",
+        lead_info: {
+            last_name:'',
+            first_name:'',
+            email:'',
+            phone:'',
+            id:0
+        },
+        name: ""
+    });
+    const [product, setProduct] = useState<productProps>({cost: 0, description: "", id: 0, is_active: false, name: ""});
+    const [contract, setContract] = useState<contractProps>({
+        company: 0,
+        contr_file: "",
+        cost: 0,
+        end_date: new Date(),
+        id: 0,
+        name: "",
+        product: 0,
+        start_date: new Date(),
+    });
     const navigate = useNavigate();
 
     const getContract = async (): Promise<any> => {
         try{
-            const resContract =await getById(CONTRACT_ENDPOINT, id)
-            setContract(resContract)
-            const resProduct = await getById(PRODUCT_ENDPOINT, resContract.product)
-            setProduct(resProduct)
-            const resCustomer = await getById(CUSTOMER_ENDPOINT, resContract.company)
-            setCustomer(resCustomer)
+            const resContract =await getById<contractProps>(CONTRACT_ENDPOINT, id)
+            if (resContract) {setContract(resContract)
+                const resProduct = await getById<productProps>(PRODUCT_ENDPOINT, resContract.product)
+                if (resProduct)setProduct(resProduct)
+                const resCustomer = await getById<customerProps>(CUSTOMER_ENDPOINT, resContract.company)
+                if (resCustomer)setCustomer(resCustomer)
+            }
+
+
         }catch (e){
             console.error(e);
         }

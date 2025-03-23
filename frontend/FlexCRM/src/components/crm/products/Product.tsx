@@ -1,7 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {ROLE} from "../../../constants.ts";
-import {getById} from "../../../fetchData.ts";
+import {getById, productProps} from "../../../fetchData.ts";
 
 
 function Product() {
@@ -9,16 +9,13 @@ function Product() {
     const navigate = useNavigate();
     const params = useParams();
     const id : string= params.productId || '';
-    const [product, setProduct] = useState({name:'', description:'', cost: '', is_active:false});
+    const [product, setProduct] = useState<productProps>({cost: 0, description: "", id: 0, is_active: false, name: ""});
 
     async function getProduct(id : string) {
         try{
-            const res = await getById(`/api/products/`, id)
-            setProduct(res)
+            const res = await getById<productProps>(`/api/products/`, id)
+            if (res)setProduct(res)
         }catch (e){
-            if (e.status == 404){
-                navigate('*')
-            }
             console.log(e)
         }
     }

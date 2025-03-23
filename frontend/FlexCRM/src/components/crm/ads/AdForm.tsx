@@ -15,7 +15,7 @@ function AdForm() {
     const data = useLocation().state || null
     const [name, setName] = useState(data?data.ad.name:'');
     const [budget, setBudget] = useState(data?data.ad.budget:'');
-    const [product, setProduct] = useState(data?data.product:[]);
+    const product = data?data.product:[];
     const [customers_count, setCustomers_count] = useState(data?data.ad.customers_count:'');
     const [profit, setProfit] = useState(data?data.ad.profit:'');
     const [loading, setLoading] = useState(false);

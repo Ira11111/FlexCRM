@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./backend/.env
+    ports:
+      - 8000:8000
+    command:
+      - "/usr/bin/supervisord"
+      - "-c"
+      - "/etc/supervisor/conf.d/supervisord.ini"
+    restart: always
+    volumes:
+      - ./database:/app/backend/flexcrm/database
+
+
+  frontend:
+    depends_on:
+      - backend
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./frontend/FlexCRM/.env
+    ports:
+      - 5173:5173
+    volumes:
+      - ./frontend:/app/node_modules
+    command:
+      - "serve"
+      - "-s"
+      - "dist"

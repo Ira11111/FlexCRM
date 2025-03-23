@@ -1,13 +1,12 @@
 import {useNavigate, useLocation, useParams} from "react-router-dom";
 import Loader from "../../Loader/Loader.tsx";
 import {FormEvent, useState} from "react";
-import api from "../../../api.ts";
 import LiveSeach from "../../livesearch/LiveSeach.tsx";
 import {ADS_ENDPOINT} from "../../../constants.ts";
-import {patch, post, put} from "../../../fetchData.ts";
+import {leadProps, patch, post, put} from "../../../fetchData.ts";
 
 function CustomerForm() {
-    const cId = useParams().customerId;
+    const cId = useParams().customerId ||"";
     const [loading, setLoading] = useState(false);
     const data = useLocation().state;
     const [name, setName] = useState(data?data.customer.name:'');
@@ -16,7 +15,7 @@ function CustomerForm() {
     const [last_name, setLast_name] = useState(data?data.lead.last_name:'');
     const [email, setEmail] = useState(data?data.lead.email:'');
     const [phone, setPhone] = useState(data?data.lead.phone:'');
-    const [adds, setAdds] = useState(data?data.customer.adds_info.map(cur=>cur.id):[]);
+    const [adds, setAdds] = useState(data?data.customer.adds_info.map((cur:{id:number})=>cur.id):[]);
     const addsData = data?data.customer.adds_info:[];
     const [active, setActive] = useState<boolean>(data?data.customer.is_active:true);
     const navigate = useNavigate();
@@ -27,9 +26,11 @@ function CustomerForm() {
         try{
             setLoading(true);
             if (!data){
-                const res = await api.post(`api/leads/`, {first_name, last_name, phone, email})
-                const lead = res.data.id;
-                await post(`/api/customers/`, {name, description, lead, is_active:active, adds, contracts:[]})
+                const res = await post<leadProps>(`api/leads/`, {first_name, last_name, phone, email})
+                if (res) {
+                    const lead = res.id;
+                    await post(`/api/customers/`, {name, description, lead, is_active: active, adds, contracts: []})
+                }
             }else {
                 await put(`api/leads/`,data.lead.id ,{first_name, last_name, phone, email})
                 await patch(`/api/customers/`, cId, {name, description, lead: data.lead.id, is_active:active, adds})
