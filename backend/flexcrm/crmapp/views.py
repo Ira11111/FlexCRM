@@ -33,19 +33,6 @@ class LeadViewSet(ModelViewSet):
     serializer_class = LeadSerializer
 
 
-
-class ContractViewSet(ModelViewSet):
-    queryset = Contract.objects.all()
-    serializer_class = ContractSerializer
-    filter_backends = [
-        SearchFilter,
-        OrderingFilter,
-        DjangoFilterBackend
-    ]
-    ordering_fields = "name", "start_date", "end_date", "cost"
-    search_fields = "name", "company", "product"
-    
-
 class CustomerViewSet(ModelViewSet):
     serializer_class = CustomerListSerializer
     queryset = Customer.objects.select_related('lead').prefetch_related('adds').all()
@@ -61,8 +48,6 @@ class CustomerViewSet(ModelViewSet):
     def get_queryset(self):
         if self.action == 'list':
             return Customer.objects.only("id", "name").all()
-        return super().get_queryset()
-
         return super().get_queryset()
 
     def get_serializer_class(self):
@@ -224,7 +209,6 @@ class ContractViewSet(ModelViewSet):
 
 
 class StatisticsView(APIView):
-
     permission_classes = [IsAuthenticated]
 
     def get(self, request: HttpRequest) -> Response:
