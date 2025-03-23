@@ -1,5 +1,7 @@
 FROM node:20.18
 
+ENV PORT=5173
+
 WORKDIR /app/frontend
 
 COPY FlexCRM/package.json ./
@@ -12,6 +14,4 @@ COPY FlexCRM ./
 
 RUN npm run build
 
-EXPOSE 3000
-
-CMD [ "serve", "-s", "dist" ]
+EXPOSE 5173

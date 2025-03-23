@@ -157,12 +157,7 @@ REST_FRAMEWORK = {
 
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:8000",
-    "http://localhost:8000",
-    "http://127.0.0.1:5173",
-    "http://localhost:5173",
-]
+CORS_ALLOWED_ORIGINS = []
 additional_origins = getenv("CORS_ALLOWED_ORIGINS", "").split(",")
 if additional_origins != [""]:
     CORS_ALLOWED_ORIGINS.extend(additional_origins)
@@ -216,7 +211,7 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
 }
 
-LOG_LEVEL = getenv("LOG_LEVEL")
+LOG_LEVEL = getenv("LOG_LEVEL", "DEBUG")
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
