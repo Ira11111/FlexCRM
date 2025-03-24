@@ -1,5 +1,16 @@
 version: '3.8'
 services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: flexcrm
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./database:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+
   backend:
     container_name: backend
     build:
@@ -15,7 +26,9 @@ services:
       - "/etc/supervisor/conf.d/supervisord.ini"
     restart: always
     volumes:
-      - ./database:/app/backend/flexcrm/database
+      - ./media:/app/backend/flexcrm/media
+    depends_on:
+      - db
 
 
   frontend:
@@ -29,9 +42,6 @@ services:
       - ./frontend/.env
     ports:
       - 5173:5173
-    volumes:
-      - ./frontend/FlexCRM:/app/frontend
-      - /app/frontend/node_modules
     command:
       - "serve"
       - "-s"

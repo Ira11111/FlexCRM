@@ -91,10 +91,21 @@ WSGI_APPLICATION = 'flexcrm.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': DB_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': DB_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': getenv("DATABASE"),
+        'USER': getenv("PG_USER"),
+        'PASSWORD': getenv("PG_PASSWORD"),
+        'HOST': getenv("PG_HOST"),
+        'PORT': getenv("PG_PORT"),
     }
 }
 
