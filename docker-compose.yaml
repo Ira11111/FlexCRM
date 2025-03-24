@@ -26,11 +26,12 @@ services:
       context: ./frontend
       dockerfile: ./Dockerfile
     env_file:
-      - ./frontend/FlexCRM/.env
+      - ./frontend/.env
     ports:
       - 5173:5173
     volumes:
-      - ./frontend:/app/node_modules
+      - ./frontend/FlexCRM:/app/frontend
+      - /app/frontend/node_modules
     command:
       - "serve"
       - "-s"
