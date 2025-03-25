@@ -8,8 +8,10 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - ./database:/var/lib/postgresql/data/
-    ports:
-      - "5432:5432"
+    expose:
+      - 5432
+    networks:
+      - backend-network
 
   nginx:
     image: nginx:1.27.4
@@ -23,6 +25,9 @@ services:
       - frontend
     ports:
       - 80:80
+    networks:
+      - backend-network
+      - frontend-network
     restart: always
 
   backend:
@@ -32,8 +37,10 @@ services:
       dockerfile: ./Dockerfile
     env_file:
       - ./backend/.env
-    ports:
-      - 8000:8000
+    networks:
+      - backend-network
+    expose:
+      - 8000
     command:
       - "/usr/bin/supervisord"
       - "-c"
@@ -55,8 +62,10 @@ services:
       dockerfile: ./Dockerfile
     env_file:
       - ./frontend/.env
-    ports:
-      - 5173:5173
+    networks:
+      - frontend-network
+    expose:
+      - 5173
     command:
       - "serve"
       - "-s"
@@ -64,3 +73,10 @@ services:
 
 volumes:
   uwsgi_sock:
+
+
+networks:
+  frontend-network:
+    driver: bridge
+  backend-network:
+    driver: bridge
