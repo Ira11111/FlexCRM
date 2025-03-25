@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app/backend
 RUN mkdir ./flexcrm
 
-RUN apt-get update && apt-get install -y python3-dev supervisor nginx  \
+RUN apt-get update && apt-get install -y python3-dev supervisor \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip && \
@@ -13,7 +13,6 @@ RUN pip install --upgrade pip && \
 
 RUN poetry config virtualenvs.create false --local
 
-COPY nginx.conf /etc/nginx/nginx.conf
 COPY uwsgi.ini /etc/uwsgi/uwsgi.ini
 COPY supervisord.ini /etc/supervisor/conf.d/supervisord.ini
 COPY poetry.lock pyproject.toml ./
