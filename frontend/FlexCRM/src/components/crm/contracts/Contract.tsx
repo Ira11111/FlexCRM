@@ -40,8 +40,6 @@ function Contract(){
     const getContract = async (): Promise<any> => {
         try{
             const resContract =await getById<contractProps>(CONTRACT_ENDPOINT, id)
-            console.log(resContract)
-
             if (resContract) {setContract(resContract)
                 setProduct(resContract.product_info)
                 setCustomer(resContract.customer_info)
