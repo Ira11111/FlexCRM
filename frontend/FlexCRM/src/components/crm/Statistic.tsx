@@ -1,4 +1,4 @@
-import {ADS_ENDPOINT, CUSTOMER_ENDPOINT, PRODUCT_ENDPOINT, ROLE} from "../../constants.ts";
+import {ROLE} from "../../constants.ts";
 import {Link, useNavigate} from "react-router-dom";
 
 import {adProps, customerProps, getStatistic, productProps} from "../../fetchData.ts";
@@ -67,10 +67,10 @@ function Statistic() {
         {role_permissions && <button className={'button add-button'} onClick={()=>navigate('createUser')}>Добавить работника</button>}
         <h1 className={'title text-effect'}>Статистика</h1>
         <div className={'statistic'}>
-            {getCompStatistic<adProps>(adds_profit, 'Самые прибыльные рекламные компании',ADS_ENDPOINT, 'profit', 'Прибыль')}
-            {getCompStatistic<adProps>(adds_customers, `Самые успешные рекламные компании`, ADS_ENDPOINT,'customers_count', 'Новых клиентов')}
-            {getCompStatistic<customerProps>(customers, 'Самые wow клиенты', CUSTOMER_ENDPOINT)}
-            {getCompStatistic<productProps>(products, "Самые продаваемые услуги", PRODUCT_ENDPOINT)}
+            {getCompStatistic<adProps>(adds_profit, 'Самые прибыльные рекламные компании', '/crm/ads/', 'profit', 'Прибыль')}
+            {getCompStatistic<adProps>(adds_customers, `Самые успешные рекламные компании`, '/crm/ads/','customers_count', 'Новых клиентов')}
+            {getCompStatistic<customerProps>(customers, 'Самые wow клиенты', '/crm/customers/')}
+            {getCompStatistic<productProps>(products, "Самые продаваемые услуги", '/crm/products/')}
 
         </div>
     </div>
