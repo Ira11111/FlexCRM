@@ -18,6 +18,7 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - uwsgi_sock:/run
+      - ./media:/usr/share/nginx/media
     command:
       - "nginx"
     depends_on:
