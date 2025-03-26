@@ -27,6 +27,7 @@ function ContractsList() {
                 setContracts(res.results);
                 setCount(res.count)
             }
+            console.log(res)
 
         }catch (e){
             console.log(e)

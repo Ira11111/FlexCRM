@@ -3,7 +3,7 @@ import {FormEvent, useState} from "react";
 import Loader from "../../Loader/Loader.tsx";
 import LiveSeach from "../../livesearch/LiveSeach.tsx";
 import {post, put} from "../../../fetchData.ts";
-import {PRODUCT_ENDPOINT} from "../../../constants.ts";
+import {ADS_ENDPOINT, PRODUCT_ENDPOINT} from "../../../constants.ts";
 
 
 
@@ -19,16 +19,16 @@ function AdForm() {
     const [customers_count, setCustomers_count] = useState(data?data.ad.customers_count:'');
     const [profit, setProfit] = useState(data?data.ad.profit:'');
     const [loading, setLoading] = useState(false);
-    const [items, setItems] = useState(data?data.ad.product:[]);
+    const [items, setItems] = useState(data?data.ad.products_info.map((cur:{id:number})=>cur.id):[]);
 
     async function handleSubmitAd(e:FormEvent) {
         e.preventDefault();
         try{
             setLoading(true);
             if (editMode && params.adId) {
-                await put(`/api/adds/`, params.adId, {name, budget, customers_count, profit, product: items})
+                await put(ADS_ENDPOINT, params.adId, {name, budget, customers_count, profit, product: items})
             } else {
-                await post(`/api/adds/`, {name, budget, customers_count, profit, product: items})
+                await post(ADS_ENDPOINT, {name, budget, customers_count, profit, product: items})
             }
         }catch (e) {
             console.log(e)

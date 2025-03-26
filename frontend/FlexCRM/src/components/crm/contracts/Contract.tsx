@@ -1,5 +1,5 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {CONTRACT_ENDPOINT, CUSTOMER_ENDPOINT, PRODUCT_ENDPOINT, ROLE} from "../../../constants.ts";
+import {CONTRACT_ENDPOINT, ROLE} from "../../../constants.ts";
 import {contractProps, customerProps, getById, productProps} from "../../../fetchData.ts";
 import {useEffect, useState} from "react";
 
@@ -22,25 +22,29 @@ function Contract(){
     });
     const [product, setProduct] = useState<productProps>({cost: 0, description: "", id: 0, is_active: false, name: ""});
     const [contract, setContract] = useState<contractProps>({
-        company: 0,
+        product_info: {id:0, name:'', cost:0, description:'', is_active:true},
+        customer_info: {
+            name:'', description:'', adds_info:[], contracts_info:[], lead_info:{
+                first_name:'', phone:'', email:'', last_name:'', id:0
+            }, id:0
+        },
         contr_file: "",
         cost: 0,
         end_date: new Date(),
         id: 0,
         name: "",
-        product: 0,
-        start_date: new Date(),
+        start_date: new Date()
     });
     const navigate = useNavigate();
 
     const getContract = async (): Promise<any> => {
         try{
             const resContract =await getById<contractProps>(CONTRACT_ENDPOINT, id)
+            console.log(resContract)
+
             if (resContract) {setContract(resContract)
-                const resProduct = await getById<productProps>(PRODUCT_ENDPOINT, resContract.product)
-                if (resProduct)setProduct(resProduct)
-                const resCustomer = await getById<customerProps>(CUSTOMER_ENDPOINT, resContract.company)
-                if (resCustomer)setCustomer(resCustomer)
+                setProduct(resContract.product_info)
+                setCustomer(resContract.customer_info)
             }
 
 
@@ -80,7 +84,7 @@ function Contract(){
         <a target={'_blank'} href={contract.contr_file}><button type={'button'} className={'button add-button'}>Скачать файл контракта</button></a>
 
 
-        <button disabled={!role_permissions}  className='button edit__button' onClick={()=>navigate('edit', {state : {contract, customer, product}})}>Редактировать</button>
+        <button disabled={!role_permissions}  className='button edit__button' onClick={()=>navigate('edit', {state : {contract}})}>Редактировать</button>
 
     </div>
 }
