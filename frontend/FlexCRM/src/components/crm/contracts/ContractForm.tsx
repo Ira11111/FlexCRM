@@ -47,6 +47,7 @@ function ContractForm() {
 
     }
 
+
     return (
         <div className={'wrapper'}>
             <h1 className='title'>{contract?'Редактировать':'Создать'} контракт</h1>
@@ -75,8 +76,16 @@ function ContractForm() {
                 <label className={'label'}>Услуга, предоставляемая по контракту
                         <LiveSeach data={contract?[contract.product_info]:[]} endpoint={PRODUCT_ENDPOINT} maxItems={1} items={productId} setItems={setProductId} placeholder={"Выберите услугу для контракта"}/>
                 </label>
-                <label htmlFor={'file_contr'}>Выберите {contract && <span>новый</span>} файл контракта {contract && <span>(необязательно)</span>}</label>
-                <input accept={'.pdf, .docx'} required={!contract} name={'contr_file'} id={'file_contr'} type={'file'} onChange={(e)=>{if(e.target.files)setContr_file(e.target.files[0])}}/>
+                <label className={'file__label'} htmlFor={'file_contr'}>Выберите {contract && <span>новый</span>} файл контракта {contract && <span>(необязательно)</span>}
+                    <div className={'file__input-wrapper'}>
+                        <input className={'file__input visually-hidden'} accept={'.pdf, .docx'} required={!contract} name={'contr_file'} id={'file_contr'} type={'file'}
+                               onChange={(e)=>{if(e.target.files)setContr_file(e.target.files[0])}}/>
+                        <span className={'button file__label-button'}>{contr_file?'Файл выбран':'Выберите файл'}</span>
+                        {contr_file?'Выбран файл: ':'Файл не выбран'}{contr_file?.name}
+                    </div>
+                </label>
+                    {contract && <a className={'link'} target={'_blank'} href={contract.contr_file}> Скачать текущий файл контракта</a>}
+
 
                 <button disabled={companyId.length==0||productId.length==0} className='auth-form__button button' type={"submit"} >{contract?'Редактировать':'Создать'}</button>
 

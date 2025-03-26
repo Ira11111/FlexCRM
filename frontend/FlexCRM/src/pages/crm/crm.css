@@ -369,3 +369,17 @@
     background-color: var(--page-color);
     border: 1px solid var(--main-color);
 }
+
+.file__input-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-block-start: 10px;
+}
+
+
+.file__label-button {
+    max-inline-size: fit-content;
+    font-size: var(--font-size-main);
+    padding: 5px 10px;
+}
