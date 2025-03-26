@@ -1,1 +1,422 @@
-[{"model": "crmapp.product", "pk": 1, "fields": {"name": "string1", "description": "string", "cost": "6004.00", "is_active": true}}, {"model": "crmapp.product", "pk": 2, "fields": {"name": "string2", "description": "string", "cost": "6004.00", "is_active": true}}, {"model": "crmapp.add", "pk": 1, "fields": {"name": "string1", "budget": "449.90", "customers_count": 0, "profit": "472.00", "product": [1, 2]}}, {"model": "crmapp.add", "pk": 2, "fields": {"name": "string2", "budget": "449.90", "customers_count": 0, "profit": "472.00", "product": [1]}}, {"model": "crmapp.lead", "pk": 1, "fields": {"first_name": "string", "last_name": "string", "phone": "+79155234647", "email": "user@example.com"}}, {"model": "crmapp.lead", "pk": 2, "fields": {"first_name": "string1", "last_name": "string", "phone": "+79155234645", "email": "user1@example.com"}}, {"model": "crmapp.customer", "pk": 1, "fields": {"is_active": true, "name": "string", "description": "string", "lead": 1, "adds": []}}, {"model": "crmapp.customer", "pk": 2, "fields": {"is_active": true, "name": "string2", "description": "string", "lead": 2, "adds": []}}]
+[
+  {
+    "model": "crmapp.Product",
+    "pk": 1,
+    "fields": {
+      "name": "Premium Product",
+      "description": "High-quality premium product with all features",
+      "cost": "499.99",
+      "is_active": true
+    }
+  },
+  {
+    "model": "crmapp.Product",
+    "pk": 2,
+    "fields": {
+      "name": "Basic Product",
+      "description": "Entry-level product with essential features",
+      "cost": "99.99",
+      "is_active": true
+    }
+  },
+  {
+    "model": "crmapp.Product",
+    "pk": 3,
+    "fields": {
+      "name": "Enterprise Product",
+      "description": "Advanced solution for large businesses",
+      "cost": "999.99",
+      "is_active": true
+    }
+  },
+  {
+    "model": "crmapp.Product",
+    "pk": 4,
+    "fields": {
+      "name": "Legacy Product",
+      "description": "Older version of our product",
+      "cost": "49.99",
+      "is_active": false
+    }
+  },
+  {
+    "model": "crmapp.Product",
+    "pk": 5,
+    "fields": {
+      "name": "Mobile Product",
+      "description": "Mobile-optimized version of our solution",
+      "cost": "199.99",
+      "is_active": true
+    }
+  },
+  {
+    "model": "crmapp.Product",
+    "pk": 6,
+    "fields": {
+      "name": "Cloud Product",
+      "description": "Cloud-based SaaS solution",
+      "cost": "299.99",
+      "is_active": true
+    }
+  },
+  {
+    "model": "crmapp.Product",
+    "pk": 7,
+    "fields": {
+      "name": "On-Premise Product",
+      "description": "Self-hosted version of our software",
+      "cost": "799.99",
+      "is_active": true
+    }
+  },
+  {
+    "model": "crmapp.Product",
+    "pk": 8,
+    "fields": {
+      "name": "Starter Product",
+      "description": "Perfect for small businesses",
+      "cost": "149.99",
+      "is_active": true
+    }
+  },
+  {
+    "model": "crmapp.Product",
+    "pk": 9,
+    "fields": {
+      "name": "Professional Product",
+      "description": "For professionals and power users",
+      "cost": "349.99",
+      "is_active": true
+    }
+  },
+  {
+    "model": "crmapp.Product",
+    "pk": 10,
+    "fields": {
+      "name": "Ultimate Product",
+      "description": "All-in-one complete solution",
+      "cost": "899.99",
+      "is_active": false
+    }
+  },
+  {
+    "model": "crmapp.Add",
+    "pk": 1,
+    "fields": {
+      "name": "Google Ads Campaign",
+      "budget": "5000.00",
+      "customers_count": 120,
+      "profit": "15000.00",
+      "product": [1, 3, 5]
+    }
+  },
+  {
+    "model": "crmapp.Add",
+    "pk": 2,
+    "fields": {
+      "name": "Facebook Ads",
+      "budget": "3000.00",
+      "customers_count": 85,
+      "profit": "8000.00",
+      "product": [2, 4]
+    }
+  },
+  {
+    "model": "crmapp.Add",
+    "pk": 3,
+    "fields": {
+      "name": "LinkedIn Campaign",
+      "budget": "2500.00",
+      "customers_count": 45,
+      "profit": "6000.00",
+      "product": [1, 6]
+    }
+  },
+  {
+    "model": "crmapp.Add",
+    "pk": 4,
+    "fields": {
+      "name": "Twitter Promo",
+      "budget": "1500.00",
+      "customers_count": 30,
+      "profit": "3500.00",
+      "product": [3, 5, 7]
+    }
+  },
+  {
+    "model": "crmapp.Add",
+    "pk": 5,
+    "fields": {
+      "name": "YouTube Ads",
+      "budget": "4000.00",
+      "customers_count": 95,
+      "profit": "10000.00",
+      "product": [2, 8]
+    }
+  },
+  {
+    "model": "crmapp.Add",
+    "pk": 6,
+    "fields": {
+      "name": "Instagram Influencers",
+      "budget": "3500.00",
+      "customers_count": 65,
+      "profit": "7500.00",
+      "product": [4, 6]
+    }
+  },
+  {
+    "model": "crmapp.Add",
+    "pk": 7,
+    "fields": {
+      "name": "Email Campaign",
+      "budget": "2000.00",
+      "customers_count": 50,
+      "profit": "5000.00",
+      "product": [1, 5, 9]
+    }
+  },
+  {
+    "model": "crmapp.Add",
+    "pk": 8,
+    "fields": {
+      "name": "SEO Optimization",
+      "budget": "4500.00",
+      "customers_count": 110,
+      "profit": "12000.00",
+      "product": [3, 7]
+    }
+  },
+  {
+    "model": "crmapp.Add",
+    "pk": 9,
+    "fields": {
+      "name": "Content Marketing",
+      "budget": "3000.00",
+      "customers_count": 70,
+      "profit": "7000.00",
+      "product": [2, 5, 8]
+    }
+  },
+  {
+    "model": "crmapp.Add",
+    "pk": 10,
+    "fields": {
+      "name": "Affiliate Program",
+      "budget": "5000.00",
+      "customers_count": 130,
+      "profit": "16000.00",
+      "product": [1, 4, 7, 9]
+    }
+  },
+  {
+    "model": "crmapp.Lead",
+    "pk": 1,
+    "fields": {
+      "first_name": "John",
+      "last_name": "Smith",
+      "phone": "+1234567890",
+      "email": "john.smith@example.com"
+    }
+  },
+  {
+    "model": "crmapp.Lead",
+    "pk": 2,
+    "fields": {
+      "first_name": "Emily",
+      "last_name": "Johnson",
+      "phone": "+1987654321",
+      "email": "emily.johnson@example.com"
+    }
+  },
+  {
+    "model": "crmapp.Lead",
+    "pk": 3,
+    "fields": {
+      "first_name": "Michael",
+      "last_name": "Williams",
+      "phone": "+1122334455",
+      "email": "michael.williams@example.com"
+    }
+  },
+  {
+    "model": "crmapp.Lead",
+    "pk": 4,
+    "fields": {
+      "first_name": "Sarah",
+      "last_name": "Brown",
+      "phone": "+1555666777",
+      "email": "sarah.brown@example.com"
+    }
+  },
+  {
+    "model": "crmapp.Lead",
+    "pk": 5,
+    "fields": {
+      "first_name": "David",
+      "last_name": "Jones",
+      "phone": "+1444333222",
+      "email": "david.jones@example.com"
+    }
+  },
+  {
+    "model": "crmapp.Lead",
+    "pk": 6,
+    "fields": {
+      "first_name": "Jessica",
+      "last_name": "Garcia",
+      "phone": "+1777888999",
+      "email": "jessica.garcia@example.com"
+    }
+  },
+  {
+    "model": "crmapp.Lead",
+    "pk": 7,
+    "fields": {
+      "first_name": "Robert",
+      "last_name": "Miller",
+      "phone": "+1666555444",
+      "email": "robert.miller@example.com"
+    }
+  },
+  {
+    "model": "crmapp.Lead",
+    "pk": 8,
+    "fields": {
+      "first_name": "Jennifer",
+      "last_name": "Davis",
+      "phone": "+1888999000",
+      "email": "jennifer.davis@example.com"
+    }
+  },
+  {
+    "model": "crmapp.Lead",
+    "pk": 9,
+    "fields": {
+      "first_name": "Thomas",
+      "last_name": "Rodriguez",
+      "phone": "+1999111222",
+      "email": "thomas.rodriguez@example.com"
+    }
+  },
+  {
+    "model": "crmapp.Lead",
+    "pk": 10,
+    "fields": {
+      "first_name": "Lisa",
+      "last_name": "Martinez",
+      "phone": "+1222333444",
+      "email": "lisa.martinez@example.com"
+    }
+  },
+  {
+    "model": "crmapp.Customer",
+    "pk": 1,
+    "fields": {
+      "is_active": true,
+      "name": "Tech Solutions Inc.",
+      "description": "Leading technology provider with 10+ years in business",
+      "lead": 1,
+      "adds": [1, 3, 5]
+    }
+  },
+  {
+    "model": "crmapp.Customer",
+    "pk": 2,
+    "fields": {
+      "is_active": true,
+      "name": "Digital Marketing Pro",
+      "description": "Digital marketing agency specializing in SMBs",
+      "lead": 2,
+      "adds": [2, 4]
+    }
+  },
+  {
+    "model": "crmapp.Customer",
+    "pk": 3,
+    "fields": {
+      "is_active": false,
+      "name": "Cloud Services Ltd.",
+      "description": "Provider of cloud infrastructure solutions",
+      "lead": 3,
+      "adds": [1, 5, 7]
+    }
+  },
+  {
+    "model": "crmapp.Customer",
+    "pk": 4,
+    "fields": {
+      "is_active": true,
+      "name": "Web Development Co.",
+      "description": "Custom web development services",
+      "lead": 4,
+      "adds": [3, 6]
+    }
+  },
+  {
+    "model": "crmapp.Customer",
+    "pk": 5,
+    "fields": {
+      "is_active": true,
+      "name": "Data Analytics Group",
+      "description": "Big data and analytics consulting",
+      "lead": 5,
+      "adds": [2, 4, 8]
+    }
+  },
+  {
+    "model": "crmapp.Customer",
+    "pk": 6,
+    "fields": {
+      "is_active": false,
+      "name": "Mobile Apps Studio",
+      "description": "iOS and Android app development",
+      "lead": 6,
+      "adds": [5, 9]
+    }
+  },
+  {
+    "model": "crmapp.Customer",
+    "pk": 7,
+    "fields": {
+      "is_active": true,
+      "name": "E-Commerce Solutions",
+      "description": "Complete e-commerce platforms",
+      "lead": 7,
+      "adds": [1, 3, 7]
+    }
+  },
+  {
+    "model": "crmapp.Customer",
+    "pk": 8,
+    "fields": {
+      "is_active": true,
+      "name": "AI Technologies",
+      "description": "Artificial intelligence products and services",
+      "lead": 8,
+      "adds": [4, 6, 8]
+    }
+  },
+  {
+    "model": "crmapp.Customer",
+    "pk": 9,
+    "fields": {
+      "is_active": false,
+      "name": "Cyber Security Partners",
+      "description": "Enterprise security solutions",
+      "lead": 9,
+      "adds": [2, 5, 10]
+    }
+  },
+  {
+    "model": "crmapp.Customer",
+    "pk": 10,
+    "fields": {
+      "is_active": true,
+      "name": "IT Consulting Group",
+      "description": "Comprehensive IT consulting services",
+      "lead": 10,
+      "adds": [3, 7, 9]
+    }
+  }
+]

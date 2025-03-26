@@ -1,7 +1,7 @@
 export const ACCESS_TOKEN = 'access';
 export const REFRESH_TOKEN = 'refresh'
 export const ROLE = 'role'
-export const PAGE_SIZE = 2;
+export const PAGE_SIZE = 10;
 export const ADS_ENDPOINT = '/api/adds/'
 export const PRODUCT_ENDPOINT = '/api/products/'
 export const CUSTOMER_ENDPOINT = '/api/customers/'
