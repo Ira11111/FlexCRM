@@ -1,4 +1,4 @@
-import {ROLE} from "../../constants.ts";
+import {ADS_ENDPOINT, CUSTOMER_ENDPOINT, PRODUCT_ENDPOINT, ROLE} from "../../constants.ts";
 import {Link, useNavigate} from "react-router-dom";
 
 import {adProps, customerProps, getStatistic, productProps} from "../../fetchData.ts";
@@ -26,8 +26,6 @@ function Statistic() {
                 setCustomers(res.customers)
                 setProducts(res.products)
             }
-
-            console.log(res)
         }catch (e) {
             console.log(e)
         }
@@ -44,14 +42,12 @@ function Statistic() {
 
     function getCompStatistic<T extends (adProps|customerProps|productProps)>(data:T[],  title:string, endpoint:string,detail?: keyof T,  description?:string) {
 
-        if (!data || data.length === 0) {
-            return <p>Нет данных для отображения</p>;
-        }
 
         return <div className={'statistic-item'}>
             <h2 className={'subtitle'}>{title}</h2>
+            {data.length == 0 && <p>Нет данных для отображения</p>}
 
-            <ul className={'statistic__list'}>
+            {data.length !==0 && <ul className={'statistic__list'}>
 
                 {data.map(((cur:T, index)=>{
 
@@ -61,7 +57,7 @@ function Statistic() {
                         <Link className={'link'} to={`${endpoint}${cur.id}`}>Перейти</Link>
                     </li>
                 }))}
-            </ul>
+            </ul>}
         </div>
     }
 
@@ -71,10 +67,10 @@ function Statistic() {
         {role_permissions && <button className={'button add-button'} onClick={()=>navigate('createUser')}>Добавить работника</button>}
         <h1 className={'title text-effect'}>Статистика</h1>
         <div className={'statistic'}>
-            {getCompStatistic<adProps>(adds_profit, 'Самые прибыльные рекламные компании','/crm/ads/', 'profit', 'Прибыль')}
-            {getCompStatistic<adProps>(adds_customers, `Самые успешные рекламные компании`, '/crm/ads/','customers_count', 'Новых клиентов')}
-            {getCompStatistic<customerProps>(customers, 'Самые wow клиенты', '/crm/customers/')}
-            {getCompStatistic<productProps>(products, "Самые продаваемые услуги", '/crm/products/')}
+            {getCompStatistic<adProps>(adds_profit, 'Самые прибыльные рекламные компании',ADS_ENDPOINT, 'profit', 'Прибыль')}
+            {getCompStatistic<adProps>(adds_customers, `Самые успешные рекламные компании`, ADS_ENDPOINT,'customers_count', 'Новых клиентов')}
+            {getCompStatistic<customerProps>(customers, 'Самые wow клиенты', CUSTOMER_ENDPOINT)}
+            {getCompStatistic<productProps>(products, "Самые продаваемые услуги", PRODUCT_ENDPOINT)}
 
         </div>
     </div>

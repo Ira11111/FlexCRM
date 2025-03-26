@@ -15,7 +15,7 @@ function LiveSeach({data, endpoint, items, setItems, placeholder, maxItems}:
     useEffect(() => {
         const fetchProductsByQuery = async () =>{
             try{
-                const res = await getAll(`${endpoint}?search=${search}`)
+                const res = await getAll(`${endpoint}?search=${search}&is_active=true`)
                 res?setResult(res.results):setResult([])
             }catch (e){
                 console.log(e);
@@ -33,11 +33,13 @@ function LiveSeach({data, endpoint, items, setItems, placeholder, maxItems}:
             setCheckedItems([...checkedItems, curItem]);
             setFocus(false)
         }
+
     }
 
     const uncheckedItem = (curItem:{id:number})=>{
         setCheckedItems(checkedItems.filter((item:{id:number}) => item.id !== curItem.id))
         setItems(items.filter((id:number) => id !== curItem.id))
+
     }
 
     const handleClickOutside = (event:any) => {

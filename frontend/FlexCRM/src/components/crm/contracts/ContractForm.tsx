@@ -2,18 +2,17 @@ import {FormEvent, useState} from "react";
 import LiveSeach from "../../livesearch/LiveSeach.tsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import {patch, post} from "../../../fetchData.ts";
+import {CUSTOMER_ENDPOINT, PRODUCT_ENDPOINT} from "../../../constants.ts";
 
 
 function ContractForm() {
     const contract = useLocation().state?useLocation().state.contract:undefined
-    const customer= useLocation().state?useLocation().state.customer:undefined
-    const product= useLocation().state?useLocation().state.product:undefined
     const [name, setName] = useState(contract?contract.name:'');
     const [start_date, setStartDate] = useState(contract?contract.start_date:new Date().toISOString().split('T')[0]);
     const [end_date, setEndDate] = useState(contract?contract.end_date:new Date().toISOString().split('T')[0]);
     const [cost, setCost] = useState(contract?contract.cost:'');
-    const [companyId, setCompanyId] = useState(contract?[contract.company]:[]);
-    const [productId, setProductId] = useState(contract?[contract.product]:[]);
+    const [companyId, setCompanyId] = useState(contract?[contract.customer_info.id]:[]);
+    const [productId, setProductId] = useState(contract?[contract.product_info.id]:[]);
     const [contr_file, setContr_file]= useState<File | null>(null);
     const navigate = useNavigate();
     const [error, setError] = useState('');
@@ -34,7 +33,6 @@ function ContractForm() {
             formData.append('company', companyId[0]);
             formData.append('product', productId[0]);
             if (contr_file) formData.append('contr_file', contr_file);
-
             contract?
                 await patch('/api/contracts/',contract.id, formData)
                 :
@@ -48,6 +46,7 @@ function ContractForm() {
         navigate(-1);
 
     }
+
 
     return (
         <div className={'wrapper'}>
@@ -72,13 +71,21 @@ function ContractForm() {
                        onChange={(e)=>setCost(e.target.value)}
                        placeholder={'Введите цену контракта'}/></label>
                  <label className={'label'}>Компания, заключившая контракт
-                    <LiveSeach data={customer?[customer]:[]} endpoint={'/api/customers/'} maxItems={1} items={companyId} setItems={setCompanyId} placeholder={"Выберите компанию, с которой заключен контракт"}/>
+                    <LiveSeach data={contract?[contract.customer_info]:[]} endpoint={CUSTOMER_ENDPOINT} maxItems={1} items={companyId} setItems={setCompanyId} placeholder={"Выберите компанию, с которой заключен контракт"}/>
                  </label>
                 <label className={'label'}>Услуга, предоставляемая по контракту
-                        <LiveSeach data={product?[product]:[]} endpoint={'/api/products/'} maxItems={1} items={productId} setItems={setProductId} placeholder={"Выберите услугу для контракта"}/>
+                        <LiveSeach data={contract?[contract.product_info]:[]} endpoint={PRODUCT_ENDPOINT} maxItems={1} items={productId} setItems={setProductId} placeholder={"Выберите услугу для контракта"}/>
                 </label>
-                <label htmlFor={'file_contr'}>Выберите {contract && <span>новый</span>} файл контракта {contract && <span>(необязательно)</span>}</label>
-                <input accept={'.pdf, .docx'} required={!contract} name={'contr_file'} id={'file_contr'} type={'file'} onChange={(e)=>{if(e.target.files)setContr_file(e.target.files[0])}}/>
+                <label className={'file__label'} htmlFor={'file_contr'}>Выберите {contract && <span>новый</span>} файл контракта {contract && <span>(необязательно)</span>}
+                    <div className={'file__input-wrapper'}>
+                        <input className={'file__input visually-hidden'} accept={'.pdf, .docx'} required={!contract} name={'contr_file'} id={'file_contr'} type={'file'}
+                               onChange={(e)=>{if(e.target.files)setContr_file(e.target.files[0])}}/>
+                        <span className={'button file__label-button'}>{contr_file?'Файл выбран':'Выберите файл'}</span>
+                        {contr_file?'Выбран файл: ':'Файл не выбран'}{contr_file?.name}
+                    </div>
+                </label>
+                    {contract && <a className={'link'} target={'_blank'} href={contract.contr_file}> Скачать текущий файл контракта</a>}
+
 
                 <button disabled={companyId.length==0||productId.length==0} className='auth-form__button button' type={"submit"} >{contract?'Редактировать':'Создать'}</button>
 

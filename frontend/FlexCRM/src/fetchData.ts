@@ -16,7 +16,7 @@ export interface adProps {
         budget: number;
         customers_count: number;
         profit:number;
-        product: [];
+        products_info:productProps[];
 }
 
 export interface contractProps {
@@ -26,8 +26,8 @@ export interface contractProps {
         end_date: Date;
         cost: number;
         contr_file: string;
-        company: number;
-        product: number;
+        customer_info: customerProps;
+        product_info: productProps;
 }
 
 export interface leadProps {

@@ -7,7 +7,7 @@ from .models import Lead, Customer, Add, Contract, Product
 class AddListSerializer(ModelSerializer):
     class Meta:
         model = Add
-        fields = ["id", "name", "profit"]
+        fields = ["id", "name", "profit", "customers_count"]
 
 
 class AddCreateSerializer(ModelSerializer):
