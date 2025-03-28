@@ -18,6 +18,8 @@ import Register from "./pages/myAuth/Register.tsx"
 import Login from "./pages/myAuth/Login.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import ContractForm from "./components/crm/contracts/ContractForm.tsx";
+import Main from  './components/home/Main.tsx'
+import About from './components/home/About.tsx'
 
 
 function Logout() {
@@ -35,7 +37,10 @@ function App() {
   return (
       <BrowserRouter>
         <Routes>
-          <Route index element={<Home/>}/>
+          <Route element={<Home/>}>
+            <Route index element={<Main/>}/>
+            <Route path={'about'} element={<About/>}/>
+          </Route>
 
           <Route path="/login" element={<Login />}/>
           <Route path="/register"  element={<RegisterAndLogout mode ={'register'} />}/>
