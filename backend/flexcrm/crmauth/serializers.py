@@ -7,13 +7,13 @@ GROUP_PERMS = {
                "view_customer", "view_lead", "view_product", "view_add",
                "view_contract"),
 
-    "Operators": ("add_customer", "change_customer", "view_customer", "add_lead",
-                  "change_lead", "view_lead", "view_add", "view_product", "view_contract"),
+    "Operators": ("add_customer", "change_customer", "view_customer", "delete_customer", "add_lead",
+                  "change_lead", "view_lead", "delete_lead", "view_add", "view_product", "view_contract"),
 
-    "Managers": ("add_contract", "change_contract", "view_contract", "view_customer",
+    "Managers": ("add_contract", "change_contract", "view_contract", "delete_contract", "view_customer",
                  "view_lead", "view_add", "view_product"),
 
-    "Marketers": ("add_add", "change_add", "view_add", "change_product",
+    "Marketers": ("add_add", "change_add", "view_add", "delete_add", "change_product",
                   "add_product", "view_product", "view_customer", "view_contract", "view_lead"),
 }
 
