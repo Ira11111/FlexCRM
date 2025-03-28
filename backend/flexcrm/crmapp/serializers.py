@@ -1,6 +1,7 @@
 from drf_spectacular.utils import extend_schema_field
 from rest_framework.relations import PrimaryKeyRelatedField
 from rest_framework.serializers import ModelSerializer, IntegerField, SerializerMethodField
+from django.db import transaction
 from .models import Lead, Customer, Add, Contract, Product
 
 
@@ -54,29 +55,30 @@ class CustomerCreateSerializer(ModelSerializer):
 
     def create(self, validated_data):
         adds_data = validated_data.get("adds", [])
-        if adds_data:
-            for add in adds_data:
-                add.customers_count += 1
-            Add.objects.bulk_update(adds_data, ["customers_count"])
-        return super().create(validated_data)
+        with transaction.atomic():
+            if adds_data:
+                for add in adds_data:
+                    add.customers_count += 1
+                Add.objects.bulk_update(adds_data, ["customers_count"])
+            return super().create(validated_data)
 
     def update(self, instance, validated_data):
         new_data = validated_data.get("adds", [])
-
         cur_data = instance.adds.all()
         remove_adds = list(set(cur_data).difference(set(new_data)))
         additional_adds = list(set(new_data).difference(set(cur_data)))
 
-        for add in remove_adds:
-            add.customers_count -= 1
+        with transaction.atomic():
+            for add in remove_adds:
+                add.customers_count -= 1
 
-        for add in additional_adds:
-            add.customers_count += 1
+            for add in additional_adds:
+                add.customers_count += 1
 
-        Add.objects.bulk_update(additional_adds, ["customers_count"])
-        Add.objects.bulk_update(remove_adds, ["customers_count"])
+            Add.objects.bulk_update(additional_adds, ["customers_count"])
+            Add.objects.bulk_update(remove_adds, ["customers_count"])
 
-        return super().update(instance, validated_data)
+            return super().update(instance, validated_data)
 
 
 class CustomerDetailSerializer(ModelSerializer):
@@ -109,6 +111,20 @@ class ContractCreateSerializer(ModelSerializer):
     class Meta:
         model = Contract
         fields = "name", "start_date", "end_date", "cost", "contr_file", "company", "product"
+
+    def create(self, validated_data):
+        product = validated_data.get("product", None)
+        company = validated_data.get("company", None)
+        contract_cost = validated_data.get("cost", 0)
+        with transaction.atomic():
+            adds_data = company.adds.all()
+            if len(adds_data) != 0 and contract_cost > 0:
+                for ad in adds_data:
+                    if product in ad.product.all():
+                        ad.profit += contract_cost
+
+            Add.objects.bulk_update(adds_data, ["profit"])
+            return super().create(validated_data)
 
 
 class ContractListSerializer(ModelSerializer):
