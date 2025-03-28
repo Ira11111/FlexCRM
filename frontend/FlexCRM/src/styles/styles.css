@@ -11,9 +11,6 @@
     overflow: hidden;
 }
 
-html, body {
-    background-color: var(--page-color);
-}
 
 #root {
     margin: auto;
@@ -21,9 +18,10 @@ html, body {
     color: var(--font-color);
     position: relative;
     line-height: 1.5;
-    block-size: 100vh;
     min-inline-size: 320px;
     font-size: var(--font-size-main);
+    min-block-size: 100vh;
+    background-color: var(--page-color);
 }
 
 .error-message {
@@ -48,7 +46,7 @@ html, body {
 .button:hover {
     background-color: var(--main-color);
     border-color: var(--main-color);
-    color: var(--page-color);
+    color: var(--button-hover-color);
 }
 
 .button:disabled {
@@ -56,18 +54,12 @@ html, body {
     cursor: not-allowed;
 }
 
-.button:active{
-    background-color: var(--accent-color);
-    border-color: var(--accent-color);
-    color: var(--page-color);
-}
-
 .button:focus-visible{
-    outline: 1px solid var(--accent-color);
+    outline: 1px solid var(--main-color);
     outline-offset: 1px;
-    background-color: var(--accent-color);
-    border-color: var(--accent-color);
-    color: var(--page-color);
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+    color: var(--button-hover-color);
 }
 
 .textarea {
@@ -76,10 +68,10 @@ html, body {
 
 .input {
     border: 1px solid var(--main-color);
-    padding: 7px;
     border-radius: 10px;
     outline-color: transparent;
     transition: border-color 1s, outline-color 1s;
+    padding: 7px;
 }
 
 .input::placeholder {
@@ -95,6 +87,8 @@ html, body {
 .input:hover {
     border-color: var(--accent-color);
 }
+
+
 
 .link {
     color: var(--main-color);
@@ -112,6 +106,13 @@ html, body {
 
 .link:hover{
     text-decoration: underline;
+}
+
+
+.text-effect {
+    text-transform: uppercase;
+    text-shadow: 2px 2px 2px var(--accent-color),
+    -2px -2px 2px var(--main-color)
 }
 
 

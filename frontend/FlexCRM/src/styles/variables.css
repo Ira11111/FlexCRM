@@ -1,44 +1,95 @@
 :root {
     --main-font: 'Roboto-Variable', sans-serif;
-    --main-color: #EC95A8;
+    --accent-font: 'Raleway-Variable', sans-serif;
+    --header-background: #BC66BD;
+    --page-color: rgba(188, 102, 189, 0.2);
+    --card-background-color: #FFF;
+    --card-border-color: #BC66BD;
+    --auth-form-bg: #FFFFFF;
+    --auth-bg: rgba(188, 102, 189, 0.2);
+    --main-color: #BC66BD;
     --accent-color: #75BFB9;
-    --page-color: #FCEFF2;
-    --bg-color: #FFFFFF;
+    --button-hover-color: #FFFFFF;
+    --scrollbar-color: var(--main-color) var(--page-color);
+    --font-accent-color: #FFFFFF;
     --font-color: #494949;
     --placeholder-color: rgba(73, 73, 73, 0.7);
-    --box-shadow: var(--main-color) 4px 4px 8px 0,
-    var(--main-color) -4px -4px 8px 0,
-    var(--main-color) 4px -4px 8px 0,
-    var(--main-color) -4px 4px 8px 0;
+    --box-shadow: var(--main-color) 1px 1px 15px 0,
+    var(--main-color) -1px -1px 15px 0,
+    var(--main-color) 1px -1px 15px 0,
+    var(--main-color) -1px 1px 15px 0;
     --font-size-large: 40px;
+    --font-size-xxl: 60px;
     --font-size-big: 24px;
     --font-size-medium: 20px;
     --font-size-main: 16px;
     --font-size-small: 14px;
     --font-weight-bold: 700;
     --error-color: #BC66BD;
+    --filter-image: none;
 }
 
 :root.dark {
-    --page-color: #545151;
-    --bg-color: #6D6D6D;
-    --font-color: #FFFFFF;
-    --placeholder-color: rgba(255, 255, 255, 0.7);
-
+    --page-color: #804c55;
+    --card-background-color: #FFF;
+    --main-color: #BC66BD;
+    --accent-color: #75BFB9;
+    --button-hover-color: #FFFFFF;
+    --filter-image: grayscale(50%);
+    --font-accent-color: #FFFFFF;
+    --font-color: #494949;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --page-color: #545151;
-        --bg-color: #6D6D6D;
-        --font-color: #FFFFFF;
-        --placeholder-color: rgba(255, 255, 255, 0.7);
+        --header-background: #3f3f3f;
+        --page-color: rgba(40, 40, 40, 0.85);
+        --main-color: #BC66BD;
+        --card-background-color: #3f3f3f;
+        --card-border-color: #75BFB9;
+        --auth-form-bg: #3f3f3f;
+        --auth-bg: #282828;
+        --font-color: #DBDBDB;
+        --filter-image: grayscale(20%);
+        --button-hover-color: #DBDBDB;
+        --placeholder-color: #DBDBDB;
+
+
+        /** Base colors */
+        --clr-dark-a0: #000000;
+        --clr-light-a0: #ffffff;
+
+        /** Theme primary colors */
+        --clr-primary-a0: #7e4680;
+        --clr-primary-a10: #c377c4;
+        --clr-primary-a20: #cc88cc;
+        --clr-primary-a30: #d499d3;
+        --clr-primary-a40: #dbaada;
+        --clr-primary-a50: #e3bbe2;
+
+        /** Theme surface colors */
+        --clr-surface-a0: #121212;
+        --clr-surface-a10: #282828;
+        --clr-surface-a20: #3f3f3f;
+        --clr-surface-a30: #575757;
+        --clr-surface-a40: #717171;
+        --clr-surface-a50: #8b8b8b;
+
+        /** Theme tonal surface colors */
+        --clr-surface-tonal-a0: #211a21;
+        --clr-surface-tonal-a10: #362f36;
+        --clr-surface-tonal-a20: #4c454c;
+        --clr-surface-tonal-a30: #635d63;
+        --clr-surface-tonal-a40: #7b767b;
+        --clr-surface-tonal-a50: #949094;
 
     }
 }
 
+
 @media (max-width: 500px) {
     :root {
+        --font-size-xxl: 40px;
         --font-size-large: 24px;
         --font-size-big: 20px;
         --font-size-medium: 20px;

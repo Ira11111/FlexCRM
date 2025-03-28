@@ -1,17 +1,27 @@
 .auth {
     margin: auto;
-    block-size: 90vh;
+    block-size: 100vh;
     min-block-size: 400px;
     min-inline-size: 320px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    background-color: var(--auth-bg);
 }
+
+.auth-form__logo-wrapper {
+    position: absolute;
+    bottom: 120%;
+    left: 25%
+
+}
+
 
 .auth-form__logo {
     inline-size: calc(clamp(18.75rem, 16.9643rem + 8.9286vw, 25rem) * 0.5);
     min-inline-size: 150px;
+
 }
 
 .auth-form__wrapper {
@@ -20,7 +30,7 @@
     border-radius: 10px;
     padding: 20px;
     inline-size: clamp(18.75rem, 16.9643rem + 8.9286vw, 25rem);
-    background-color: var(--bg-color);
+    background-color: var(--auth-form-bg);
     box-shadow: var(--box-shadow);
     text-align: center;
 
@@ -39,11 +49,14 @@
 }
 
 
-
 .auth-form__button {
     align-self: center;
     margin-block: 10px;
 
+}
+
+.select__option {
+    background-color: var(--card-background-color);
 }
 
 
