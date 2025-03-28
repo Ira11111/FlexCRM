@@ -46,7 +46,7 @@ function CustomerForm() {
     }
 
     return (
-        <div className="wrapper">
+        <main className="wrapper">
             {loading && <Loader/>}
             <h1 className='title'>{data?'Редактировать':'Создать'} клиента</h1>
             <form className='crm-form' onSubmit={handleSubmitCustomer} method="post">
@@ -90,7 +90,7 @@ function CustomerForm() {
                 <button  className='auth-form__button button' type={"submit"} >{data?'Редактировать':'Создать'}</button>
             </form>
 
-        </div>
+        </main>
     );
 }
 

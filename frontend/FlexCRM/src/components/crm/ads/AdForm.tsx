@@ -43,7 +43,7 @@ function AdForm() {
 
 
     return (
-        <div className='wrapper'>
+        <main className='wrapper'>
             {loading && <Loader/>}
             <h1 className='title'>{editMode?'Редактировать':'Создать'} рекламную кампанию</h1>
             <form className='crm-form' onSubmit={handleSubmitAd} method="post">
@@ -73,7 +73,7 @@ function AdForm() {
                 </label>
                 <button disabled={items.length==0} className='auth-form__button button' type={"submit"} >{editMode?'Редактировать':'Создать'}</button>
             </form>
-        </div>
+        </main>
     );
 }
 

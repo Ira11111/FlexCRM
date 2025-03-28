@@ -31,8 +31,11 @@ function Login() {
 
     return (
         <div className='auth'>
-            <Link className='link' to='/'><img className='auth-form__logo' src={Svglogo} alt={'Лого'}/></Link>
+
             <div className='auth-form__wrapper'>
+                <div className={'auth-form__logo-wrapper'}>
+                    <Link className='link' to='/'><img className='auth-form__logo' src={Svglogo} alt={'Лого'}/></Link>
+                </div>
                 <form className='auth-form' onSubmit={handleSubmit} method="post">
                     <h1 className='auth-form__title'>Вход</h1>
                     <label hidden={true} htmlFor="username">Имя пользователя</label>

@@ -36,7 +36,7 @@ function ProductForm() {
 
 
     return (
-        <div className='wrapper'>
+        <main className='wrapper'>
             {loading && <Loader/>}
             <h1 className='title'>{editMode?'Редактировать':'Создать'} услугу</h1>
             <form className='crm-form' onSubmit={handleSubmit} method="post">
@@ -61,7 +61,7 @@ function ProductForm() {
                 </label>
                 <button className='auth-form__button button' type={"submit"} >{editMode?'Редактировать':'Создать'}</button>
             </form>
-        </div>
+        </main>
     );
 }
 

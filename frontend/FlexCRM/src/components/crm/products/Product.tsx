@@ -24,7 +24,7 @@ function Product() {
         getProduct(id);
     }, [id])
 
-    return <div className='wrapper'>
+    return <main className='wrapper'>
         <h1 className='title'>Услуга {product.name}</h1>
         <span>
             {product.description && <h2 className='subtitle'>Описание</h2>}
@@ -37,7 +37,7 @@ function Product() {
         </span>
 
         <button disabled={!role_permissions} className='button edit__button' onClick={()=>navigate('edit', {state : {product}})}>Редактировать</button>
-    </div>
+    </main>
 }
 
 export default Product;

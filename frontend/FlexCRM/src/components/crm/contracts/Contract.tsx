@@ -54,7 +54,7 @@ function Contract(){
         getContract()
     }, []);
 
-    return <div className={'wrapper'}>
+    return <main className={'wrapper'}>
         <h1 className='title'>Контракт {contract.name}</h1>
         <span>
             <h2 className='subtitle'>Услуга, предоставляемая по контракту</h2>
@@ -84,7 +84,7 @@ function Contract(){
 
         <button disabled={!role_permissions}  className='button edit__button' onClick={()=>navigate('edit', {state : {contract}})}>Редактировать</button>
 
-    </div>
+    </main>
 }
 
 export default Contract;

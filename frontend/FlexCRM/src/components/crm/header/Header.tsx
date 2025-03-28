@@ -1,6 +1,6 @@
 import './header.css'
 import {Link, useNavigate} from "react-router-dom";
-import logo from '../../../assets/crmLogo.svg'
+import logo from '../../../../public/crmLogo.png'
 
 function Header(){
     const navigate = useNavigate();

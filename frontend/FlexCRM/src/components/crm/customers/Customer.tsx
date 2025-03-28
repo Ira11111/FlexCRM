@@ -38,7 +38,7 @@ function Customer() {
 
 
 
-    return <div className={'wrapper'}>
+    return <main className={'wrapper'}>
         {loading && <Loader/>}
         <h1 className='title'>Компания {customer.name}</h1>
         <p className={'item__descr'}>{customer.description}</p>
@@ -59,7 +59,7 @@ function Customer() {
         </div>
         <button disabled={!role_permissions}  className='button edit__button' onClick={()=>navigate('edit', {state : {customer, lead, ads}})}>Редактировать</button>
 
-    </div>
+    </main>
 }
 
 export default Customer;

@@ -36,7 +36,7 @@ function ProductsList () {
         getAllProducts()
     }, [endpoint]);
 
-    return <div className='wrapper'>
+    return <main className='wrapper'>
         {loading && <Loader />}
         <div className='title__wrapper'>
             <h1 className='title'>Услуги</h1>
@@ -51,6 +51,6 @@ function ProductsList () {
             {products.length == 0 && <p>Ничего не найдено</p>}
         </div>
         <Pagination count={count} curPage={curPage} setCurPage={setCurPage}/>
-    </div>
+    </main>
 }
 export default ProductsList;

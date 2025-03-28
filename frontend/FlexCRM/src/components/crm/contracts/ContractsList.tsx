@@ -39,7 +39,7 @@ function ContractsList() {
     }, [endpoint]);
 
 
-    return <div className={'wrapper'}>
+    return <main className={'wrapper'}>
         {loading && <Loader/>}
         <div className='title__wrapper'>
             <h1 className='title'>Контракты</h1>
@@ -54,7 +54,7 @@ function ContractsList() {
             {contracts.length == 0 && <p>Ничего не найдено</p>}
         </div>
         <Pagination count={count} curPage={curPage} setCurPage={setCurPage}/>
-    </div>
+    </main>
 }
 
 export default ContractsList;

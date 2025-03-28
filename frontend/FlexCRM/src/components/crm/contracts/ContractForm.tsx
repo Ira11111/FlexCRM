@@ -49,7 +49,7 @@ function ContractForm() {
 
 
     return (
-        <div className={'wrapper'}>
+        <main className={'wrapper'}>
             <h1 className='title'>{contract?'Редактировать':'Создать'} контракт</h1>
             {error && <p className={'error-message'}>{error}</p>}
 
@@ -91,7 +91,7 @@ function ContractForm() {
 
             </form>
 
-        </div>
+        </main>
     );
 }
 
