@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.viewsets import ModelViewSet
 from .serializers import UserSerializer, CRMTokenObtainPairSerializer
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.models import User
@@ -10,7 +11,7 @@ class RegisterUserView(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
 
-class AddUserView(generics.CreateAPIView):
+class UserViewSet(ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
