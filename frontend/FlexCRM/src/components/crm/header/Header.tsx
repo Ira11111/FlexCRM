@@ -1,6 +1,7 @@
 import './header.css'
 import {Link, useNavigate} from "react-router-dom";
 import logo from '../../../../public/crmLogo.png'
+import ThemeToggle from "../../theme-toggle/ThemeToggle.tsx";
 
 function Header(){
     const navigate = useNavigate();
@@ -25,8 +26,8 @@ function Header(){
                     </li>
                 </ul>
             </nav>
-
             <button className='header__logout-button button' onClick={()=>navigate('/logout')}>Выйти</button>
+            <ThemeToggle/>
         </header>
     </>
 }

@@ -1,9 +1,10 @@
 .header {
     padding: 5px 10px;
     background-color: var(--header-background);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: fit-content(800px) 1fr min-content;
+    align-content: center;
+    justify-items: center;
     align-items: center;
     gap: 1rem;
     min-block-size: 50px;
@@ -12,8 +13,8 @@
 }
 
 .header__logo {
-    block-size: 80%;
-
+    block-size: 8vh;
+    min-block-size: 40px;
 }
 
 .header__nav {
@@ -96,6 +97,19 @@
 }
 
 
+@media (max-width: 400px) {
+    .header__logo{
+        block-size: 5vh;
+    }
+
+    .header__logout-button {
+        padding: 7px 15px;
+    }
+    .header__nav {
+        gap: 7px;
+    }
+}
+
 @keyframes menuIconRotate {
     from {
         transform: rotate(0);
@@ -136,6 +150,7 @@
 .header__logout-button {
     color: var(--button-hover-color);
     border-color: var(--button-hover-color);
+    justify-self: right;
 }
 
 

@@ -118,3 +118,93 @@
 
 
 
+
+.theme-toggle {
+    block-size: 30px;
+    aspect-ratio: 2;
+    border-radius: 15px;
+    position: relative;
+    background: var(--theme-toggle-color);
+}
+
+.theme-toggle::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    bottom: 2px;
+    aspect-ratio: 1;
+    border-radius: 15px;
+    background: var(--theme-toggle-color-active);
+    transition: transform .2s ease-in 0.1s;
+}
+
+:root.dark .theme-toggle::before {
+    transform: translateX(calc(100% + 3px));
+}
+
+.light-icon {
+    block-size: 20px;
+    aspect-ratio: 1;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.dark-icon  {
+    block-size: 20px;
+    aspect-ratio: 1;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+
+.moon, .star {
+    transform: scale(0);
+
+}
+
+.moon, .sun {
+    transition: transform .2s;
+    transform-origin: center;
+}
+
+.rays, .star {
+    transition: transform .1s;
+    transform-origin: center;
+}
+.sun {
+    transition-delay: .3s;
+}
+
+.rays {
+    transition-delay: .4s;
+}
+
+.star, .moon {
+    transition-delay: 0s;
+}
+
+:root.dark .moon {
+    transform: scale(1);
+    transition-delay: 0.3s;
+}
+
+:root.dark .star {
+    transform: scale(1);
+    transition-delay: 0.4s;
+
+}
+
+:root.dark .sun {
+    transform: scale(0);
+    transition-delay: 0s;
+}
+
+:root.dark .rays{
+    transform: scale(0);
+    transition-delay: 0s;
+}
+
+
