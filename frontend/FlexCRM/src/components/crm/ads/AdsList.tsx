@@ -51,7 +51,7 @@ function AdsList () {
         {loading && <Loader />}
         <div className='title__wrapper'>
             <h1 className='title'>Рекламные кампании {product?product.name:''}</h1>
-            <button disabled={!role_permissions} className='button add-button' onClick={()=>navigate('create')}>Добавить</button>
+            {!product && <button disabled={!role_permissions} className='button add-button' onClick={()=>navigate('create')}>Добавить</button>}
         </div>
         <Search setCurPage={setCurPage} curPage={curPage} endpoint={product?`${PRODUCT_ENDPOINT}${product.id}/adds/`
             :`${ADS_ENDPOINT}`}

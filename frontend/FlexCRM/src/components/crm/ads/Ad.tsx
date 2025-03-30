@@ -64,6 +64,9 @@ function Ad() {
                 })
             }
         </span>
+
+        <button onClick={()=>navigate('customers', {state:{ad}})} className={'button edit__button'}>Просмотреть новых клиентов</button>
+
         <button disabled={!role_permissions} className='button edit__button' onClick={()=>navigate('edit', {state : {ad, product}})}>Редактировать</button>
 
 

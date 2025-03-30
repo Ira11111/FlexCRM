@@ -41,9 +41,8 @@ class CustomerViewSet(ModelViewSet):
         OrderingFilter,
         DjangoFilterBackend
     ]
-    ordering_fields = "name",
-    search_fields = "name", "description"
-    filterset_fields = "is_active",
+    ordering_fields = ["name"]
+    search_fields = ["name", "description"]
 
     def get_queryset(self):
         if self.action == 'list':
@@ -64,10 +63,31 @@ class CustomerViewSet(ModelViewSet):
         instance.lead.delete()
         instance.delete()
 
+    def get_search_fields(self):
+        if self.action == "contracts":
+            return ["name"]
+        elif self.action == "products":
+            return ["name", "description"]
+        return super().get_search_fields()
+
+    def get_ordering_fields(self):
+        if self.action == "contracts":
+            return ["name", "start_date", "end_date", "cost"]
+        elif self.action == "products":
+            return ["name", "cost"]
+        return super().get_ordering_fields()
+
+    def get_filterset_fields(self):
+        if self.action == "contracts":
+            return []
+        return ["is_active"]
+
     @action(detail=True, methods=["get"])
     def contracts(self, request, pk=None):
         customer = self.get_object()
         contracts = Contract.objects.filter(company=customer).only("id", "name", "start_date", "end_date", "cost").all()
+
+        contracts = self.filter_queryset(contracts)
 
         page = self.paginate_queryset(contracts)
 
@@ -80,7 +100,9 @@ class CustomerViewSet(ModelViewSet):
     @action(detail=True, methods=["get"])
     def products(self, request, pk=None):
         customer = self.get_object()
-        products = (Contract.objects.filter(company=customer).only("product").all())
+
+        products = Product.objects.filter(contracts__company=customer).distinct()
+        products = self.filter_queryset(products)
 
         page = self.paginate_queryset(products)
 
@@ -94,6 +116,8 @@ class CustomerViewSet(ModelViewSet):
     def adds(self, request, pk=None):
         customer = self.get_object()
         adds = customer.adds.all()
+
+        adds = self.filter_queryset(adds)
 
         page = self.paginate_queryset(adds)
 
@@ -121,14 +145,30 @@ class ProductSetView(ModelViewSet):
         OrderingFilter,
         DjangoFilterBackend
     ]
-    ordering_fields = "name", "cost"
-    search_fields = "name", "description"
-    filterset_fields = "is_active",
+    ordering_fields = ["name", "cost"]
+    search_fields = ["name", "description"]
+
+    def get_search_fields(self):
+        if self.action == "adds":
+            return ["name"]
+        return self.get_search_fields()
+
+    def get_ordering_fields(self):
+        if self.action == "adds":
+            return ["name", "budget", "profit"]
+        return self.get_ordering_fields()
+
+    def get_filterset_fields(self):
+        if self.action == "adds":
+            return []
+        else:
+            return ["is_active"]
 
     @action(detail=True, methods=["get"])
     def adds(self, request, pk=None):
-        product = self.get_object()
-        adds = Add.objects.filter(product=product).all()
+        cur_product = self.get_object()
+        adds = Add.objects.filter(product=cur_product).all()
+        adds = self.filter_queryset(adds)
 
         page = self.paginate_queryset(adds)
 
@@ -148,8 +188,8 @@ class AddSetView(ModelViewSet):
         OrderingFilter,
         DjangoFilterBackend
     ]
-    ordering_fields = "name", "budget", "profit"
-    search_fields = "name",
+    ordering_fields = ["name", "budget", "profit"]
+    search_fields = ["name"]
 
     def get_queryset(self):
         if self.action == 'list':
@@ -164,6 +204,35 @@ class AddSetView(ModelViewSet):
         elif self.action == 'retrieve':
             return AddDetailSerializer
         return super().get_serializer_class()
+
+    def get_search_fields(self):
+        if self.action == "customers":
+            return ["name", "description"]
+        return super().get_search_fields()
+
+    def get_ordering_fields(self):
+        if self.action == "customers":
+            return ["name"]
+        return super().get_ordering_fields()
+
+    def get_filterset_fields(self):
+        if self.action == "customers":
+            return ["is_active"]
+        return super().get_filterset_fields()
+
+    @action(detail=True, methods=["GET"])
+    def customers(self, request, pk=None):
+        current_add = self.get_object()
+        customers = Customer.objects.filter(adds=current_add)
+        customers = self.filter_queryset(customers)
+
+        page = self.paginate_queryset(customers)
+
+        if page is not None:
+            serializer = CustomerListSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        return Response(CustomerListSerializer(customers, many=True).data)
 
 
 @receiver(post_save, sender=Contract)
