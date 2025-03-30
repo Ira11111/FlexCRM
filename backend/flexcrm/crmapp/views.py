@@ -80,7 +80,9 @@ class CustomerViewSet(ModelViewSet):
     @action(detail=True, methods=["get"])
     def products(self, request, pk=None):
         customer = self.get_object()
-        products = (Contract.objects.filter(company=customer).only("product").all())
+        contracts = (Contract.objects.filter(company=customer).only("company", "product"))
+
+        products = [contract.product for contract in contracts]
 
         page = self.paginate_queryset(products)
 
