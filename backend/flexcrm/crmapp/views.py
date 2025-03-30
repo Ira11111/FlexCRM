@@ -162,6 +162,7 @@ class ProductSetView(ModelViewSet):
     def adds(self, request, pk=None):
         product = self.get_object()
         adds = Add.objects.filter(product=product).all()
+        adds = self.filter_queryset(adds)
 
         page = self.paginate_queryset(adds)
 
@@ -197,6 +198,53 @@ class AddSetView(ModelViewSet):
         elif self.action == 'retrieve':
             return AddDetailSerializer
         return super().get_serializer_class()
+
+    def get_search_fields(self):
+        if self.action == "customers":
+            return ["name", "description"]
+        elif self.action == "products":
+            return ["name", "description"]
+        return super().get_search_fields()
+
+    def get_ordering_fields(self):
+        if self.action == "customers":
+            return ["name"]
+        elif self.action == "products":
+            return ["name", "cost"]
+        return super().get_ordering_fields()
+
+    def get_filterset_fields(self):
+        if self.action == "customers":
+            return ["is_active"]
+        elif self.action == "products":
+            return ["is_active"]
+        return super().get_filterset_fields()
+
+    @action(detail=True, methods=["GET"])
+    def customers(self, request, pk=None):
+        current_add = self.get_object()
+        customers = Customer.objects.filter(adds=current_add)
+        customers = self.filter_queryset(customers)
+
+        page = self.paginate_queryset(customers)
+
+        if page is not None:
+            serializer = CustomerListSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        return Response(CustomerListSerializer(customers, many=True).data)
+
+    @action(detail=True, methods=["GET"])
+    def products(self, request, pk=None):
+        products = self.get_object().product.all()
+        products = self.filter_queryset(products)
+        page = self.paginate_queryset(products)
+
+        if page is not None:
+            serializer = ProductSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        return Response(ProductSerializer(products, many=True).data)
 
 
 @receiver(post_save, sender=Contract)
