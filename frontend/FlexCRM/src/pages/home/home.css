@@ -1,0 +1,206 @@
+.home__header {
+    padding: 5px  10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+    block-size: 10vh;
+    min-block-size: fit-content;
+    background-color: var(--header-background);
+}
+
+.home__header-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+
+}
+
+
+
+.home__header-logo {
+    block-size: 5vh;
+    min-block-size: 40px;
+}
+
+.home__header-link {
+    font-size: var(--font-size-medium);
+    color: var(--font-accent-color);
+    transition: color .3s;
+
+}
+
+.home__header-link:hover {
+    opacity: 0.8;
+}
+
+.home__header-link.active {
+    opacity: 0.8;
+}
+
+.home__buttons-wrapper {
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    align-self: center;
+    justify-self: start;
+    margin: auto;
+}
+
+.home__button {
+    background: var(--main-color);
+    color: var(--font-accent-color);
+    font-weight: var(--font-weight-bold);
+    font-family: var(--main-font), sans-serif;
+    font-size: var(--font-size-big);
+    padding: 15px 25px;
+    inline-size: 290px;
+    border: 1px solid var(--main-color);
+    border-radius: 10px;
+}
+
+.home__main {
+    block-size: 90vh;
+    min-block-size: 500px;
+    padding-inline: 10px;
+    display: grid;
+    gap: 15px;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+}
+.home__picture {
+    block-size: 600px;
+    object-fit: contain;
+}
+
+.description__wrapper {
+    max-inline-size: 600px;
+    block-size: 90vh;
+    display: grid;
+    gap: 15px;
+    grid-template-rows: 1fr 1fr;
+    justify-items: start;
+    align-items: end;
+    min-block-size: fit-content;
+}
+
+
+
+.home__title {
+    font-size: var(--font-size-xxl);
+    animation: pulse 3s infinite linear;
+    text-shadow:
+            2px 2px 4px var(--accent-color),
+            -2px -2px 4px var(--main-color),
+            0 0 8px rgba(255, 255, 255, 0.3);
+    margin-block-end: 30px ;
+}
+
+.home__descr {
+    font-size: clamp(1.5rem, 1.2143rem + 1.4286vw, 2.5rem);
+    font-family: var(--accent-font), sans-serif;
+    font-weight: 575;
+    text-wrap: pretty;
+}
+
+.about__main {
+    padding: 40px;
+    min-block-size: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    position: relative;
+}
+
+.home__list {
+    inline-size: 100%;
+    max-inline-size: 1200px;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+
+.home__list-item {
+    background: var(--card-background-color);
+    border: 2px solid var(--main-color);
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.home__list-item h3{
+    font-size: var(--font-size-big);
+    display: flex;
+    align-items: end;
+    block-size: 70px;
+    margin-block-end: 10px;
+}
+
+.home__logo {
+    position: absolute;
+
+    inline-size: 90vw;
+    block-size: 80vh;
+    object-fit: contain;
+    z-index: -1;
+}
+
+@media (max-width: 1300px) {
+    .home__buttons-wrapper {
+        flex-direction: column;
+        padding: 0;
+        justify-content: center;
+    }
+
+    
+}
+
+@media (max-width: 800px) {
+    .home__picture {
+        display: none;
+    }
+    .home__main {
+        grid-template-columns: 1fr;
+    }
+    .description__wrapper {
+        inline-size: 100%;
+    }
+
+    .home__list-item {
+        padding: 15px;
+    }
+
+    .about__main {
+        padding: 10px;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        text-shadow:
+                2px 2px 4px var(--accent-color),
+                -2px -2px 4px var(--main-color),
+                0 0 8px rgba(255, 255, 255, 0.3);
+    }
+    25% {
+        text-shadow:
+                -2px 2px 4px var(--accent-color),
+                2px -2px 4px var(--main-color),
+                0 0 12px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        text-shadow:
+                -2px -2px 4px var(--accent-color),
+                2px 2px 4px var(--main-color),
+                0 0 16px rgba(255, 255, 255, 0.7);
+    }
+    75% {
+        text-shadow:
+                2px -2px 4px var(--accent-color),
+                -2px 2px 4px var(--main-color),
+                0 0 12px rgba(255, 255, 255, 0.5);
+    }
+}

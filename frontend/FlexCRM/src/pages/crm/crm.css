@@ -1,0 +1,346 @@
+.wrapper {
+    padding: 50px 50px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cards-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,  minmax(300px, 1fr));
+    grid-auto-rows: 300px;
+    gap: 30px;
+}
+
+.title__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-button {
+    background-color: var(--accent-color);
+    color: var(--button-hover-color);
+    border-color: var(--accent-color);
+    align-self: center;
+}
+
+.add-button:hover {
+    background-color: var(--card-background-color);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: space-between;
+    background-color: var(--card-background-color);
+    border: 1px solid var(--card-border-color);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+
+.card__title {
+    margin-block-end: 15px;
+    font-size: var(--font-size-big);
+
+}
+
+.card__descr {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+}
+
+.title {
+    font-size: var(--font-size-large);
+    text-transform: uppercase;
+    text-shadow: 2px 2px 2px var(--accent-color),
+    -2px -2px 2px var(--main-color)
+}
+
+
+
+.subtitle {
+    font-size: var(--font-size-big);
+    margin-block-end: 10px;
+}
+
+.statistic {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-content: space-between;
+    gap: 35px;
+}
+
+.statistic-item {
+    background-color: var(--card-background-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.statistic-item .subtitle {
+    block-size: 80px;
+    display: flex;
+    align-items: center;
+    margin-block-end: 10px;
+}
+
+
+.statistic__list-item{
+    block-size: 150px;
+}
+
+
+.statistic__list-item:not(:last-child) {
+    margin-block-end: 15px;
+}
+
+
+
+.statistic__list-item-title{
+    font-size: var(--font-size-medium);
+    text-transform: capitalize;
+    margin-block-end: 10px;
+    text-shadow: 1px 1px 1px var(--main-color);
+}
+
+.pagination__buttons {
+    margin: auto;
+    display: flex;
+    gap: 15px;
+}
+
+.dots {
+    font-weight: var(--font-weight-bold);
+    color: var(--main-color);
+    align-self: end;
+}
+
+
+.crm-form {
+    min-inline-size: 300px;
+    max-inline-size: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+
+.label {
+    display: flex;
+    flex-direction: column;
+}
+
+.item__descr {
+    text-transform: capitalize;
+    font-size: var(--font-size-medium);
+}
+
+.lead__title {
+    font-size: var(--font-size-medium);
+    font-weight: bold;
+}
+
+.lead__name {
+    text-transform: capitalize;
+}
+
+.info {
+    display: grid;
+    grid-template-columns:  repeat(2, min-content);
+    gap: 20px;
+}
+
+.info__wrapper {
+    min-inline-size: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    inline-size: fit-content;
+    border: 1px solid var(--main-color);
+}
+
+
+
+.lead {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-block-end: 15px;
+}
+
+.select {
+    border: 1px solid var(--main-color);
+    border-radius: 10px;
+    padding: 5px 3px;
+}
+
+.products {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-cont {
+    position: relative;
+}
+
+.input__products {
+    inline-size: 100%;
+}
+
+
+.input__products.true {
+    -webkit-border-bottom-left-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    outline:none;
+
+}
+
+
+.products__list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    overflow-Y: scroll;
+    max-block-size: 300%;
+    scroll-behavior: smooth;
+    scrollbar-color: var(--scrollbar-color);
+    background-color: var(--card-background-color);
+    z-index: 1;
+}
+
+.products__list-item {
+    border: 1px solid var(--main-color);
+    border-top: none;
+    padding: 5px 8px;
+    cursor: pointer;
+}
+
+.products__list-item:focus {
+    outline: none;
+}
+
+.products__list-item:focus-visible {
+    border: 2px  var(--accent-color) solid;
+}
+
+.products__list-checked {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+    flex-wrap: wrap;
+
+}
+
+.products__list-checked-item {
+    border: 1px solid var(--accent-color);
+    border-radius: 10px;
+    padding: 3px 5px;
+    background-color: var(--card-background-color);
+    inline-size: max-content;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+}
+
+.smert {
+    position: relative;
+    margin-inline-start: 20px;
+}
+
+.smert::before {
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: -20px;
+    block-size: 15px;
+    aspect-ratio: 1;
+    background: url("../../assets/krest.png") no-repeat;
+    background-size: contain;
+
+}
+
+
+@media (max-width: 700px) {
+    .info {
+        grid-template-columns: min-content;
+    }
+}
+
+
+@media (max-width: 500px) {
+    .wrapper {
+        padding: 10px;
+    }
+
+    .search {
+        flex-direction: column;
+    }
+    .pagination__buttons {
+        flex-wrap: wrap;
+    }
+
+    .pagination__buttons button {
+        font-size: var(--font-size-main);
+        padding: 5px 10px;
+    }
+    .button {
+        font-size: var(--font-size-main);
+    }
+
+    .cards-container {
+        gap: 15px
+    }
+
+}
+
+.search {
+    display: flex;
+    gap: 15px;
+}
+
+.search__select {
+    border: 1px solid var(--main-color);
+    color: var(--font-color);
+    border-radius: 10px;
+    padding: 5px;
+    outline-color: transparent;
+    transition: outline-color 1s, border-color 1s;
+}
+
+.search__select:focus {
+    outline: none;
+}
+
+.search__select:focus-visible {
+    outline: 1px var(--accent-color) solid;
+    outline-offset: 1px;
+    border-color: var(--accent-color);
+}
+
+.search__select-option {
+    background-color: var(--page-color);
+    border: 1px solid var(--main-color);
+}
+
+.file__input-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-block-start: 10px;
+}
+
+
+.file__label-button {
+    max-inline-size: fit-content;
+    font-size: var(--font-size-main);
+    padding: 5px 10px;
+}
