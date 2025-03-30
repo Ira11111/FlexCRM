@@ -208,3 +208,40 @@
 }
 
 
+.pseudo-checkbox__label {
+    margin:auto;
+    display: flex;
+    gap:10px;
+}
+
+.pseudo-checkbox {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--main-color);
+    transition: border-color .3s;
+}
+.pseudo-checkbox::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    width: 90%;
+    height: 90%;
+    align-self: center;
+    transition: background-color .5s;
+}
+
+.checkbox:checked + .pseudo-checkbox::after {
+    background-color: var(--accent-color);
+}
+
+.checkbox:checked + .pseudo-checkbox {
+    border-color: var(--accent-color);
+}
+
+.checkbox__text {
+    font-size: var(--font-size-main);
+}
+
+
+
