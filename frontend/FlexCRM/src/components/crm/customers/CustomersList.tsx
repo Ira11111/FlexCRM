@@ -1,19 +1,22 @@
 import {useEffect, useState} from "react";
 import CustomerCard from "./CustomerCard.tsx";
 import Loader from "../../Loader/Loader.tsx";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {getAll} from '../../../fetchData.ts';
-import {CUSTOMER_ENDPOINT, ROLE} from "../../../constants.ts";
+import {ADS_ENDPOINT, CUSTOMER_ENDPOINT, ROLE} from "../../../constants.ts";
 import Pagination from "../Pagination/Pagination.tsx";
 import Search from "../search/Search.tsx";
 
 function CustomersList (){
+    const location = useLocation();
     const role_permissions:boolean = localStorage.getItem(ROLE)=="Operators";
+    const ad = location.state?location.state.ad:null;
     const navigate = useNavigate()
     const [customers, setCustomers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [count, setCount] = useState(0);
-    const [endpoint, setEndpoint] = useState(CUSTOMER_ENDPOINT)
+    const [endpoint, setEndpoint] = useState(ad?`${ADS_ENDPOINT}${ad.id}/customers/`
+        :`${CUSTOMER_ENDPOINT}`)
     const [curPage, setCurPage] = useState(1);
 
     useEffect(()=>{
@@ -38,14 +41,19 @@ function CustomersList (){
         getAllCustomers()
     }, [endpoint])
 
-
+    useEffect(() => {
+        if (!ad){
+            setEndpoint(CUSTOMER_ENDPOINT)
+        }
+    }, [ad]);
     return <main className='wrapper'>
         {loading && <Loader />}
         <div className='title__wrapper'>
-            <h1 className='title'>Компании-клиенты</h1>
-            <button disabled={!role_permissions} className='button add-button' onClick={()=>navigate('create')}>Добавить</button>
+            <h1 className='title'>Компании-клиенты {ad?`, пришедшие с ${ad.name}`:''}</h1>
+            {!ad && <button disabled={!role_permissions} className='button add-button' onClick={()=>navigate('create')}>Добавить</button>}
         </div>
-        <Search curPage={curPage} setCurPage={setCurPage} endpoint={CUSTOMER_ENDPOINT} setEndpoint={setEndpoint}  params={[{key:'name', value:'По имени ▲'}, {key:'-name', value:'По имени ▼'}]}/>
+        <Search curPage={curPage} setCurPage={setCurPage} endpoint={ad?`${ADS_ENDPOINT}${ad.id}/customers/`
+            :`${CUSTOMER_ENDPOINT}`} setEndpoint={setEndpoint}  params={[{key:'name', value:'По имени ▲'}, {key:'-name', value:'По имени ▼'}]}/>
 
         <div className='cards-container'>
             {customers.map((cur, index) => {return <CustomerCard customer={cur} key={index}/>})}

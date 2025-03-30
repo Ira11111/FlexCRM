@@ -34,7 +34,6 @@ function ProductsList () {
                     setProducts(res.results);
                     setCount(res.count)
                 }
-                console.log(res)
 
             }catch (e){
                 console.error(e);

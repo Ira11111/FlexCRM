@@ -75,6 +75,7 @@ function App() {
                 <Route index element={<AdsList/>} />
                 <Route path=":adId" element={<Ad/>}/>
                 <Route path=":adId/edit" element={<AdForm/>}/>
+                <Route path=":adId/customers" element={<CustomersList/>}/>
                 <Route path="create" element={<AdForm/>}/>
               </Route>
 
