@@ -53,7 +53,7 @@ function ContractsList() {
         {loading && <Loader/>}
         <div className='title__wrapper'>
             <h1 className='title'>Контракты {customer?customer.name:''}</h1>
-            <button disabled={!role_permissions} className='button add-button' onClick={()=>navigate('create')}>Добавить</button>
+            {!customer && <button disabled={!role_permissions} className='button add-button' onClick={()=>navigate('create')}>Добавить</button>}
         </div>
         <Search setCurPage={setCurPage} curPage={curPage} endpoint={customer?`${CUSTOMER_ENDPOINT}${customer.id}/contracts/`:`${CONTRACT_ENDPOINT}`}
                 setEndpoint={setEndpoint}

@@ -50,7 +50,7 @@ function ProductsList () {
         {loading && <Loader />}
         <div className='title__wrapper'>
             <h1 className='title'>Услуги {customer?`, приобретенные ${customer.name}`:''}</h1>
-            <button disabled={!role_permissions} className='button add-button' onClick={()=>navigate('create')}>Добавить</button>
+            {!customer && <button disabled={!role_permissions} className='button add-button' onClick={()=>navigate('create')}>Добавить</button>}
         </div>
         <Search curPage={curPage} setCurPage={setCurPage} endpoint={customer?`${CUSTOMER_ENDPOINT}${customer.id}/products/`
             :`${PRODUCT_ENDPOINT}`} setEndpoint={setEndpoint}
