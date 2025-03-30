@@ -5,7 +5,6 @@ import {CUSTOMER_ENDPOINT, ROLE} from "../../../constants.ts";
 import {customerProps, getById, leadProps, adProps} from "../../../fetchData.ts";
 
 
-
 function Customer() {
     const role_permissions = localStorage.getItem(ROLE)=="Operators";
     const navigate = useNavigate();
@@ -66,6 +65,8 @@ function Customer() {
             </ul>
         </div>
         <button className={'button edit__button'} onClick={()=>navigate('contracts', {state:{customer}})}>Просмотреть контракты</button>
+        <button className={'button edit__button'} onClick={()=>navigate('products', {state:{customer}})}>Просмотреть услуги</button>
+
         <button disabled={!role_permissions}  className='button edit__button' onClick={()=>navigate('edit', {state : {customer, lead, ads}})}>Редактировать</button>
 
     </main>
