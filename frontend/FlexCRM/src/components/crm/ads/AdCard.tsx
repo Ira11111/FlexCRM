@@ -18,7 +18,7 @@ function AdCard({ad}:{ad:AdProps}) {
             <h2 className='card__title'>{ad.name}</h2>
             <p className='card__descr'>{ad.budget}</p>
         </div>
-        <button onClick={()=>navigate(`${ad.id}`, {state:{ad}})} className='button'>Подробнее</button>
+        <button onClick={()=>navigate(`/crm/ads/${ad.id}`, {state:{ad}})} className='button'>Подробнее</button>
     </article>
 }
 

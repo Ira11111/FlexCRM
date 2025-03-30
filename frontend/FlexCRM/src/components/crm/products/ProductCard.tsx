@@ -8,15 +8,15 @@ interface ProductProps {
     is_active: boolean
 }
 
-function ProductCard({product}: { product: ProductProps,}) {
+function ProductCard({product}: { product: ProductProps}) {
     const navigate = useNavigate();
-    let {name, description} = product;
+    const {name, description} = product;
     return <article className='card'>
         <div className='card__info'>
             <h2 className='card__title'>{name}</h2>
             <p className='card__descr'>{description}</p>
         </div>
-        <button onClick={()=>navigate(`${product.id}`)} className='button' >Подробнее</button>
+        <button onClick={()=>navigate(`/crm/products/${product.id}`)} className='button' >Подробнее</button>
 
     </article>
 }

@@ -35,7 +35,7 @@ function Product() {
             <h2 className='subtitle'>Стоимость</h2>
             <p>{product.cost}</p>
         </span>
-
+        <button className={'button edit__button'} onClick={()=>navigate('ads', {state:{product}})}>Просмотреть рекламы</button>
         <button disabled={!role_permissions} className='button edit__button' onClick={()=>navigate('edit', {state : {product}})}>Редактировать</button>
     </main>
 }

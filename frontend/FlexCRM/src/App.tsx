@@ -65,6 +65,7 @@ function App() {
                 <Route index element={<CustomersList/>} />
                 <Route path=":customerId" element={<Customer/>}/>
                 <Route path=":customerId/contracts" element={<ContractsList/>}/>
+                <Route path=":customerId/products" element={<ProductsList/>}/>
                 <Route path=":customerId/edit" element={<CustomerForm/>}/>
                 <Route path="create" element={<CustomerForm/>}/>
               </Route>
@@ -84,6 +85,7 @@ function App() {
                 <Route index element={<ProductsList/>}/>
                 <Route path=":productId" element={<Product/>}/>
                 <Route path=":productId/edit" element={<ProductForm/>}/>
+                <Route path=":productId/ads" element={<AdsList/>}/>
                 <Route path="create" element={<ProductForm/>}/>
               </Route>
 

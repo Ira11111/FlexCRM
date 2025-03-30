@@ -1,20 +1,29 @@
 import Loader from "../../Loader/Loader.tsx";
 import {useEffect, useState} from "react";
 import ProductCard from "./ProductCard.tsx";
-import {useNavigate} from "react-router-dom";
-import {getAll} from "../../../fetchData.ts";
-import {PRODUCT_ENDPOINT, ROLE} from "../../../constants.ts";
+import {useLocation, useNavigate} from "react-router-dom";
+import {customerProps, getAll} from "../../../fetchData.ts";
+import {CUSTOMER_ENDPOINT, PRODUCT_ENDPOINT, ROLE} from "../../../constants.ts";
 import Pagination from "../Pagination/Pagination.tsx";
 import Search from "../search/Search.tsx";
 
 function ProductsList () {
+    const location = useLocation();
+    const customer:customerProps = location.state?location.state.customer:null;
     const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState([]);
     const navigate = useNavigate();
     const role_permissions:boolean = localStorage.getItem(ROLE)=='Marketers';
-    const [endpoint, setEndpoint] = useState(PRODUCT_ENDPOINT);
+    const [endpoint, setEndpoint] = useState(customer?`${CUSTOMER_ENDPOINT}${customer.id}/products/`
+        :`${PRODUCT_ENDPOINT}`);
     const [curPage, setCurPage] = useState(1);
     const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        if (!customer){
+            setEndpoint(PRODUCT_ENDPOINT)
+        }
+    }, [customer]);
 
     useEffect(() => {
         setLoading(true)
@@ -25,6 +34,7 @@ function ProductsList () {
                     setProducts(res.results);
                     setCount(res.count)
                 }
+                console.log(res)
 
             }catch (e){
                 console.error(e);
@@ -39,10 +49,11 @@ function ProductsList () {
     return <main className='wrapper'>
         {loading && <Loader />}
         <div className='title__wrapper'>
-            <h1 className='title'>Услуги</h1>
+            <h1 className='title'>Услуги {customer?`, приобретенные ${customer.name}`:''}</h1>
             <button disabled={!role_permissions} className='button add-button' onClick={()=>navigate('create')}>Добавить</button>
         </div>
-        <Search curPage={curPage} setCurPage={setCurPage} endpoint={PRODUCT_ENDPOINT} setEndpoint={setEndpoint}
+        <Search curPage={curPage} setCurPage={setCurPage} endpoint={customer?`${CUSTOMER_ENDPOINT}${customer.id}/products/`
+            :`${PRODUCT_ENDPOINT}`} setEndpoint={setEndpoint}
                 params={[{key:'name', value:'По имени ▲'}, {key:'-name', value:'По имени ▼'},
                     {key:'cost', value:'По цене ▲'}, {key:'-cost', value:'По цене ▼'}]}/>
         <div className='cards-container'>
