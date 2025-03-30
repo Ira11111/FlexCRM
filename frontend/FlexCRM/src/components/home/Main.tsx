@@ -1,4 +1,4 @@
-import img from "../../assets/home_img.png";
+import img from "../../assets/home_img.svg";
 import {useNavigate} from "react-router-dom";
 
 function Main() {
@@ -17,7 +17,7 @@ function Main() {
                     <button className='home__button' onClick={() => navigate('/register')}>Зарегистрироваться</button>
                 </div>
             </div>
-            <img className={'home__picture'} src={img}/>
+            <img alt={'женщина говорит FlexCRM'} className={'home__picture'} src={img}/>
         </div>
     );
 }
