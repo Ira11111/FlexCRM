@@ -41,31 +41,38 @@ function Customer() {
         {loading && <Loader/>}
         <h1 className='title'>Компания {customer.name}</h1>
         <p className={'item__descr'}>{customer.description}</p>
-        <div className='info__wrapper'>
-            <div className={'lead'}>
-                <h2 className='lead__title'>Представитель</h2>
-                <p className={'lead__name'}>{lead.first_name} {lead.last_name}</p>
-                <span>
+        <div className={'info'}>
+            <div className='info__wrapper'>
+                <div className={'lead'}>
+                    <h2 className='lead__title'>Представитель</h2>
+                    <p className={'lead__name'}>{lead.first_name} {lead.last_name}</p>
+                    <span>
             <h2 className='subtitle'>Телефон</h2>
             <p>{lead.phone}</p>
         </span>
-                <span>
+                    <span>
             <h2 className='subtitle'>Электронная почта</h2>
             <p>{lead.email}</p>
         </span>
 
+                </div>
             </div>
-        </div>
-        <div className={'info__wrapper'}>
-            <h2 className={'subtitle'}>Рекламный канал</h2>
-            <ul>
-                {ads.map((cur:adProps)=>{return(
-                    <li key={cur.id}><Link className={'link'} to={`/crm/ads/${cur.id}`}>{cur.name}</Link></li>
+            <div className={'info__wrapper'}>
+                <h2 className={'subtitle'}>Рекламный канал</h2>
+                <ul>
+                    {ads.map((cur:adProps)=>{return(
+                        <li key={cur.id}><Link className={'link'} to={`/crm/ads/${cur.id}`}>{cur.name}</Link></li>
                     )})}
-            </ul>
+                </ul>
+            </div>
+
+            <button className={'button edit__button'} onClick={()=>navigate('contracts', {state:{customer}})}>Просмотреть контракты</button>
+            <button className={'button edit__button'} onClick={()=>navigate('products', {state:{customer}})}>Просмотреть услуги</button>
+
         </div>
-        <button className={'button edit__button'} onClick={()=>navigate('contracts', {state:{customer}})}>Просмотреть контракты</button>
-        <button className={'button edit__button'} onClick={()=>navigate('products', {state:{customer}})}>Просмотреть услуги</button>
+
+
+
 
         <button disabled={!role_permissions}  className='button edit__button' onClick={()=>navigate('edit', {state : {customer, lead, ads}})}>Редактировать</button>
 
