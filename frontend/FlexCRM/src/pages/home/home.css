@@ -22,7 +22,6 @@
 .home__header-logo {
     block-size: 5vh;
     min-block-size: 40px;
-    filter: var(--filter-image);
 }
 
 .home__header-link {
@@ -72,10 +71,8 @@
     justify-items: center;
 }
 .home__picture {
-    max-block-size: 70vh;
-    min-block-size: 500px;
+    block-size: 600px;
     object-fit: contain;
-    filter: var(--filter-image)
 }
 
 .description__wrapper {

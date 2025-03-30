@@ -41,7 +41,6 @@
     --auth-form-bg: #3f3f3f;
     --auth-bg: #282828;
     --font-color: #DBDBDB;
-    --filter-image: grayscale(20%);
     --button-hover-color: #DBDBDB;
     --placeholder-color: #DBDBDB;
     --theme-toggle-color-active: #3f3f3f;
@@ -60,7 +59,6 @@
         --auth-form-bg: #3f3f3f;
         --auth-bg: #282828;
         --font-color: #DBDBDB;
-        --filter-image: grayscale(20%);
         --button-hover-color: #DBDBDB;
         --placeholder-color: #DBDBDB;
     }
