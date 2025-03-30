@@ -41,9 +41,8 @@ class CustomerViewSet(ModelViewSet):
         OrderingFilter,
         DjangoFilterBackend
     ]
-    ordering_fields = "name",
-    search_fields = "name", "description"
-    filterset_fields = "is_active",
+    ordering_fields = ["name"]
+    search_fields = ["name", "description"]
 
     def get_queryset(self):
         if self.action == 'list':
@@ -69,8 +68,6 @@ class CustomerViewSet(ModelViewSet):
             return ["name"]
         elif self.action == "products":
             return ["name", "description"]
-        elif self.action == "adds":
-            return ["name"]
         return super().get_search_fields()
 
     def get_ordering_fields(self):
@@ -78,18 +75,12 @@ class CustomerViewSet(ModelViewSet):
             return ["name", "start_date", "end_date", "cost"]
         elif self.action == "products":
             return ["name", "cost"]
-        elif self.action == "adds":
-            return ["name", "budget", "profit"]
         return super().get_ordering_fields()
 
     def get_filterset_fields(self):
         if self.action == "contracts":
             return []
-        elif self.action == "products":
-            return ["is_active"]
-        elif self.action == "adds":
-            return []
-        return super().get_filterset_fields()
+        return ["is_active"]
 
     @action(detail=True, methods=["get"])
     def contracts(self, request, pk=None):
@@ -154,14 +145,29 @@ class ProductSetView(ModelViewSet):
         OrderingFilter,
         DjangoFilterBackend
     ]
-    ordering_fields = "name", "cost"
-    search_fields = "name", "description"
-    filterset_fields = "is_active",
+    ordering_fields = ["name", "cost"]
+    search_fields = ["name", "description"]
+
+    def get_search_fields(self):
+        if self.action == "adds":
+            return ["name"]
+        return self.get_search_fields()
+
+    def get_ordering_fields(self):
+        if self.action == "adds":
+            return ["name", "budget", "profit"]
+        return self.get_ordering_fields()
+
+    def get_filterset_fields(self):
+        if self.action == "adds":
+            return []
+        else:
+            return ["is_active"]
 
     @action(detail=True, methods=["get"])
     def adds(self, request, pk=None):
-        product = self.get_object()
-        adds = Add.objects.filter(product=product).all()
+        cur_product = self.get_object()
+        adds = Add.objects.filter(product=cur_product).all()
         adds = self.filter_queryset(adds)
 
         page = self.paginate_queryset(adds)
@@ -182,8 +188,8 @@ class AddSetView(ModelViewSet):
         OrderingFilter,
         DjangoFilterBackend
     ]
-    ordering_fields = "name", "budget", "profit"
-    search_fields = "name",
+    ordering_fields = ["name", "budget", "profit"]
+    search_fields = ["name"]
 
     def get_queryset(self):
         if self.action == 'list':
@@ -202,21 +208,15 @@ class AddSetView(ModelViewSet):
     def get_search_fields(self):
         if self.action == "customers":
             return ["name", "description"]
-        elif self.action == "products":
-            return ["name", "description"]
         return super().get_search_fields()
 
     def get_ordering_fields(self):
         if self.action == "customers":
             return ["name"]
-        elif self.action == "products":
-            return ["name", "cost"]
         return super().get_ordering_fields()
 
     def get_filterset_fields(self):
         if self.action == "customers":
-            return ["is_active"]
-        elif self.action == "products":
             return ["is_active"]
         return super().get_filterset_fields()
 
@@ -233,18 +233,6 @@ class AddSetView(ModelViewSet):
             return self.get_paginated_response(serializer.data)
 
         return Response(CustomerListSerializer(customers, many=True).data)
-
-    @action(detail=True, methods=["GET"])
-    def products(self, request, pk=None):
-        products = self.get_object().product.all()
-        products = self.filter_queryset(products)
-        page = self.paginate_queryset(products)
-
-        if page is not None:
-            serializer = ProductSerializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        return Response(ProductSerializer(products, many=True).data)
 
 
 @receiver(post_save, sender=Contract)
