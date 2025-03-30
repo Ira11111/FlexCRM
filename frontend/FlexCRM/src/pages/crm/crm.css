@@ -72,8 +72,9 @@
 
 .statistic {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-content: space-between;
+    gap: 35px;
 }
 
 .statistic-item {
@@ -81,6 +82,18 @@
     border: 1px solid var(--accent-color);
     border-radius: 10px;
     padding: 15px;
+}
+
+.statistic-item .subtitle {
+    block-size: 80px;
+    display: flex;
+    align-items: center;
+    margin-block-end: 10px;
+}
+
+
+.statistic__list-item{
+    block-size: 150px;
 }
 
 
