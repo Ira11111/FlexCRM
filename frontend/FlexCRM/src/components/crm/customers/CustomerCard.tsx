@@ -6,7 +6,7 @@ function CustomerCard({customer}:{customer:customerProps}) {
     return (
         <article className='card'>
             <h1 className={'card__title'}>{customer.name}</h1>
-            <button onClick={()=>navigate(`${customer.id}`,{state:{customer}})} className='button'>Подробнее</button>
+            <button onClick={()=>navigate(`/crm/customers/${customer.id}`,{state:{customer}})} className='button'>Подробнее</button>
         </article>
     );
 }
