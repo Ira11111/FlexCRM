@@ -20,7 +20,7 @@
 
 
 .home__header-logo {
-    block-size: 8vh;
+    block-size: 5vh;
     min-block-size: 40px;
     filter: var(--filter-image);
 }

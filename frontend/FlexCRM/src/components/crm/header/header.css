@@ -8,12 +8,12 @@
     align-items: center;
     gap: 1rem;
     min-block-size: 50px;
-    block-size: 10vh;
+    block-size: 8vh;
     box-shadow: 0 0 4px 0 var(--main-color);
 }
 
 .header__logo {
-    block-size: 8vh;
+    block-size: 5vh;
     min-block-size: 40px;
 }
 
