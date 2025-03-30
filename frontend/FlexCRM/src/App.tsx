@@ -18,6 +18,9 @@ import Register from "./pages/myAuth/Register.tsx"
 import Login from "./pages/myAuth/Login.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import ContractForm from "./components/crm/contracts/ContractForm.tsx";
+import Main from  './components/home/Main.tsx'
+import About from './components/home/About.tsx'
+
 
 
 function Logout() {
@@ -35,7 +38,10 @@ function App() {
   return (
       <BrowserRouter>
         <Routes>
-          <Route index element={<Home/>}/>
+          <Route element={<Home/>}>
+            <Route index element={<Main/>}/>
+            <Route path={'about'} element={<About/>}/>
+          </Route>
 
           <Route path="/login" element={<Login />}/>
           <Route path="/register"  element={<RegisterAndLogout mode ={'register'} />}/>
@@ -58,6 +64,8 @@ function App() {
               <Route path="customers">
                 <Route index element={<CustomersList/>} />
                 <Route path=":customerId" element={<Customer/>}/>
+                <Route path=":customerId/contracts" element={<ContractsList/>}/>
+                <Route path=":customerId/products" element={<ProductsList/>}/>
                 <Route path=":customerId/edit" element={<CustomerForm/>}/>
                 <Route path="create" element={<CustomerForm/>}/>
               </Route>
@@ -77,6 +85,7 @@ function App() {
                 <Route index element={<ProductsList/>}/>
                 <Route path=":productId" element={<Product/>}/>
                 <Route path=":productId/edit" element={<ProductForm/>}/>
+                <Route path=":productId/ads" element={<AdsList/>}/>
                 <Route path="create" element={<ProductForm/>}/>
               </Route>
 

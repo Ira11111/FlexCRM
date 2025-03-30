@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="./src/styles/fonts.css" />
     <link rel="stylesheet" href="./src/styles/globals.css" />
     <link rel="stylesheet" href="./src/styles/styles.css" />
+    <script>
+      if(localStorage.getItem('darkTheme')==='true')
+        document.documentElement.classList.add('dark')
+      else {
+        document.documentElement.classList.remove('dark')
+      }
+    </script>
     <title>FlexCRM</title>
   </head>
   <body>

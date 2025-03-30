@@ -1,20 +1,20 @@
 .header {
     padding: 5px 10px;
-    background-color: var(--main-color);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    background-color: var(--header-background);
+    display: grid;
+    grid-template-columns: fit-content(800px) 1fr min-content;
+    align-content: center;
+    justify-items: center;
     align-items: center;
     gap: 1rem;
     min-block-size: 50px;
-    block-size: 10vh;
+    block-size: 8vh;
     box-shadow: 0 0 4px 0 var(--main-color);
 }
 
 .header__logo {
-    block-size: 80%;
-    background-color: white;
-    border-radius: 50%;
+    block-size: 5vh;
+    min-block-size: 40px;
 }
 
 .header__nav {
@@ -30,7 +30,7 @@
 .header__nav-title {
     padding-inline-start: .5rem;
     display: none;
-    color: var(--bg-color);
+    color: var(--font-accent-color);
     font-size: var(--font-size-big);
     position: relative;
 }
@@ -52,7 +52,7 @@
     flex-direction: row;
     justify-content: start;
     gap: 1rem;
-    background-color: var(--main-color);
+    background-color: var(--header-background);
     z-index: 1;
 }
 
@@ -68,9 +68,9 @@
     }
     .header__list {
         display: block;
-        padding-top: 5px;
+        padding-top: 10px;
         position: absolute;
-        top: 100%;
+        top: calc(100% + 4px);
         left: -15px;
         flex-direction: column;
         visibility: hidden;
@@ -78,7 +78,7 @@
         transform: translateY(-10px);
         transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
         border-bottom-right-radius: 10px;
-        box-shadow: 5px 5px 2px  var(--accent-color);
+        box-shadow: 1px 1px 2px  var(--main-color);
     }
 
     .header__nav:hover .header__list {
@@ -97,6 +97,19 @@
 }
 
 
+@media (max-width: 400px) {
+    .header__logo{
+        block-size: 5vh;
+    }
+
+    .header__logout-button {
+        padding: 7px 15px;
+    }
+    .header__nav {
+        gap: 7px;
+    }
+}
+
 @keyframes menuIconRotate {
     from {
         transform: rotate(0);
@@ -109,7 +122,7 @@
 
 
 .header__list-item-link {
-    color: var(--bg-color);
+    color: var(--font-accent-color);
     font-size: var(--font-size-medium);
     display: block;
     inline-size: 100%;
@@ -135,14 +148,17 @@
 
 
 .header__logout-button {
-    color: var(--bg-color);
-    border-color: var(--bg-color);
+    color: var(--button-hover-color);
+    border-color: var(--button-hover-color);
+    justify-self: right;
 }
 
 
 .header__logout-button:hover {
-    background-color: var(--accent-color);
-    border-color: var(--accent-color);
+    background-color: var(--button-hover-color);
+    color: var(--header-background);
+    border-color: var(--button-hover-color);
+
 }
 
 .header__logout-button:active{

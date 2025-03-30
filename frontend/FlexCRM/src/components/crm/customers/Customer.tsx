@@ -1,8 +1,8 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams, Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Loader from "../../Loader/Loader.tsx";
 import {CUSTOMER_ENDPOINT, ROLE} from "../../../constants.ts";
-import {customerProps, getById, leadProps} from "../../../fetchData.ts";
+import {customerProps, getById, leadProps, adProps} from "../../../fetchData.ts";
 
 
 function Customer() {
@@ -23,7 +23,6 @@ function Customer() {
                 setAds(res.adds_info);
                 setLead(res.lead_info)
             }
-
         }catch (e) {
 
             console.error(e);
@@ -38,11 +37,11 @@ function Customer() {
 
 
 
-    return <div className={'wrapper'}>
+    return <main className={'wrapper'}>
         {loading && <Loader/>}
         <h1 className='title'>Компания {customer.name}</h1>
         <p className={'item__descr'}>{customer.description}</p>
-        <div className='lead__wrapper'>
+        <div className='info__wrapper'>
             <div className={'lead'}>
                 <h2 className='lead__title'>Представитель</h2>
                 <p className={'lead__name'}>{lead.first_name} {lead.last_name}</p>
@@ -57,9 +56,20 @@ function Customer() {
 
             </div>
         </div>
+        <div className={'info__wrapper'}>
+            <h2 className={'subtitle'}>Рекламный канал</h2>
+            <ul>
+                {ads.map((cur:adProps)=>{return(
+                    <li key={cur.id}><Link className={'link'} to={`/crm/ads/${cur.id}`}>{cur.name}</Link></li>
+                    )})}
+            </ul>
+        </div>
+        <button className={'button edit__button'} onClick={()=>navigate('contracts', {state:{customer}})}>Просмотреть контракты</button>
+        <button className={'button edit__button'} onClick={()=>navigate('products', {state:{customer}})}>Просмотреть услуги</button>
+
         <button disabled={!role_permissions}  className='button edit__button' onClick={()=>navigate('edit', {state : {customer, lead, ads}})}>Редактировать</button>
 
-    </div>
+    </main>
 }
 
 export default Customer;

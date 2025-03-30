@@ -39,7 +39,7 @@ function CustomersList (){
     }, [endpoint])
 
 
-    return <div className='wrapper'>
+    return <main className='wrapper'>
         {loading && <Loader />}
         <div className='title__wrapper'>
             <h1 className='title'>Компании-клиенты</h1>
@@ -53,7 +53,7 @@ function CustomersList (){
         </div>
         <Pagination count={count} curPage={curPage} setCurPage={setCurPage}/>
 
-    </div>
+    </main>
 
 }
 export default CustomersList;

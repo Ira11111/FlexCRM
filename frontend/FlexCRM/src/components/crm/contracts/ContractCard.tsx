@@ -7,11 +7,14 @@ function ContractCard({contract}:{contract: contractProps}   ) {
     const navigate = useNavigate();
 
     return (
-        <div className={'card'}>
-            <h2 className={'card__title'}>{contract.name}</h2>
-            <p className={'card__descr'}>{(contract.start_date||'').toString()} — {(contract.end_date||'').toString()}</p>
-            <button onClick={()=>navigate(`${contract.id}`)} className='button'>Подробнее</button>
-        </div>
+        <article className={'card'}>
+            <div className={'card__info'}>
+                <h2 className={'card__title'}>{contract.name}</h2>
+                <p className={'card__descr'}>{(contract.start_date||'').toString()} — {(contract.end_date||'').toString()}</p>
+            </div>
+
+            <button onClick={()=>navigate(`/crm/contracts/${contract.id}`)} className='button'>Подробнее</button>
+        </article>
     );
 }
 

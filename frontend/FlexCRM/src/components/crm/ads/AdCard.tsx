@@ -13,14 +13,13 @@ interface AdProps {
 function AdCard({ad}:{ad:AdProps}) {
 
     const navigate = useNavigate();
-    return <div className='card'>
+    return <article className='card'>
         <div className='card__info'>
             <h2 className='card__title'>{ad.name}</h2>
             <p className='card__descr'>{ad.budget}</p>
         </div>
-        <button onClick={()=>navigate(`${ad.id}`, {state:{ad}})} className='button'>Подробнее</button>
-
-    </div>
+        <button onClick={()=>navigate(`/crm/ads/${ad.id}`, {state:{ad}})} className='button'>Подробнее</button>
+    </article>
 }
 
 export default AdCard;

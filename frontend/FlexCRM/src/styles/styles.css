@@ -11,9 +11,6 @@
     overflow: hidden;
 }
 
-html, body {
-    background-color: var(--page-color);
-}
 
 #root {
     margin: auto;
@@ -21,9 +18,10 @@ html, body {
     color: var(--font-color);
     position: relative;
     line-height: 1.5;
-    block-size: 100vh;
     min-inline-size: 320px;
     font-size: var(--font-size-main);
+    min-block-size: 100vh;
+    background-color: var(--page-color);
 }
 
 .error-message {
@@ -48,7 +46,7 @@ html, body {
 .button:hover {
     background-color: var(--main-color);
     border-color: var(--main-color);
-    color: var(--page-color);
+    color: var(--button-hover-color);
 }
 
 .button:disabled {
@@ -56,18 +54,12 @@ html, body {
     cursor: not-allowed;
 }
 
-.button:active{
-    background-color: var(--accent-color);
-    border-color: var(--accent-color);
-    color: var(--page-color);
-}
-
 .button:focus-visible{
-    outline: 1px solid var(--accent-color);
+    outline: 1px solid var(--main-color);
     outline-offset: 1px;
-    background-color: var(--accent-color);
-    border-color: var(--accent-color);
-    color: var(--page-color);
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+    color: var(--button-hover-color);
 }
 
 .textarea {
@@ -76,10 +68,10 @@ html, body {
 
 .input {
     border: 1px solid var(--main-color);
-    padding: 7px;
     border-radius: 10px;
     outline-color: transparent;
     transition: border-color 1s, outline-color 1s;
+    padding: 7px;
 }
 
 .input::placeholder {
@@ -95,6 +87,8 @@ html, body {
 .input:hover {
     border-color: var(--accent-color);
 }
+
+
 
 .link {
     color: var(--main-color);
@@ -114,6 +108,140 @@ html, body {
     text-decoration: underline;
 }
 
+
+.text-effect {
+    text-transform: uppercase;
+    text-shadow: 2px 2px 2px var(--accent-color),
+    -2px -2px 2px var(--main-color)
+}
+
+
+
+
+
+.theme-toggle {
+    block-size: 30px;
+    aspect-ratio: 2;
+    border-radius: 15px;
+    position: relative;
+    background: var(--theme-toggle-color);
+}
+
+.theme-toggle::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    bottom: 2px;
+    aspect-ratio: 1;
+    border-radius: 15px;
+    background: var(--theme-toggle-color-active);
+    transition: transform .2s ease-in 0.1s;
+}
+
+:root.dark .theme-toggle::before {
+    transform: translateX(calc(100% + 3px));
+}
+
+.light-icon {
+    block-size: 20px;
+    aspect-ratio: 1;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.dark-icon  {
+    block-size: 20px;
+    aspect-ratio: 1;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+
+.moon, .star {
+    transform: scale(0);
+
+}
+
+.moon, .sun {
+    transition: transform .2s;
+    transform-origin: center;
+}
+
+.rays, .star {
+    transition: transform .1s;
+    transform-origin: center;
+}
+.sun {
+    transition-delay: .3s;
+}
+
+.rays {
+    transition-delay: .4s;
+}
+
+.star, .moon {
+    transition-delay: 0s;
+}
+
+:root.dark .moon {
+    transform: scale(1);
+    transition-delay: 0.3s;
+}
+
+:root.dark .star {
+    transform: scale(1);
+    transition-delay: 0.4s;
+
+}
+
+:root.dark .sun {
+    transform: scale(0);
+    transition-delay: 0s;
+}
+
+:root.dark .rays{
+    transform: scale(0);
+    transition-delay: 0s;
+}
+
+
+.pseudo-checkbox__label {
+    margin:auto;
+    display: flex;
+    gap:10px;
+}
+
+.pseudo-checkbox {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--main-color);
+    transition: border-color .3s;
+}
+.pseudo-checkbox::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    width: 90%;
+    height: 90%;
+    align-self: center;
+    transition: background-color .5s;
+}
+
+.checkbox:checked + .pseudo-checkbox::after {
+    background-color: var(--accent-color);
+}
+
+.checkbox:checked + .pseudo-checkbox {
+    border-color: var(--accent-color);
+}
+
+.checkbox__text {
+    font-size: var(--font-size-main);
+}
 
 
 

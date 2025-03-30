@@ -37,7 +37,7 @@ function Ad() {
         getAd();
     }, []);
 
-    return <div className='wrapper'>
+    return <main className='wrapper'>
         {loading && <Loader/>}
         <h1 className='title'>Реклама {ad.name}</h1>
 
@@ -67,7 +67,7 @@ function Ad() {
         <button disabled={!role_permissions} className='button edit__button' onClick={()=>navigate('edit', {state : {ad, product}})}>Редактировать</button>
 
 
-    </div>
+    </main>
 }
 
 export default Ad;

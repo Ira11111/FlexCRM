@@ -21,13 +21,13 @@
 
 .add-button {
     background-color: var(--accent-color);
-    color: var(--bg-color);
+    color: var(--button-hover-color);
     border-color: var(--accent-color);
     align-self: center;
 }
 
 .add-button:hover {
-    background-color: var(--page-color);
+    background-color: var(--card-background-color);
     color: var(--accent-color);
     border-color: var(--accent-color);
 }
@@ -37,8 +37,8 @@
     flex-direction: column;
     gap: 15px;
     justify-content: space-between;
-    background-color: var(--bg-color);
-    border: 1px solid var(--accent-color);
+    background-color: var(--card-background-color);
+    border: 1px solid var(--card-border-color);
     border-radius: 10px;
     padding: 15px;
 }
@@ -72,37 +72,35 @@
 
 .statistic {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-content: space-between;
+    gap: 35px;
 }
 
 .statistic-item {
-    background-color: var(--bg-color);
+    background-color: var(--card-background-color);
     border: 1px solid var(--accent-color);
     border-radius: 10px;
     padding: 15px;
 }
 
-
-
-.statistic__list{
-
+.statistic-item .subtitle {
+    block-size: 80px;
+    display: flex;
+    align-items: center;
+    margin-block-end: 10px;
 }
 
 
-.statistic__list-item {
-
+.statistic__list-item{
+    block-size: 150px;
 }
+
 
 .statistic__list-item:not(:last-child) {
     margin-block-end: 15px;
 }
 
-.text-effect {
-    text-transform: uppercase;
-    text-shadow: 2px 2px 2px var(--accent-color),
-    -2px -2px 2px var(--main-color)
-}
 
 
 .statistic__list-item-title{
@@ -133,43 +131,6 @@
     gap: 16px;
 }
 
-.pseudo-checkbox__label {
-    margin:auto;
-    display: flex;
-    gap:10px;
-}
-
-.pseudo-checkbox {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    aspect-ratio: 1;
-    border: 2px solid var(--main-color);
-    transition: border-color .3s;
-}
-.pseudo-checkbox::after {
-    content: "";
-    display: block;
-    width: 14px;
-    height: 14px;
-    align-self: center;
-    transition: background-color .5s;
-}
-
-.checkbox:checked + .pseudo-checkbox::after {
-    background-color: var(--accent-color);
-}
-
-.checkbox:checked + .pseudo-checkbox {
-    border-color: var(--accent-color);
-}
-
-.checkbox__text {
-    font-size: var(--font-size-main);
-}
-
 
 .label {
     display: flex;
@@ -190,12 +151,12 @@
     text-transform: capitalize;
 }
 
-.lead__wrapper {
+.info__wrapper {
     min-inline-size: 300px;
     padding: 10px;
     border-radius: 10px;
     inline-size: fit-content;
-    border: 1px solid var(--accent-color);
+    border: 1px solid var(--main-color);
 }
 
 .lead__edit-button {
@@ -206,7 +167,7 @@
 
 .lead__edit-button:hover {
     background-color: var(--accent-color);
-    color: var(--bg-color);
+    color: var(--button-hover-color);
     border-color: var(--accent-color);
 }
 
@@ -254,8 +215,8 @@
     overflow-Y: scroll;
     max-block-size: 300%;
     scroll-behavior: smooth;
-    scrollbar-color: var(--main-color) var(--bg-color);
-    background-color: var(--bg-color);
+    scrollbar-color: var(--scrollbar-color);
+    background-color: var(--card-background-color);
     z-index: 1;
 }
 
@@ -288,7 +249,7 @@
     border: 1px solid var(--accent-color);
     border-radius: 10px;
     padding: 3px 5px;
-    background-color: var(--bg-color);
+    background-color: var(--card-background-color);
     inline-size: max-content;
     text-wrap: nowrap;
     text-overflow: ellipsis;
@@ -302,8 +263,9 @@
 .smert::before {
     content: "";
     position: absolute;
-    left: -22px;
-    block-size: 20px;
+    top: 1px;
+    left: -20px;
+    block-size: 15px;
     aspect-ratio: 1;
     background: url("../../assets/krest.png") no-repeat;
     background-size: contain;
