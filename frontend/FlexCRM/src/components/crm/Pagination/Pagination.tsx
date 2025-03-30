@@ -35,6 +35,8 @@ function Pagination({count, curPage, setCurPage}:{count: number, curPage:number,
 
     return (
         <div className='pagination__buttons'>
+            <button key={0} disabled={curPage==1} className={'button '} onClick={()=>handlePaginate(curPage-1)}>{'<'}</button>
+
             {start!=1 && page!=0 &&  (
                 <>
                 <button key={1} disabled={curPage==1} className={'button '} onClick={()=>handlePaginate(1)}>{1}</button>
@@ -50,6 +52,8 @@ function Pagination({count, curPage, setCurPage}:{count: number, curPage:number,
                     <button key={page} disabled={curPage==page} className={'button '} onClick={()=>handlePaginate(page)}>{page}</button>
                 </>
             )}
+            <button key={page+1} disabled={curPage==page} className={'button '} onClick={()=>handlePaginate(curPage+1)}>{'>'}</button>
+
         </div>
     );
 }
