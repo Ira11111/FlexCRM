@@ -22,6 +22,7 @@ import Main from  './components/home/Main.tsx'
 import About from './components/home/About.tsx'
 
 
+
 function Logout() {
   localStorage.clear();
   return <Navigate to="/"/>
@@ -63,6 +64,7 @@ function App() {
               <Route path="customers">
                 <Route index element={<CustomersList/>} />
                 <Route path=":customerId" element={<Customer/>}/>
+                <Route path=":customerId/contracts" element={<ContractsList/>}/>
                 <Route path=":customerId/edit" element={<CustomerForm/>}/>
                 <Route path="create" element={<CustomerForm/>}/>
               </Route>

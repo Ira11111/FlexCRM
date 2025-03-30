@@ -13,7 +13,7 @@ function ContractCard({contract}:{contract: contractProps}   ) {
                 <p className={'card__descr'}>{(contract.start_date||'').toString()} — {(contract.end_date||'').toString()}</p>
             </div>
 
-            <button onClick={()=>navigate(`${contract.id}`)} className='button'>Подробнее</button>
+            <button onClick={()=>navigate(`/crm/contracts/${contract.id}`)} className='button'>Подробнее</button>
         </article>
     );
 }

@@ -188,7 +188,7 @@
     text-transform: capitalize;
 }
 
-.lead__wrapper {
+.info__wrapper {
     min-inline-size: 300px;
     padding: 10px;
     border-radius: 10px;
