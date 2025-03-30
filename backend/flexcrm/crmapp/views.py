@@ -64,10 +64,39 @@ class CustomerViewSet(ModelViewSet):
         instance.lead.delete()
         instance.delete()
 
+    def get_search_fields(self):
+        if self.action == "contracts":
+            return ["name"]
+        elif self.action == "products":
+            return ["name", "description"]
+        elif self.action == "adds":
+            return ["name"]
+        return super().get_search_fields()
+
+    def get_ordering_fields(self):
+        if self.action == "contracts":
+            return ["name", "start_date", "end_date", "cost"]
+        elif self.action == "products":
+            return ["name", "cost"]
+        elif self.action == "adds":
+            return ["name", "budget", "profit"]
+        return super().get_ordering_fields()
+
+    def get_filterset_fields(self):
+        if self.action == "contracts":
+            return []
+        elif self.action == "products":
+            return ["is_active"]
+        elif self.action == "adds":
+            return []
+        return super().get_filterset_fields()
+
     @action(detail=True, methods=["get"])
     def contracts(self, request, pk=None):
         customer = self.get_object()
         contracts = Contract.objects.filter(company=customer).only("id", "name", "start_date", "end_date", "cost").all()
+
+        contracts = self.filter_queryset(contracts)
 
         page = self.paginate_queryset(contracts)
 
@@ -80,9 +109,9 @@ class CustomerViewSet(ModelViewSet):
     @action(detail=True, methods=["get"])
     def products(self, request, pk=None):
         customer = self.get_object()
-        contracts = (Contract.objects.filter(company=customer).only("company", "product"))
 
-        products = [contract.product for contract in contracts]
+        products = Product.objects.filter(contracts__company=customer).distinct()
+        products = self.filter_queryset(products)
 
         page = self.paginate_queryset(products)
 
@@ -96,6 +125,8 @@ class CustomerViewSet(ModelViewSet):
     def adds(self, request, pk=None):
         customer = self.get_object()
         adds = customer.adds.all()
+
+        adds = self.filter_queryset(adds)
 
         page = self.paginate_queryset(adds)
 
