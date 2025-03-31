@@ -59,7 +59,7 @@ class CustomerCreateSerializer(ModelSerializer):
             if adds_data:
                 for add in adds_data:
                     add.customers_count += 1
-                Add.objects.bulk_update(adds_data, ["customers_count"])
+                Ad.objects.bulk_update(adds_data, ["customers_count"])
             return super().create(validated_data)
 
     def update(self, instance, validated_data):
