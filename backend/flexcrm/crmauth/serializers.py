@@ -112,8 +112,8 @@ class UserDetailSerializer(ModelSerializer):
 
     @extend_schema_field(GroupDetailSerializer)
     def serialize_group(self, user):
-        group = user.groups.all()
-        return GroupDetailSerializer(group, many=True).data
+        group = user.groups.first()
+        return GroupDetailSerializer(group).data
 
     class Meta:
         model = User
