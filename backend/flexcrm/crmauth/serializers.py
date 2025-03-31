@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User, Group, Permission
-from rest_framework.serializers import ModelSerializer, ValidationError, CharField
+from rest_framework.serializers import ModelSerializer, ValidationError, CharField, SerializerMethodField
+from drf_spectacular.utils import extend_schema_field
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 GROUP_PERMS = {
@@ -7,13 +8,13 @@ GROUP_PERMS = {
                "view_customer", "view_lead", "view_product", "view_add",
                "view_contract"),
 
-    "Operators": ("add_customer", "change_customer", "view_customer", "add_lead",
-                  "change_lead", "view_lead", "view_add", "view_product", "view_contract"),
+    "Operators": ("add_customer", "change_customer", "view_customer", "delete_customer", "add_lead",
+                  "change_lead", "view_lead", "delete_lead", "view_add", "view_product", "view_contract"),
 
-    "Managers": ("add_contract", "change_contract", "view_contract", "view_customer",
+    "Managers": ("add_contract", "change_contract", "view_contract", "delete_contract", "view_customer",
                  "view_lead", "view_add", "view_product"),
 
-    "Marketers": ("add_add", "change_add", "view_add", "change_product",
+    "Marketers": ("add_add", "change_add", "view_add", "delete_add", "change_product",
                   "add_product", "view_product", "view_customer", "view_contract", "view_lead"),
 }
 
@@ -28,12 +29,43 @@ def check_email_in_system(email: str):
         raise ValidationError("User with this email already exists")
 
 
+class PermissionSerializer(ModelSerializer):
+    class Meta:
+        model = Permission
+        fields = ["name"]
+
+
+class GroupDetailSerializer(ModelSerializer):
+    permissions = SerializerMethodField("get_permissions", read_only=True)
+
+    @extend_schema_field(PermissionSerializer)
+    def get_permissions(self, grop):
+        perms = grop.permissions.only("name")
+        return perms
+
+    class Meta:
+        model = Group
+        fields = ["pk", "name", "permissions"]
+
+
+class GroupListSerializer(ModelSerializer):
+    class Meta:
+        model = Group
+        fields = ["pk", "name"]
+
+
 class UserSerializer(ModelSerializer):
     user_group = CharField(write_only=True, required=True, validators=[check_group_name])
+    group = SerializerMethodField("serialize_group", read_only=True)
+
+    @extend_schema_field(GroupListSerializer)
+    def serialize_group(self, user):
+        group = user.groups.first()
+        return group
 
     class Meta:
         model = User
-        fields = ["pk", "username", "password", "email", "user_group"]
+        fields = ["pk", "username", "password", "email", "user_group", "group"]
         extra_kwargs = {
             "email": {
                 "required": True,
@@ -53,6 +85,19 @@ class UserSerializer(ModelSerializer):
         user.groups.add(group)
         user.save()
         return user
+
+
+class UserDetailSerializer(ModelSerializer):
+    group = SerializerMethodField("serialize_group", read_only=True)
+
+    @extend_schema_field(GroupDetailSerializer)
+    def serialize_group(self, user):
+        group = user.groups.first()
+        return group
+
+    class Meta:
+        model = User
+        fields = ["pk", "username", "password", "email", "group"]
 
 
 class CRMTokenObtainPairSerializer(TokenObtainPairSerializer):
