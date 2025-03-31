@@ -2,18 +2,18 @@ from drf_spectacular.utils import extend_schema_field
 from rest_framework.relations import PrimaryKeyRelatedField
 from rest_framework.serializers import ModelSerializer, IntegerField, SerializerMethodField
 from django.db import transaction
-from .models import Lead, Customer, Add, Contract, Product
+from .models import Lead, Customer, Ad, Contract, Product
 
 
 class AddListSerializer(ModelSerializer):
     class Meta:
-        model = Add
+        model = Ad
         fields = ["id", "name", "profit", "customers_count"]
 
 
 class AddCreateSerializer(ModelSerializer):
     class Meta:
-        model = Add
+        model = Ad
         fields = ("id", "name", "budget", "customers_count",
                   "profit", "product")
 
@@ -26,7 +26,7 @@ class AddDetailSerializer(ModelSerializer):
         return ProductSerializer(customer.product.all(), many=True).data
 
     class Meta:
-        model = Add
+        model = Ad
         fields = ("id", "name", "budget", "customers_count",
                   "profit", "products_info")
 
@@ -47,7 +47,7 @@ class CustomerListSerializer(ModelSerializer):
 
 
 class CustomerCreateSerializer(ModelSerializer):
-    adds = PrimaryKeyRelatedField(queryset=Add.objects.only("pk", "customers_count").all(), many=True)
+    adds = PrimaryKeyRelatedField(queryset=Ad.objects.only("pk", "customers_count").all(), many=True)
 
     class Meta:
         model = Customer
@@ -75,8 +75,8 @@ class CustomerCreateSerializer(ModelSerializer):
             for add in additional_adds:
                 add.customers_count += 1
 
-            Add.objects.bulk_update(additional_adds, ["customers_count"])
-            Add.objects.bulk_update(remove_adds, ["customers_count"])
+            Ad.objects.bulk_update(additional_adds, ["customers_count"])
+            Ad.objects.bulk_update(remove_adds, ["customers_count"])
 
             return super().update(instance, validated_data)
 
@@ -123,7 +123,7 @@ class ContractCreateSerializer(ModelSerializer):
                     if product in ad.product.all():
                         ad.profit += contract_cost
 
-            Add.objects.bulk_update(adds_data, ["profit"])
+            Ad.objects.bulk_update(adds_data, ["profit"])
             return super().create(validated_data)
 
 
