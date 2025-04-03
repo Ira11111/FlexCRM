@@ -344,3 +344,18 @@
     font-size: var(--font-size-main);
     padding: 5px 10px;
 }
+
+.permissions__list {
+    gap: 10px;
+}
+
+.permissions__list-item {
+    list-style: '✦  ' outside;
+    margin-inline-start: 20px;
+}
+
+
+
+.permissions__list-title {
+    font-size: var(--font-size-big);
+}
