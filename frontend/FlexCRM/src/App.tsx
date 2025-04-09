@@ -18,6 +18,9 @@ import Register from "./pages/myAuth/Register.tsx"
 import Login from "./pages/myAuth/Login.tsx";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import ContractForm from "./components/crm/contracts/ContractForm.tsx";
+import UsersList from "./components/crm/users/UsersList.tsx";
+import {ROLE} from "./constants.ts";
+import User from "./components/crm/users/User.tsx";
 import Main from  './components/home/Main.tsx'
 import About from './components/home/About.tsx'
 
@@ -33,7 +36,12 @@ function RegisterAndLogout(props: {mode: string}) {
   return <Register mode = {props.mode}/>
 }
 
+function Users(props:{prm:boolean}) {
+  return props?<UsersList/>:<Statistic/>
+}
+
 function App() {
+  const prm = localStorage.getItem(ROLE) === "Admins";
 
   return (
       <BrowserRouter>
@@ -58,8 +66,11 @@ function App() {
 
             <Route index element={<Statistic/>}/>
 
-            <Route path={'createUser'} element={<Register mode={'create'}/>}/>
-
+              <Route path={'users'}>
+                <Route index element={<Users prm={prm}/>}/>
+                <Route path={':userId'} element={<User/>}/>
+                <Route path={'create'} element={<Register mode={'create'}/>}/>
+              </Route>
 
               <Route path="customers">
                 <Route index element={<CustomersList/>} />

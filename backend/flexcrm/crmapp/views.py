@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Lead, Contract, Add, Product, Customer
+from .models import Lead, Contract, Ad, Product, Customer
 from .serializers import (
     LeadSerializer,
     ContractCreateSerializer,
@@ -167,7 +167,7 @@ class ProductSetView(ModelViewSet):
     @action(detail=True, methods=["get"])
     def adds(self, request, pk=None):
         cur_product = self.get_object()
-        adds = Add.objects.filter(product=cur_product).all()
+        adds = Ad.objects.filter(product=cur_product).all()
         adds = self.filter_queryset(adds)
 
         page = self.paginate_queryset(adds)
@@ -180,7 +180,7 @@ class ProductSetView(ModelViewSet):
 
 
 class AddSetView(ModelViewSet):
-    queryset = Add.objects.all()
+    queryset = Ad.objects.all()
     serializer_class = AddCreateSerializer
 
     filter_backends = [
@@ -193,9 +193,9 @@ class AddSetView(ModelViewSet):
 
     def get_queryset(self):
         if self.action == 'list':
-            return Add.objects.only("name", "budget", "profit").all()
+            return Ad.objects.only("name", "budget", "profit").all()
         elif self.action == 'retrieve':
-            return Add.objects.prefetch_related("product").all()
+            return Ad.objects.prefetch_related("product").all()
         return super().get_queryset()
 
     def get_serializer_class(self):
@@ -286,8 +286,8 @@ class StatisticsView(APIView):
 
         customers = list(annotate_customers.order_by("-contract_count").all()[:10])
         products = list(annotate_products.order_by("-contract_count").all()[:10])
-        adds_customers = list(Add.objects.order_by("-customers_count").all()[:10])
-        adds_profit = list(Add.objects.order_by("-profit").all()[:10])
+        adds_customers = list(Ad.objects.order_by("-customers_count").all()[:10])
+        adds_profit = list(Ad.objects.order_by("-profit").all()[:10])
 
         statistics = {
             "adds_customers": AddListSerializer(adds_customers, many=True).data,

@@ -1,5 +1,4 @@
-import {ROLE} from "../../constants.ts";
-import {Link, useNavigate} from "react-router-dom";
+import {Link}from "react-router-dom";
 
 import {adProps, customerProps, getStatistic, productProps} from "../../fetchData.ts";
 
@@ -7,8 +6,6 @@ import {useEffect, useState} from "react";
 import Loader from "../Loader/Loader.tsx";
 
 function Statistic() {
-    const role_permissions = localStorage.getItem(ROLE)=="Admins";
-    const navigate = useNavigate();
     const [adds_customers, setAdds_customers] = useState([]);
 
     const [adds_profit, setAdds_profits] = useState<adProps[]>([]);
@@ -64,7 +61,6 @@ function Statistic() {
 
     return <div className={'wrapper'}>
         {loading && <Loader/>}
-        {role_permissions && <button className={'button add-button'} onClick={()=>navigate('createUser')}>Добавить работника</button>}
         <h1 className={'title text-effect'}>Статистика</h1>
         <div className={'statistic'}>
             {getCompStatistic<adProps>(adds_profit, 'Самые прибыльные рекламные компании', '/crm/ads/', 'profit', 'Прибыль')}

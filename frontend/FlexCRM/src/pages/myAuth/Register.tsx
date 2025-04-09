@@ -36,9 +36,12 @@ function Register(props: {mode: string}) {
                 }
                 if (props.mode==='register'){
                     await getTokens({username, password})
-
                 }
-                navigate('/crm');
+                if(props.mode==='register'){
+                    navigate('/crm');
+                } else {
+                    navigate(-1)
+                }
             } catch (e : any){
                 console.log(e.response.data.email)
                 if ( e.response.data.username && e.response.data.username.indexOf('A user with that username already exists.' )!==-1) {
@@ -51,7 +54,9 @@ function Register(props: {mode: string}) {
 
 
             } finally {
+                console.log(props.mode)
                 setLoading(false);
+
 
             }
         }
