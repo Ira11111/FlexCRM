@@ -47,8 +47,14 @@
 .card__title {
     margin-block-end: 15px;
     font-size: var(--font-size-big);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
 
 }
+
+
 
 .card__descr {
     overflow: hidden;
@@ -60,7 +66,8 @@
     font-size: var(--font-size-large);
     text-transform: uppercase;
     text-shadow: 2px 2px 2px var(--accent-color),
-    -2px -2px 2px var(--main-color)
+    -2px -2px 2px var(--main-color);
+    text-overflow: ellipsis;
 }
 
 
