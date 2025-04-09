@@ -32,8 +32,8 @@ function Pagination({count, curPage, setCurPage, endpoint, setEndpoint}:{count: 
         setPages(newPages)
         if(endpoint && setEndpoint){
             const url = new URL(window.location.href);
-            if(curPage!=1 && curPage){
-                url.searchParams.set('page', curPage.toString())}
+            if(p!=1 && p){
+                url.searchParams.set('page', p.toString())}
             else {
                 url.searchParams.delete('page')
             }
