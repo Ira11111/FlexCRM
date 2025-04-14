@@ -70,10 +70,6 @@ services:
       - frontend-network
     expose:
       - 5173
-    command:
-      - "serve"
-      - "-s"
-      - "dist"
 
 volumes:
   uwsgi_sock:
