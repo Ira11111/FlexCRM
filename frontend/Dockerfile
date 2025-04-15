@@ -14,5 +14,5 @@ COPY FlexCRM ./
 
 RUN npm run build
 
-EXPOSE 5173
+#EXPOSE 5173
 

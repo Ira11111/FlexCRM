@@ -2,6 +2,16 @@ import api from './api'
 import {ACCESS_TOKEN, REFRESH_TOKEN, ROLE} from "./constants.ts";
 import {jwtDecode} from "jwt-decode";
 
+export interface usersProps {
+       pk: number,
+        username: string,
+        email: string,
+        group: {
+               name: string,
+                permissions: string[]
+        }
+}
+
 export interface productProps {
         id: number;
         description: string;

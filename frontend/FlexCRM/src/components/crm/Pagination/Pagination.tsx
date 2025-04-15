@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {PAGE_SIZE} from '../../../constants'
-function Pagination({count, curPage, setCurPage}:{count: number, curPage:number,  setCurPage:(x:number)=>void}) {
+function Pagination({count, curPage, setCurPage, endpoint, setEndpoint}:{count: number, curPage:number,  setCurPage:(x:number)=>void, endpoint?:string, setEndpoint?:(x:string)=>void}) {
     const [page, setPage] = useState(1);
     const [start, setStart] = useState(1);
     const [end, setEnd] = useState(2);
@@ -30,6 +30,15 @@ function Pagination({count, curPage, setCurPage}:{count: number, curPage:number,
             newPages.push(i)
         }
         setPages(newPages)
+        if(endpoint && setEndpoint){
+            const url = new URL(window.location.href);
+            if(p!=1 && p){
+                url.searchParams.set('page', p.toString())}
+            else {
+                url.searchParams.delete('page')
+            }
+            setEndpoint(endpoint+url.search);
+        }
     }
 
 
@@ -52,7 +61,7 @@ function Pagination({count, curPage, setCurPage}:{count: number, curPage:number,
                     <button key={page} disabled={curPage==page} className={'button '} onClick={()=>handlePaginate(page)}>{page}</button>
                 </>
             )}
-            <button key={page+1} disabled={curPage==page} className={'button '} onClick={()=>handlePaginate(curPage+1)}>{'>'}</button>
+            <button key={page+1} disabled={curPage==page || pages.length===0} className={'button '} onClick={()=>handlePaginate(curPage+1)}>{'>'}</button>
 
         </div>
     );

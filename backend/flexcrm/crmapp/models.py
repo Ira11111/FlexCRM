@@ -9,7 +9,7 @@ class Product(models.Model):
     is_active = models.BooleanField(default=True)
 
 
-class Add(models.Model):
+class Ad(models.Model):
     name = models.CharField(null=False, blank=False, max_length=50)
     budget = models.DecimalField(max_digits=10, decimal_places=2)
     customers_count = models.IntegerField(default=0)
@@ -29,7 +29,7 @@ class Customer(models.Model):
     name = models.CharField(null=False, blank=False, max_length=50)
     description = models.TextField(null=True, blank=True, max_length=1000)
     lead = models.OneToOneField(Lead, on_delete=models.CASCADE)
-    adds = models.ManyToManyField(Add)
+    adds = models.ManyToManyField(Ad)
 
 
 def cont_file_path(instance: "Contract", filename: str):

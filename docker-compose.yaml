@@ -17,8 +17,9 @@ services:
     image: nginx:1.27.4
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-      - uwsgi_sock:/run
       - ./media:/usr/share/nginx/media
+      - uwsgi_sock:/run
+      - static:/usr/share/nginx/html
     command:
       - "nginx"
     depends_on:
@@ -28,7 +29,6 @@ services:
       - 80:80
     networks:
       - backend-network
-      - frontend-network
     restart: always
 
   backend:
@@ -63,21 +63,14 @@ services:
       dockerfile: ./Dockerfile
     env_file:
       - ./frontend/.env
-    networks:
-      - frontend-network
-    expose:
-      - 5173
-    command:
-      - "serve"
-      - "-s"
-      - "dist"
+    volumes:
+      - static:/app/frontend/dist
+
 
 volumes:
   uwsgi_sock:
-
+  static:
 
 networks:
-  frontend-network:
-    driver: bridge
   backend-network:
     driver: bridge
